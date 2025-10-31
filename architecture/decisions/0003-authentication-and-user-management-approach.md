@@ -70,8 +70,9 @@ quarkus.oidc.authentication.scopes=openid,profile,email
 
 ### **Local Development**
 
-* Use **LocalStack** to emulate Cognito, or configure a lightweight **Keycloak** container in dev mode.
-* Quarkus’s `quarkus.oidc.devservices.enabled=true` can spin up a local OIDC provider automatically when needed.
+* Use **AWS Cognito** in a development sandbox environment using AWS free tier.
+* Quarkus's `quarkus.oidc.devservices.enabled=true` can spin up a local OIDC provider automatically when needed for unit testing.
+* **Cost-effective:** AWS Cognito free tier (50,000 monthly active users) is significantly cheaper than LocalStack Pro ($40/user/month).
 
 ---
 
@@ -96,7 +97,7 @@ If business needs require:
 **Negative / Trade-offs**
 
 * Introduces external dependency (Cognito availability, cost model).
-* Slightly more complex local testing environment (OIDC simulation).
+* Requires internet connectivity for development (vs local emulation).
 * Less direct control over user-table schema and credential policies.
 
 ---
