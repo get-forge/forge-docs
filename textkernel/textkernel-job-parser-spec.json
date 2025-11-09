@@ -1,0 +1,284 @@
+{
+  "Info": {
+    "Code": "string",
+    "Message": "string",
+    "TransactionId": "string",
+    "EngineVersion": "string",
+    "ApiVersion": "string",
+    "TotalElapsedMilliseconds": 0,
+    "TransactionCost": 0,
+    "CustomerDetails": {
+      "AccountId": "string",
+      "Name": "string",
+      "IPAddress": "string",
+      "Region": "string",
+      "CreditsRemaining": 0,
+      "CreditsUsed": 0,
+      "ExpirationDate": "2021-12-31",
+      "MaximumConcurrentRequests": 0
+    }
+  },
+  "Value": {
+    "JobData": {
+      "CurrentJobIsManagement": true,
+      "HighestManagementScore": {
+        "Value": 0
+      },
+      "ManagementLevel": "string",
+      "ExecutiveType": "string",
+      "MinimumYears": {
+        "Value": 0
+      },
+      "MaximumYears": {
+        "Value": 0
+      },
+      "MinimumYearsManagement": {
+        "Value": 0
+      },
+      "MaximumYearsManagement": {
+        "Value": 0
+      },
+      "RequiredDegree": "string",
+      "JobDescription": "string",
+      "JobRequirements": "string",
+      "Benefits": "string",
+      "EmployerDescription": "string",
+      "StartDate": {
+        "Value": "2020-11-02"
+      },
+      "JobTitles": {
+        "MainJobTitle": "string",
+        "JobTitle": [
+          "string"
+        ],
+        "NormalizedProfession": {
+          "Profession": {
+            "CodeId": 0,
+            "Description": ""
+          },
+          "Group": {
+            "CodeId": 0,
+            "Description": ""
+          },
+          "Class": {
+            "CodeId": 0,
+            "Description": ""
+          },
+          "ISCO": {
+            "Version": "",
+            "CodeId": 0,
+            "Description": ""
+          },
+          "ONET": {
+            "Version": "",
+            "CodeId": "",
+            "Description": ""
+          },
+          "Confidence": 0.0
+        }
+      },
+      "EmployerNames": {
+        "MainEmployerName": "string",
+        "EmployerName": [
+          "string"
+        ]
+      },
+      "Degrees": [
+        {
+          "Name": "string",
+          "Type": "string",
+          "LocalEducationLevel": "string",
+          "InternationalEducationLevel": "string"
+        }
+      ],
+      "SchoolNames": [
+        "string"
+      ],
+      "CertificationsAndLicenses": [
+        "string"
+      ],
+      "Skills": {
+        "Raw": [
+          {
+            "Name": "",
+            "Required": false
+          }
+        ],
+        "Normalized": [
+          {
+            "Name": "",
+            "Type": "",
+            "Id": "",
+            "Required": false,
+            "RawSkills": [
+              ""
+            ]
+          }
+        ],
+        "RelatedProfessionClasses": [
+          {
+            "Name": "",
+            "Id": "",
+            "Percent": 0,
+            "Groups": [
+              {
+                "Name": "",
+                "Id": "",
+                "Percent": 0,
+                "NormalizedSkills": [
+                  ""
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "LanguageCodes": [
+        "string"
+      ],
+      "CurrentLocation": {
+        "CountryCode": "string",
+        "PostalCode": "string",
+        "Regions": [
+          "string"
+        ],
+        "Municipality": "string",
+        "StreetAddressLines": [
+          "string"
+        ],
+        "GeoCoordinates": {
+          "Latitude": 0,
+          "Longitude": 0,
+          "Source": "string"
+        }
+      },
+      "ApplicationDetails": {
+        "ApplicationDescription": "string",
+        "ContactPerson": "string",
+        "ContactPhone": "string",
+        "ContactEmail": "string",
+        "Website": "string",
+        "ApplicationDeadline": {
+          "Value": "2020-11-02"
+        },
+        "PostedDate": {
+          "Value": "2020-11-02"
+        },
+        "ReferenceNumber": "string"
+      },
+      "Salary": {
+        "Minimum": {
+          "Value": 0
+        },
+        "Maximum": {
+          "Value": 0
+        },
+        "RawMinimum": "string",
+        "RawMaximum": "string",
+        "Currency": "string"
+      },
+      "MinimumWorkingHours": {
+        "Value": 0
+      },
+      "MaximumWorkingHours": {
+        "Value": 0
+      },
+      "WorkingHours": "string",
+      "IsRemote": true,
+      "DriversLicenses": [
+        "string"
+      ],
+      "EmploymentType": "string",
+      "ContractType": "string",
+      "TermsOfInterest": [
+        "string"
+      ],
+      "Owners": [
+        "string"
+      ],
+      "SkillsData": [
+        {
+          "Root": "string",
+          "Taxonomies": [
+            {
+              "Id": "string",
+              "Name": "string",
+              "PercentOfOverall": 0,
+              "SubTaxonomies": [
+                {
+                  "PercentOfOverall": 0,
+                  "PercentOfParent": 0,
+                  "SubTaxonomyId": "string",
+                  "SubTaxonomyName": "string",
+                  "Skills": [
+                    {
+                      "Id": "string",
+                      "Name": "string",
+                      "ExistsInText": true,
+                      "Required": true,
+                      "Variations": [
+                        {
+                          "Id": "string",
+                          "Name": "string",
+                          "ExistsInText": true,
+                          "Required": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "JobMetadata": {
+        "PlainText": "string",
+        "DocumentLanguage": "string",
+        "DocumentCulture": "string",
+        "ParserSettings": "string",
+        "DocumentLastModified": "2020-11-02"
+      },
+      "UserDefinedTags": [
+        "string"
+      ]
+    },
+    "ParsingResponse": {
+      "Code": "Success",
+      "Message": "string"
+    },
+    "GeocodeResponse": {
+      "Code": "Success",
+      "Message": "string"
+    },
+    "IndexingResponse": {
+      "Code": "Success",
+      "Message": "string"
+    },
+    "ProfessionNormalizationResponse": {
+      "Code": "Success",
+      "Message": "string"
+    },
+    "ConversionMetadata": {
+      "DetectedType": "string",
+      "SuggestedFileExtension": "string",
+      "OutputValidityCode": "string",
+      "ElapsedMilliseconds": 0,
+      "DocumentHash": "string"
+    },
+    "Conversions": {
+      "PDF": "string",
+      "HTML": "string",
+      "RTF": "string",
+      "CandidateImage": "string",
+      "CandidateImageExtension": "string"
+    },
+    "ParsingMetadata": {
+      "ElapsedMilliseconds": 0,
+      "TimedOut": true,
+      "TimedOutAtMilliseconds": {
+        "Value": 0
+      }
+    }
+  }
+}
