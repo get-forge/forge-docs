@@ -1,0 +1,1575 @@
+{
+  "Info": {
+    "Code": "Success",
+    "Message": "Successful transaction",
+    "TransactionId": "e16802e3-c6d4-49b2-a9e8-bfdb58ef7298",
+    "EngineVersion": "9.22.22.0",
+    "ApiVersion": "10.13.0.0",
+    "TotalElapsedMilliseconds": 2072,
+    "CustomerDetails": {
+      "AccountId": "36190582",
+      "Name": "Eagle Drive Group",
+      "IPAddress": "75.157.51.229",
+      "Region": "us-east-1",
+      "CreditsRemaining": 498,
+      "CreditsUsed": 0,
+      "ExpirationDate": "2026-02-08",
+      "MaximumConcurrentRequests": 2
+    }
+  },
+  "Value": {
+    "ParsingResponse": {
+      "Code": "Success",
+      "Message": "Successful transaction"
+    },
+    "JobData": {
+      "CurrentJobIsManagement": false,
+      "HighestManagementScore": {
+        "Value": 0
+      },
+      "ManagementLevel": "None",
+      "ExecutiveType": "NONE",
+      "MinimumYears": {
+        "Value": 2
+      },
+      "RequiredDegree": "bachelors",
+      "JobDescription": "As a Senior Software Developer, you will be responsible for planning, developing and\nintegrating related software components using an Agile approach and utilising\nMicrosoft Visual Studio and Azure DevOps.\n\nYou will work on a range of systems, from simple workflow database applications to\nhighly complex business-critical systems that interface with cloud technology. You will\nhave an understanding of the whole system and take responsibility for teaching this to\nothers. You will work with other disciplines to understand what needs to be built. You\nwill coach and mentor more junior colleagues to ensure that software meets users'\nneeds, taking responsibility for writing clean, secure and effective code, following best\npractice guidelines and quality assurance processes., Working in an Agile team environment and reporting directly to a Lead Software\nDeveloper, the main duties and responsibilities of the post are, *   plan and lead the analysis and development of sets of related user stories\n       using Agile processes, including liaison with users throughout the organisation\n       to create work item technical specifications.\n   *   contribute to the system design and have an understanding of the whole\n       system, and take responsibility for teaching this to others\n   *   contribute to systems integration design and build, including awareness of\n       cross-system dependencies\n                                             1\n\n\n\n\n   *   design solutions and services with security controls embedded, specifically\n       engineered as mitigation against security threats\n   *   design, code, test, review and document software components of medium to\n       high complexity to agreed technical specification.\n   *   develop software using the latest Microsoft technologies such as ASP.Net\n       Core MVC, C#.Net, Entity Framework Core and SQL Server\n   *   support and maintain legacy systems developed using VB.Net, WinForm and\n       WebForms.\n   *   write clean, secure and effective code by adhering to software development\n       policies, standards, and best practice guidelines\n   *   develop, support and provide technical advice on cloud-based technologies\n       such as Microsoft Azure, Office 365, Microsoft Teams and SharePoint Online.\n   *   develop and support software solutions that integrate 3rd party software such\n       as EPiServer CMS and Umbraco CMS\n   *   provide technical support of bespoke systems, including support of businesscritical\n       procedural systems to ensure the smooth running of Plenary and\n       Committee business\n   *   line management of Developers and Junior Developers, including monitoring of\n       performance, quality assurance, coaching and mentoring\n   *   advice and training to Assembly Members and their staff in the use of ICT\n       systems, including system demonstrations and the preparation of user\n       documentation\n   *   assist in the development and implementation of relevant IT policy, strategy and\n       standards.\n   *   co-operation with other ICT staff in maintaining effective computing services\n   *   project management duties;\n   *   assist in the development, implementation and monitoring of IT security\n       measures\n   *   undertaking other duties in line with the needs and level of this post.\n   *   comply with all of the Assembly Commission's staff policies and procedures\n       including Equal Opportunities and Dignity at Work policies and procedures.\n   *   carry out other duties that the Assembly Commission reasonably requires of\n       you., *  Microsoft Visual Studio 2015 or later\n           *  C#.NET and ASP.NET programming skills\n           *  Web programming using HTML, JavaScript, CSS\n           *  MVC Architecture\n           *  Entity Framework\n           *  Team Foundation Server\n\n   (ii)    Azure DevOps\n           *  Agile Development Processes\n           *  Azure Boards\n\n   (iii)   Database Design\n           *  Database design including logical and physical data modelling\n           *  Microsoft SQL Server 2012 or later\n           *  Use of Structured Query Language (SQL)\n\n\n*NB Only those courses with a computing content of 50% or more will be\nconsidered and applicants must give full details on the application form of\nhow the content of the course meets this requirement.\n\nSkills & Behaviours:\n\nThe following Assembly Skills and Behaviours will be assessed during the selection\nprocess:\n\nDelivering a quality service\n\n...is about providing a high-quality and efficient service to our customers. It is thinking\nahead, managing resources effectively and delivering work on time and to a high\nstandard. It is also using professional or technical expertise to enhance service\ndelivery.\n\nBuilding relationships and effective communication\n...is creating and maintaining positive, professional and respectful internal and\nexternal working relationships through effective and appropriate communications.\n\nInitiating improvement and delivering change\n...is looking for and being open to new and innovative ideas and improvements to the\nservice provided. It is being flexible and adapting positively and professionally to",
+      "JobRequirements": "Applicants for the post must by the closing date for application:\n\n       1 a) Be in possession of a Bachelor's (or higher) Degree in either Computing,\n       Computer Science, Software Engineering, or other discipline relevant to\n       Information Systems / Information Technology*.\n\nAND\n\n       1 b) a minimum of two years' relevant experience in each of the area described\n       below at (i), (ii), (iii)., 2 a) Be in possession of an HND or Foundation Degree in Computing or other\n       discipline relevant to Information Systems / Information Technology*.\n\nAND\n\n       2 b) a minimum of three years' relevant experience in each of the area\n       described below at (i), (ii), (iii).",
+      "EmployerDescription": "Northern Ireland Assembly",
+      "JobTitles": {
+        "MainJobTitle": "Software Developer",
+        "JobTitle": [
+          "Job Title: Senior Software Developer"
+        ],
+        "NormalizedProfession": {
+          "Profession": {
+            "CodeId": 2608,
+            "Description": "Software Engineer"
+          },
+          "Group": {
+            "CodeId": 82,
+            "Description": "Programmers"
+          },
+          "Class": {
+            "CodeId": 9,
+            "Description": "Information and Communication Technology"
+          },
+          "ISCO": {
+            "Version": "ISCO-08",
+            "CodeId": 2512,
+            "Description": "Software developers"
+          },
+          "ONET": {
+            "Version": "2019",
+            "CodeId": "15-1252.00",
+            "Description": "Software Developers"
+          },
+          "Confidence": 1
+        }
+      },
+      "EmployerNames": {
+        "MainEmployerName": "Northern Ireland Assembly",
+        "EmployerName": [
+          "Parliamentary Services",
+          "Information Systems (IS) Office"
+        ]
+      },
+      "Degrees": [
+        {
+          "Name": "Bachelor's (or higher) Degree in either Computing, Computer Science, Software Engineering, or other discipline relevant to Information Systems / Information Technology*. AND 1 b), HND or Foundation Degree in Computing or other discipline relevant to Information Systems / Information Technology*. AND 2 b",
+          "Type": "bachelors",
+          "LocalEducationLevel": "GB_5",
+          "InternationalEducationLevel": "3"
+        }
+      ],
+      "Salary": {
+        "Minimum": {
+          "Value": 30280
+        },
+        "Maximum": {
+          "Value": 31326
+        },
+        "RawMinimum": "30280",
+        "RawMaximum": "31326",
+        "Currency": "GBP",
+        "TimeScale": "Annually"
+      },
+      "WorkingHours": "regular",
+      "IsRemote": false,
+      "EmploymentType": "fulltime",
+      "ContractType": "unspecified",
+      "Skills": {
+        "Raw": [
+          {
+            "Name": "adapting",
+            "Required": false
+          },
+          {
+            "Name": "Agile",
+            "Required": false
+          },
+          {
+            "Name": "Agile Development",
+            "Required": false
+          },
+          {
+            "Name": "Agile processes",
+            "Required": false
+          },
+          {
+            "Name": "ASP.NET",
+            "Required": false
+          },
+          {
+            "Name": "ASP.Net Core MVC",
+            "Required": false
+          },
+          {
+            "Name": "Assembly",
+            "Required": true
+          },
+          {
+            "Name": "Azure",
+            "Required": false
+          },
+          {
+            "Name": "Azure DevOps",
+            "Required": false
+          },
+          {
+            "Name": "Building relationships",
+            "Required": false
+          },
+          {
+            "Name": "C#.Net",
+            "Required": false
+          },
+          {
+            "Name": "cloud technology",
+            "Required": false
+          },
+          {
+            "Name": "CMS",
+            "Required": false
+          },
+          {
+            "Name": "coaching and mentoring",
+            "Required": true
+          },
+          {
+            "Name": "communications",
+            "Required": false
+          },
+          {
+            "Name": "Computer Science",
+            "Required": false
+          },
+          {
+            "Name": "CSS",
+            "Required": false
+          },
+          {
+            "Name": "data modelling",
+            "Required": true
+          },
+          {
+            "Name": "database applications",
+            "Required": false
+          },
+          {
+            "Name": "Database Design",
+            "Required": false
+          },
+          {
+            "Name": "demonstrations",
+            "Required": true
+          },
+          {
+            "Name": "effective communication",
+            "Required": false
+          },
+          {
+            "Name": "Entity Framework",
+            "Required": false
+          },
+          {
+            "Name": "Entity Framework Core",
+            "Required": false
+          },
+          {
+            "Name": "EPiServer",
+            "Required": false
+          },
+          {
+            "Name": "HTML",
+            "Required": false
+          },
+          {
+            "Name": "Information Systems",
+            "Required": false
+          },
+          {
+            "Name": "Information Technology",
+            "Required": false
+          },
+          {
+            "Name": "innovative ideas",
+            "Required": false
+          },
+          {
+            "Name": "integrating",
+            "Required": false
+          },
+          {
+            "Name": "IT security",
+            "Required": false
+          },
+          {
+            "Name": "JavaScript",
+            "Required": false
+          },
+          {
+            "Name": "legacy systems",
+            "Required": false
+          },
+          {
+            "Name": "line management",
+            "Required": false
+          },
+          {
+            "Name": "Microsoft Azure",
+            "Required": false
+          },
+          {
+            "Name": "Microsoft SQL Server",
+            "Required": true
+          },
+          {
+            "Name": "Microsoft Teams",
+            "Required": false
+          },
+          {
+            "Name": "Microsoft technologies",
+            "Required": false
+          },
+          {
+            "Name": "Microsoft Visual Studio",
+            "Required": false
+          },
+          {
+            "Name": "MVC Architecture",
+            "Required": false
+          },
+          {
+            "Name": "Office 365",
+            "Required": false
+          },
+          {
+            "Name": "practice guidelines",
+            "Required": false
+          },
+          {
+            "Name": "programming skills",
+            "Required": false
+          },
+          {
+            "Name": "project management",
+            "Required": false
+          },
+          {
+            "Name": "quality assurance",
+            "Required": true
+          },
+          {
+            "Name": "security controls",
+            "Required": false
+          },
+          {
+            "Name": "service delivery",
+            "Required": false
+          },
+          {
+            "Name": "SharePoint Online",
+            "Required": false
+          },
+          {
+            "Name": "software development",
+            "Required": false
+          },
+          {
+            "Name": "Software Engineering",
+            "Required": false
+          },
+          {
+            "Name": "software solutions",
+            "Required": false
+          },
+          {
+            "Name": "SQL Server",
+            "Required": true
+          },
+          {
+            "Name": "Structured Query Language (SQL)",
+            "Required": true
+          },
+          {
+            "Name": "system design",
+            "Required": true
+          },
+          {
+            "Name": "systems integration",
+            "Required": false
+          },
+          {
+            "Name": "take responsibility",
+            "Required": false
+          },
+          {
+            "Name": "teaching",
+            "Required": false
+          },
+          {
+            "Name": "Team Foundation Server",
+            "Required": false
+          },
+          {
+            "Name": "technical specification",
+            "Required": false
+          },
+          {
+            "Name": "technical specifications",
+            "Required": true
+          },
+          {
+            "Name": "technical support",
+            "Required": false
+          },
+          {
+            "Name": "Umbraco",
+            "Required": false
+          },
+          {
+            "Name": "user documentation",
+            "Required": false
+          },
+          {
+            "Name": "user stories",
+            "Required": false
+          },
+          {
+            "Name": "VB.Net",
+            "Required": false
+          },
+          {
+            "Name": "Web programming",
+            "Required": false
+          },
+          {
+            "Name": "WebForms",
+            "Required": false
+          }
+        ],
+        "Normalized": [
+          {
+            "Name": "Assembly and Installation",
+            "Id": "KS120PF6FM7DV150JDC7",
+            "Type": "Professional",
+            "Required": true,
+            "RawSkills": [
+              "Assembly"
+            ]
+          },
+          {
+            "Name": "Data Modelling",
+            "Id": "KS122PM76DCYL9WC89Y7",
+            "Type": "Professional",
+            "Required": true,
+            "RawSkills": [
+              "data modelling"
+            ]
+          },
+          {
+            "Name": "Demonstration Skills",
+            "Id": "KS7G4956GFZ2FR5Y8YBC",
+            "Type": "Professional",
+            "Required": true,
+            "RawSkills": [
+              "demonstrations"
+            ]
+          },
+          {
+            "Name": "Mentoring",
+            "Id": "KSKTT7NXIEHJH3WGXPY5",
+            "Type": "Professional",
+            "Required": true,
+            "RawSkills": [
+              "coaching and mentoring"
+            ]
+          },
+          {
+            "Name": "Microsoft SQL Server",
+            "Id": "KS126JR6F5V2TRCLB1H5",
+            "Type": "IT",
+            "Required": true,
+            "RawSkills": [
+              "SQL Server",
+              "Microsoft SQL Server"
+            ]
+          },
+          {
+            "Name": "Quality Management",
+            "Id": "KS1289C6QS0TSSB4PNGG",
+            "Type": "Professional",
+            "Required": true,
+            "RawSkills": [
+              "quality assurance"
+            ]
+          },
+          {
+            "Name": "SQL Databases",
+            "Id": "KS440W865GC4VRBW6LJP",
+            "Type": "IT",
+            "Required": true,
+            "RawSkills": [
+              "Structured Query Language (SQL)"
+            ]
+          },
+          {
+            "Name": "Systems Design",
+            "Id": "KS4415B77WWH2WCSVHCV",
+            "Type": "Professional",
+            "Required": true,
+            "RawSkills": [
+              "system design"
+            ]
+          },
+          {
+            "Name": "Technical Writing Skills",
+            "Id": "KS4418877WW06JL2XBNJ",
+            "Type": "Professional",
+            "Required": true,
+            "RawSkills": [
+              "technical specifications"
+            ]
+          },
+          {
+            "Name": "Adaptability",
+            "Id": "KS120626HMWCXJWJC7VK",
+            "Type": "Soft",
+            "Required": false,
+            "RawSkills": [
+              "adapting"
+            ]
+          },
+          {
+            "Name": "Agile Methodology",
+            "Id": "KS120B874P2P6BK1MQ0T",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "Agile",
+              "Agile processes",
+              "Agile Development"
+            ]
+          },
+          {
+            "Name": "ASP.NET",
+            "Id": "KS120026VL50QFWT2281",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "ASP.NET"
+            ]
+          },
+          {
+            "Name": "ASP.NET MVC Framework",
+            "Id": "KS120P66TSZZ3X8G19X1",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "ASP.Net Core MVC"
+            ]
+          },
+          {
+            "Name": "C Sharp (Programming Language)",
+            "Id": "KS1219N6Z3XQ19V0HSKR",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "C#.Net"
+            ]
+          },
+          {
+            "Name": "Cascading Style Sheets (CSS)",
+            "Id": "KS121F45VPV8C9W3QFYH",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "CSS"
+            ]
+          },
+          {
+            "Name": "Cloud Computing",
+            "Id": "KS1220H6CP1BQGH9STNK",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "cloud technology"
+            ]
+          },
+          {
+            "Name": "Communication Skills",
+            "Id": "KS122556LMQ829GZCCRV",
+            "Type": "Soft",
+            "Required": false,
+            "RawSkills": [
+              "effective communication",
+              "communications"
+            ]
+          },
+          {
+            "Name": "Computer Programming",
+            "Id": "KS1227F6831KK9NBB875",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "programming skills"
+            ]
+          },
+          {
+            "Name": "Content Management",
+            "Id": "KS122BM7899YNC6504SP",
+            "Type": "Professional",
+            "Required": false,
+            "RawSkills": [
+              "CMS"
+            ]
+          },
+          {
+            "Name": "Customer Relationship Management",
+            "Id": "KS1217P66NK6BW72M9FH",
+            "Type": "Professional",
+            "Required": false,
+            "RawSkills": [
+              "Building relationships"
+            ]
+          },
+          {
+            "Name": "Cyber Security",
+            "Id": "KS122716P0Q9TPWQFJH3",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "IT security"
+            ]
+          },
+          {
+            "Name": "Database Applications",
+            "Id": "KS122QJ64VGLBYPMNM11",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "database applications"
+            ]
+          },
+          {
+            "Name": "Database Design",
+            "Id": "KS122QL6NN356RRJT6RV",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "Database Design"
+            ]
+          },
+          {
+            "Name": "Entity Framework",
+            "Id": "KS123KN60T73XZFVMNXP",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "Entity Framework Core",
+              "Entity Framework"
+            ]
+          },
+          {
+            "Name": "EPiServers",
+            "Id": "KS123M668RVXM7789N3V",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "EPiServer"
+            ]
+          },
+          {
+            "Name": "HTML",
+            "Id": "KS1200578T5QCYT0Z98G",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "HTML"
+            ]
+          },
+          {
+            "Name": "Information Systems",
+            "Id": "KS1227D60Q7225FTK55V",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "Information Systems"
+            ]
+          },
+          {
+            "Name": "Information Technology",
+            "Id": "KSJLPQMW0YRWJSWO4NFL",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "Computer Science",
+              "Information Technology"
+            ]
+          },
+          {
+            "Name": "Innovation",
+            "Id": "KS0HRAQ5ZBMHJEYTBDM3",
+            "Type": "Professional",
+            "Required": false,
+            "RawSkills": [
+              "innovative ideas"
+            ]
+          },
+          {
+            "Name": "JavaScript (Programming Language)",
+            "Id": "KS1200771D9CR9LB4MWW",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "JavaScript"
+            ]
+          },
+          {
+            "Name": "Leadership",
+            "Id": "KS124JB619VXG6RQ810C",
+            "Type": "Soft",
+            "Required": false,
+            "RawSkills": [
+              "line management"
+            ]
+          },
+          {
+            "Name": "Legacy Systems",
+            "Id": "KSYKEMPOYBGNKL1K5L3B",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "legacy systems"
+            ]
+          },
+          {
+            "Name": "Microsoft Azure",
+            "Id": "KS120V86MZWV9Z9LKQY3",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "Azure DevOps",
+              "Microsoft Azure",
+              "Azure"
+            ]
+          },
+          {
+            "Name": "Microsoft Office",
+            "Id": "KS126HY6YLTB9R7XJC4Z",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "Office 365"
+            ]
+          },
+          {
+            "Name": "Microsoft SharePoint",
+            "Id": "KS440JG6WST2V8SD4K2Y",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "SharePoint Online"
+            ]
+          },
+          {
+            "Name": "Microsoft Software",
+            "Id": "KS126JQ6298NYL0M4ZVD",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "Microsoft technologies"
+            ]
+          },
+          {
+            "Name": "Microsoft Teams",
+            "Id": "KSHZ37D51E2PU2YORANK",
+            "Type": "Professional",
+            "Required": false,
+            "RawSkills": [
+              "Microsoft Teams"
+            ]
+          },
+          {
+            "Name": "Microsoft Visual Studio",
+            "Id": "KS126HD6VL9XVJ2V08HC",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "Microsoft Visual Studio"
+            ]
+          },
+          {
+            "Name": "Model View Controller (MVC)",
+            "Id": "KS126TQ6RSSXGWB29N7F",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "MVC Architecture"
+            ]
+          },
+          {
+            "Name": "Practice Management",
+            "Id": "KS127ZQ6S99BVGV14YXC",
+            "Type": "Professional",
+            "Required": false,
+            "RawSkills": [
+              "practice guidelines"
+            ]
+          },
+          {
+            "Name": "Professional Responsibility",
+            "Id": "KS1283D6V01GSKVQW2XT",
+            "Type": "Soft",
+            "Required": false,
+            "RawSkills": [
+              "take responsibility"
+            ]
+          },
+          {
+            "Name": "Project Management",
+            "Id": "KS1267F6MSPN366LX7ST",
+            "Type": "Professional",
+            "Required": false,
+            "RawSkills": [
+              "project management"
+            ]
+          },
+          {
+            "Name": "Security Controls",
+            "Id": "KS122CX79LYK5C881P71",
+            "Type": "Professional",
+            "Required": false,
+            "RawSkills": [
+              "security controls"
+            ]
+          },
+          {
+            "Name": "Service Delivery",
+            "Id": "KS440HB6R9M0RQZFFWYZ",
+            "Type": "Professional",
+            "Required": false,
+            "RawSkills": [
+              "service delivery"
+            ]
+          },
+          {
+            "Name": "Software Documentation",
+            "Id": "KS1222B6VD8DPL8MTMPC",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "user documentation"
+            ]
+          },
+          {
+            "Name": "Software Engineering",
+            "Id": "KS440QS66YCBN23Y8K25",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "software development",
+              "Software Engineering"
+            ]
+          },
+          {
+            "Name": "Software Systems",
+            "Id": "KS440R072CLZFQ3FWGG1",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "software solutions"
+            ]
+          },
+          {
+            "Name": "Systems Integration",
+            "Id": "KS4415X6DKZ8BMBPY9H9",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "integrating",
+              "systems integration"
+            ]
+          },
+          {
+            "Name": "Teaching",
+            "Id": "KS120PQ6XD1JWMFQVJNW",
+            "Type": "Professional",
+            "Required": false,
+            "RawSkills": [
+              "teaching"
+            ]
+          },
+          {
+            "Name": "Team Foundation Server",
+            "Id": "KS126JT6HQMWF5PV2CLY",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "Team Foundation Server"
+            ]
+          },
+          {
+            "Name": "Technical Documentation",
+            "Id": "KS4418H63Z3RP725L3BW",
+            "Type": "Professional",
+            "Required": false,
+            "RawSkills": [
+              "technical specification"
+            ]
+          },
+          {
+            "Name": "Technical Support",
+            "Id": "KS120LB6XV5409BCQ0NF",
+            "Type": "Professional",
+            "Required": false,
+            "RawSkills": [
+              "technical support"
+            ]
+          },
+          {
+            "Name": "Umbraco",
+            "Id": "KS441MJ6WG9V6W86311C",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "Umbraco"
+            ]
+          },
+          {
+            "Name": "User Stories",
+            "Id": "KS441PQ64HT13P34T8T5",
+            "Type": "Professional",
+            "Required": false,
+            "RawSkills": [
+              "user stories"
+            ]
+          },
+          {
+            "Name": "Visual Basic .NET (Programming Language)",
+            "Id": "KS126JW72Q0ST3JKR5K0",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "VB.Net"
+            ]
+          },
+          {
+            "Name": "Web Development",
+            "Id": "KS122Z36QK3N5097B5JH",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "Web programming"
+            ]
+          },
+          {
+            "Name": "Webforms",
+            "Id": "KSKKNMO56ZED6YTRR7W0",
+            "Type": "IT",
+            "Required": false,
+            "RawSkills": [
+              "WebForms"
+            ]
+          }
+        ],
+        "RelatedProfessionClasses": [
+          {
+            "Name": "Information and Communication Technology",
+            "Id": "9",
+            "Percent": 45,
+            "Groups": [
+              {
+                "Name": "Programmers",
+                "Id": "82",
+                "Percent": 7,
+                "NormalizedSkills": [
+                  "KS440W865GC4VRBW6LJP",
+                  "KS1227F6831KK9NBB875",
+                  "KSYKEMPOYBGNKL1K5L3B",
+                  "KS4418877WW06JL2XBNJ",
+                  "KSJLPQMW0YRWJSWO4NFL",
+                  "KS121F45VPV8C9W3QFYH",
+                  "KS1222B6VD8DPL8MTMPC",
+                  "KS123KN60T73XZFVMNXP",
+                  "KS126JT6HQMWF5PV2CLY",
+                  "KS1200578T5QCYT0Z98G",
+                  "KS0HRAQ5ZBMHJEYTBDM3",
+                  "KS440QS66YCBN23Y8K25",
+                  "KS440JG6WST2V8SD4K2Y",
+                  "KS4415X6DKZ8BMBPY9H9",
+                  "KS126JR6F5V2TRCLB1H5",
+                  "KS123M668RVXM7789N3V",
+                  "KS1200771D9CR9LB4MWW",
+                  "KS4415B77WWH2WCSVHCV",
+                  "KS126TQ6RSSXGWB29N7F",
+                  "KS1219N6Z3XQ19V0HSKR",
+                  "KS120B874P2P6BK1MQ0T",
+                  "KS120V86MZWV9Z9LKQY3",
+                  "KS120026VL50QFWT2281",
+                  "KS122PM76DCYL9WC89Y7",
+                  "KS1220H6CP1BQGH9STNK",
+                  "KS122QL6NN356RRJT6RV",
+                  "KS440R072CLZFQ3FWGG1",
+                  "KS126HD6VL9XVJ2V08HC",
+                  "KS120P66TSZZ3X8G19X1"
+                ]
+              },
+              {
+                "Name": "System Developers and Analysts",
+                "Id": "86",
+                "Percent": 6,
+                "NormalizedSkills": [
+                  "KS440W865GC4VRBW6LJP",
+                  "KS126JQ6298NYL0M4ZVD",
+                  "KS440QS66YCBN23Y8K25",
+                  "KS0HRAQ5ZBMHJEYTBDM3",
+                  "KS120V86MZWV9Z9LKQY3",
+                  "KS4415X6DKZ8BMBPY9H9",
+                  "KS1222B6VD8DPL8MTMPC",
+                  "KS122PM76DCYL9WC89Y7",
+                  "KSYKEMPOYBGNKL1K5L3B",
+                  "KS1220H6CP1BQGH9STNK",
+                  "KS126JR6F5V2TRCLB1H5",
+                  "KS122QL6NN356RRJT6RV",
+                  "KS126HD6VL9XVJ2V08HC",
+                  "KS4415B77WWH2WCSVHCV",
+                  "KS1227D60Q7225FTK55V"
+                ]
+              },
+              {
+                "Name": "Consultants and Specialists",
+                "Id": "83",
+                "Percent": 6,
+                "NormalizedSkills": [
+                  "KS122716P0Q9TPWQFJH3",
+                  "KSJLPQMW0YRWJSWO4NFL",
+                  "KS120B874P2P6BK1MQ0T",
+                  "KS440JG6WST2V8SD4K2Y",
+                  "KS122CX79LYK5C881P71",
+                  "KS120V86MZWV9Z9LKQY3",
+                  "KS4415X6DKZ8BMBPY9H9",
+                  "KS1222B6VD8DPL8MTMPC",
+                  "KS122PM76DCYL9WC89Y7",
+                  "KSYKEMPOYBGNKL1K5L3B",
+                  "KS1220H6CP1BQGH9STNK",
+                  "KS126JR6F5V2TRCLB1H5",
+                  "KS0HRAQ5ZBMHJEYTBDM3",
+                  "KS1227D60Q7225FTK55V"
+                ]
+              },
+              {
+                "Name": "Database Specialists",
+                "Id": "79",
+                "Percent": 6,
+                "NormalizedSkills": [
+                  "KS440W865GC4VRBW6LJP",
+                  "KS122QJ64VGLBYPMNM11",
+                  "KS120V86MZWV9Z9LKQY3",
+                  "KS122PM76DCYL9WC89Y7",
+                  "KSYKEMPOYBGNKL1K5L3B",
+                  "KS1220H6CP1BQGH9STNK",
+                  "KS126JR6F5V2TRCLB1H5",
+                  "KS122QL6NN356RRJT6RV"
+                ]
+              },
+              {
+                "Name": "Web Professionals",
+                "Id": "77",
+                "Percent": 6,
+                "NormalizedSkills": [
+                  "KS126TQ6RSSXGWB29N7F",
+                  "KS1200771D9CR9LB4MWW",
+                  "KS120026VL50QFWT2281",
+                  "KS121F45VPV8C9W3QFYH",
+                  "KS123KN60T73XZFVMNXP",
+                  "KS123M668RVXM7789N3V",
+                  "KS1200578T5QCYT0Z98G",
+                  "KS126HD6VL9XVJ2V08HC",
+                  "KS122BM7899YNC6504SP",
+                  "KS120P66TSZZ3X8G19X1"
+                ]
+              },
+              {
+                "Name": "IT R&D Professionals",
+                "Id": "29",
+                "Percent": 4,
+                "NormalizedSkills": [
+                  "KS440W865GC4VRBW6LJP",
+                  "KS122PM76DCYL9WC89Y7",
+                  "KS1227F6831KK9NBB875"
+                ]
+              },
+              {
+                "Name": "System and Application Administrators",
+                "Id": "85",
+                "Percent": 4,
+                "NormalizedSkills": [
+                  "KS4415X6DKZ8BMBPY9H9",
+                  "KS1222B6VD8DPL8MTMPC",
+                  "KSYKEMPOYBGNKL1K5L3B"
+                ]
+              },
+              {
+                "Name": "IT Managers",
+                "Id": "80",
+                "Percent": 2,
+                "NormalizedSkills": [
+                  "KS120B874P2P6BK1MQ0T",
+                  "KS0HRAQ5ZBMHJEYTBDM3",
+                  "KS440HB6R9M0RQZFFWYZ"
+                ]
+              },
+              {
+                "Name": "IT Testers",
+                "Id": "28",
+                "Percent": 2,
+                "NormalizedSkills": [
+                  "KS126JT6HQMWF5PV2CLY"
+                ]
+              },
+              {
+                "Name": "IT Coordinators",
+                "Id": "81",
+                "Percent": 2,
+                "NormalizedSkills": [
+                  "KS120B874P2P6BK1MQ0T"
+                ]
+              },
+              {
+                "Name": "Support Staff",
+                "Id": "84",
+                "Percent": 1,
+                "NormalizedSkills": [
+                  "KSHZ37D51E2PU2YORANK",
+                  "KS126JQ6298NYL0M4ZVD"
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "Education and Training",
+            "Id": "15",
+            "Percent": 9,
+            "Groups": [
+              {
+                "Name": "Secondary School Teachers",
+                "Id": "145",
+                "Percent": 2,
+                "NormalizedSkills": [
+                  "KS120PQ6XD1JWMFQVJNW"
+                ]
+              },
+              {
+                "Name": "Educational Support Staff",
+                "Id": "147",
+                "Percent": 2,
+                "NormalizedSkills": [
+                  "KS120PQ6XD1JWMFQVJNW"
+                ]
+              },
+              {
+                "Name": "Primary School Teachers",
+                "Id": "138",
+                "Percent": 2,
+                "NormalizedSkills": [
+                  "KS120PQ6XD1JWMFQVJNW"
+                ]
+              },
+              {
+                "Name": "Education and Training (other)",
+                "Id": "297",
+                "Percent": 2,
+                "NormalizedSkills": [
+                  "KS120PQ6XD1JWMFQVJNW"
+                ]
+              },
+              {
+                "Name": "University Lecturers (other)",
+                "Id": "309",
+                "Percent": 1,
+                "NormalizedSkills": [
+                  "KS120PQ6XD1JWMFQVJNW"
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "Production",
+            "Id": "18",
+            "Percent": 8,
+            "Groups": [
+              {
+                "Name": "Constructors, Builders, and Fitters",
+                "Id": "168",
+                "Percent": 2,
+                "NormalizedSkills": [
+                  "KS120PF6FM7DV150JDC7"
+                ]
+              },
+              {
+                "Name": "Printing Preparation and Layout Personnel",
+                "Id": "232",
+                "Percent": 2,
+                "NormalizedSkills": [
+                  "KS123M668RVXM7789N3V"
+                ]
+              },
+              {
+                "Name": "Production Managers",
+                "Id": "170",
+                "Percent": 2,
+                "NormalizedSkills": [
+                  "KS1289C6QS0TSSB4PNGG"
+                ]
+              },
+              {
+                "Name": "Quality Controllers and Sorters",
+                "Id": "171",
+                "Percent": 1,
+                "NormalizedSkills": [
+                  "KS1289C6QS0TSSB4PNGG"
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "Sales and Trading",
+            "Id": "21",
+            "Percent": 7,
+            "Groups": [
+              {
+                "Name": "Sales Managers",
+                "Id": "209",
+                "Percent": 3,
+                "NormalizedSkills": [
+                  "KS1283D6V01GSKVQW2XT",
+                  "KSKTT7NXIEHJH3WGXPY5",
+                  "KS7G4956GFZ2FR5Y8YBC",
+                  "KS1217P66NK6BW72M9FH",
+                  "KS122556LMQ829GZCCRV"
+                ]
+              },
+              {
+                "Name": "Business Services Account Managers",
+                "Id": "203",
+                "Percent": 2,
+                "NormalizedSkills": [
+                  "KS120626HMWCXJWJC7VK",
+                  "KS122556LMQ829GZCCRV",
+                  "KS7G4956GFZ2FR5Y8YBC",
+                  "KS1217P66NK6BW72M9FH"
+                ]
+              },
+              {
+                "Name": "Retail Sales Leaders",
+                "Id": "216",
+                "Percent": 1,
+                "NormalizedSkills": [
+                  "KS1283D6V01GSKVQW2XT",
+                  "KS126JQ6298NYL0M4ZVD",
+                  "KSKTT7NXIEHJH3WGXPY5",
+                  "KS120626HMWCXJWJC7VK"
+                ]
+              },
+              {
+                "Name": "Sellers",
+                "Id": "217",
+                "Percent": 0,
+                "NormalizedSkills": [
+                  "KS120626HMWCXJWJC7VK"
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "Arts, Culture and Media",
+            "Id": "10",
+            "Percent": 5,
+            "Groups": [
+              {
+                "Name": "Journalists and Editors",
+                "Id": "121",
+                "Percent": 4,
+                "NormalizedSkills": [
+                  "KS122BM7899YNC6504SP",
+                  "KS4418877WW06JL2XBNJ",
+                  "KS123M668RVXM7789N3V"
+                ]
+              },
+              {
+                "Name": "Illustrators and Designers (2D)",
+                "Id": "98",
+                "Percent": 2,
+                "NormalizedSkills": [
+                  "KS123M668RVXM7789N3V"
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "Communication, Marketing and Public Relations",
+            "Id": "23",
+            "Percent": 5,
+            "Groups": [
+              {
+                "Name": "Communication, Marketing and Public Relations Managers",
+                "Id": "208",
+                "Percent": 3,
+                "NormalizedSkills": [
+                  "KS0HRAQ5ZBMHJEYTBDM3",
+                  "KS122BM7899YNC6504SP",
+                  "KS122556LMQ829GZCCRV",
+                  "KS123M668RVXM7789N3V"
+                ]
+              },
+              {
+                "Name": "Marketing and Advertising Personnel",
+                "Id": "243",
+                "Percent": 2,
+                "NormalizedSkills": [
+                  "KS123M668RVXM7789N3V"
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "Management, Policy and Governance",
+            "Id": "2",
+            "Percent": 5,
+            "Groups": [
+              {
+                "Name": "Management, Policy and Governance (other)",
+                "Id": "284",
+                "Percent": 3,
+                "NormalizedSkills": [
+                  "KS126HY6YLTB9R7XJC4Z",
+                  "KS126JQ6298NYL0M4ZVD",
+                  "KS1267F6MSPN366LX7ST",
+                  "KS120626HMWCXJWJC7VK",
+                  "KS124JB619VXG6RQ810C",
+                  "KS1283D6V01GSKVQW2XT",
+                  "KS440HB6R9M0RQZFFWYZ",
+                  "KSKTT7NXIEHJH3WGXPY5",
+                  "KS122556LMQ829GZCCRV"
+                ]
+              },
+              {
+                "Name": "General Directors",
+                "Id": "11",
+                "Percent": 1,
+                "NormalizedSkills": [
+                  "KS1283D6V01GSKVQW2XT",
+                  "KS0HRAQ5ZBMHJEYTBDM3",
+                  "KS440HB6R9M0RQZFFWYZ",
+                  "KSKTT7NXIEHJH3WGXPY5"
+                ]
+              },
+              {
+                "Name": "Management Analysts and Consultants",
+                "Id": "225",
+                "Percent": 0,
+                "NormalizedSkills": [
+                  "KS126JQ6298NYL0M4ZVD",
+                  "KS122556LMQ829GZCCRV"
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "Engineering",
+            "Id": "5",
+            "Percent": 3,
+            "Groups": [
+              {
+                "Name": "Electrical Engineers, Designers, and Technicians",
+                "Id": "260",
+                "Percent": 3,
+                "NormalizedSkills": [
+                  "KS4415B77WWH2WCSVHCV"
+                ]
+              },
+              {
+                "Name": "Engineering Managers",
+                "Id": "233",
+                "Percent": 0,
+                "NormalizedSkills": [
+                  "KS0HRAQ5ZBMHJEYTBDM3"
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "Police, Fire Department and Security",
+            "Id": "17",
+            "Percent": 3,
+            "Groups": [
+              {
+                "Name": "Safety and Security Personnel",
+                "Id": "167",
+                "Percent": 2,
+                "NormalizedSkills": [
+                  "KS122CX79LYK5C881P71"
+                ]
+              },
+              {
+                "Name": "Detectives and Security Experts",
+                "Id": "228",
+                "Percent": 2,
+                "NormalizedSkills": [
+                  "KS122CX79LYK5C881P71"
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "Administration and Customer Service",
+            "Id": "1",
+            "Percent": 3,
+            "Groups": [
+              {
+                "Name": "Heads of Administration and Customer Services",
+                "Id": "9",
+                "Percent": 1,
+                "NormalizedSkills": [
+                  "KS126HY6YLTB9R7XJC4Z",
+                  "KS126JQ6298NYL0M4ZVD",
+                  "KS120626HMWCXJWJC7VK",
+                  "KS440HB6R9M0RQZFFWYZ",
+                  "KS122556LMQ829GZCCRV"
+                ]
+              },
+              {
+                "Name": "Planners",
+                "Id": "5",
+                "Percent": 1,
+                "NormalizedSkills": [
+                  "KS440HB6R9M0RQZFFWYZ"
+                ]
+              },
+              {
+                "Name": "Administrative Personnel",
+                "Id": "234",
+                "Percent": 1,
+                "NormalizedSkills": [
+                  "KS126HY6YLTB9R7XJC4Z"
+                ]
+              },
+              {
+                "Name": "Secretaries",
+                "Id": "8",
+                "Percent": 0,
+                "NormalizedSkills": [
+                  "KS126HY6YLTB9R7XJC4Z"
+                ]
+              },
+              {
+                "Name": "Financial-administrative Personnel",
+                "Id": "1",
+                "Percent": 0,
+                "NormalizedSkills": [
+                  "KS126HY6YLTB9R7XJC4Z"
+                ]
+              },
+              {
+                "Name": "Customer Service Personnel",
+                "Id": "4",
+                "Percent": 0,
+                "NormalizedSkills": [
+                  "KS122556LMQ829GZCCRV",
+                  "KS120626HMWCXJWJC7VK"
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "Hospitality",
+            "Id": "7",
+            "Percent": 2,
+            "Groups": [
+              {
+                "Name": "Hospitality and Catering Managers",
+                "Id": "61",
+                "Percent": 2,
+                "NormalizedSkills": [
+                  "KSKTT7NXIEHJH3WGXPY5",
+                  "KS122CX79LYK5C881P71"
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "Healthcare",
+            "Id": "6",
+            "Percent": 2,
+            "Groups": [
+              {
+                "Name": "Specialised Nurses",
+                "Id": "48",
+                "Percent": 1,
+                "NormalizedSkills": [
+                  "KS127ZQ6S99BVGV14YXC"
+                ]
+              },
+              {
+                "Name": "Care Managers",
+                "Id": "280",
+                "Percent": 1,
+                "NormalizedSkills": [
+                  "KS440HB6R9M0RQZFFWYZ"
+                ]
+              },
+              {
+                "Name": "Childcare Employees",
+                "Id": "53",
+                "Percent": 0,
+                "NormalizedSkills": [
+                  "KS1283D6V01GSKVQW2XT"
+                ]
+              },
+              {
+                "Name": "Medical Assistants",
+                "Id": "47",
+                "Percent": 0,
+                "NormalizedSkills": [
+                  "KS1283D6V01GSKVQW2XT"
+                ]
+              },
+              {
+                "Name": "Specialists and Surgeons",
+                "Id": "56",
+                "Percent": 0,
+                "NormalizedSkills": [
+                  "KS1283D6V01GSKVQW2XT"
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "Personal Services",
+            "Id": "16",
+            "Percent": 1,
+            "Groups": [
+              {
+                "Name": "Personal Care Company Managers",
+                "Id": "156",
+                "Percent": 1,
+                "NormalizedSkills": [
+                  "KSKTT7NXIEHJH3WGXPY5",
+                  "KS120626HMWCXJWJC7VK"
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "Legal, Human Resources and Social Services",
+            "Id": "19",
+            "Percent": 1,
+            "Groups": [
+              {
+                "Name": "Social Workers",
+                "Id": "191",
+                "Percent": 1,
+                "NormalizedSkills": [
+                  "KS440HB6R9M0RQZFFWYZ"
+                ]
+              },
+              {
+                "Name": "Personnel and Labour Experts",
+                "Id": "223",
+                "Percent": 0,
+                "NormalizedSkills": [
+                  "KS126HY6YLTB9R7XJC4Z"
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "Leisure, Sports and Tourism",
+            "Id": "20",
+            "Percent": 1,
+            "Groups": [
+              {
+                "Name": "Trainers and Coaches",
+                "Id": "202",
+                "Percent": 1,
+                "NormalizedSkills": [
+                  "KSKTT7NXIEHJH3WGXPY5"
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "Insurance and Finance",
+            "Id": "24",
+            "Percent": 1,
+            "Groups": [
+              {
+                "Name": "Accountants",
+                "Id": "218",
+                "Percent": 0,
+                "NormalizedSkills": [
+                  "KS126HY6YLTB9R7XJC4Z"
+                ]
+              },
+              {
+                "Name": "Financial Experts",
+                "Id": "254",
+                "Percent": 0,
+                "NormalizedSkills": [
+                  "KS126JQ6298NYL0M4ZVD"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "JobMetadata": {
+        "PlainText": "\r\n  Northern Ireland\r\n  Assembly\r\n\r\n\r\n  Job Title: Senior Software Developer\r\n\r\n  Salary range: £30,280 - £31,326\r\n\r\n  Grade: Assembly Grade 7\r\n\r\n  Directorate: Parliamentary Services\r\n\r\n  Business Area/Office: Information Systems (IS) Office\r\n\r\n  Accountable to: Lead Software Developer\r\n\r\n  Accountable for: Software Developers and Junior Developers\r\n\r\n\r\n  Job Purpose\r\n\r\n  As a Senior Software Developer, you will be responsible for planning, developing and\r\n  integrating related software components using an Agile approach and utilising\r\n  Microsoft Visual Studio and Azure DevOps.\r\n\r\n  You will work on a range of systems, from simple workflow database applications to\r\n  highly complex business-critical systems that interface with cloud technology. You will\r\n  have an understanding of the whole system and take responsibility for teaching this to\r\n  others. You will work with other disciplines to understand what needs to be built. You\r\n  will coach and mentor more junior colleagues to ensure that software meets users'\r\n  needs, taking responsibility for writing clean, secure and effective code, following best\r\n  practice guidelines and quality assurance processes.\r\n\r\n  Job Description:\r\n\r\n  Working in an Agile team environment and reporting directly to a Lead Software\r\n  Developer, the main duties and responsibilities of the post are:\r\n\r\n\r\n  *   plan and lead the analysis and development of sets of related user stories\r\n  using Agile processes, including liaison with users throughout the organisation\r\n  to create work item technical specifications.\r\n  *   contribute to the system design and have an understanding of the whole\r\n  system, and take responsibility for teaching this to others\r\n  *   contribute to systems integration design and build, including awareness of\r\n  cross-system dependencies\r\n  1\r\n\r\n\r\n\r\n\r\n  *   design solutions and services with security controls embedded, specifically\r\n  engineered as mitigation against security threats\r\n  *   design, code, test, review and document software components of medium to\r\n  high complexity to agreed technical specification.\r\n  *   develop software using the latest Microsoft technologies such as ASP.Net\r\n  Core MVC, C#.Net, Entity Framework Core and SQL Server\r\n  *   support and maintain legacy systems developed using VB.Net, WinForm and\r\n  WebForms.\r\n  *   write clean, secure and effective code by adhering to software development\r\n  policies, standards, and best practice guidelines\r\n  *   develop, support and provide technical advice on cloud-based technologies\r\n  such as Microsoft Azure, Office 365, Microsoft Teams and SharePoint Online.\r\n  *   develop and support software solutions that integrate 3rd party software such\r\n  as EPiServer CMS and Umbraco CMS\r\n  *   provide technical support of bespoke systems, including support of businesscritical\r\n  procedural systems to ensure the smooth running of Plenary and\r\n  Committee business\r\n  *   line management of Developers and Junior Developers, including monitoring of\r\n  performance, quality assurance, coaching and mentoring\r\n  *   advice and training to Assembly Members and their staff in the use of ICT\r\n  systems, including system demonstrations and the preparation of user\r\n  documentation\r\n  *   assist in the development and implementation of relevant IT policy, strategy and\r\n  standards.\r\n  *   co-operation with other ICT staff in maintaining effective computing services\r\n  *   project management duties;\r\n  *   assist in the development, implementation and monitoring of IT security\r\n  measures\r\n  *   undertaking other duties in line with the needs and level of this post.\r\n  *   comply with all of the Assembly Commission's staff policies and procedures\r\n  including Equal Opportunities and Dignity at Work policies and procedures.\r\n  *   carry out other duties that the Assembly Commission reasonably requires of\r\n  you.\r\n\r\n  Essential Criteria:\r\n\r\n  Applicants for the post must by the closing date for application:\r\n\r\n  1 a) Be in possession of a Bachelor's (or higher) Degree in either Computing,\r\n  Computer Science, Software Engineering, or other discipline relevant to\r\n  Information Systems / Information Technology*.\r\n\r\n  AND\r\n\r\n  1 b) a minimum of two years' relevant experience in each of the area described\r\n  below at (i), (ii), (iii).\r\n\r\n  OR\r\n\r\n  2\r\n\r\n\r\n\r\n\r\n  2 a) Be in possession of an HND or Foundation Degree in Computing or other\r\n  discipline relevant to Information Systems / Information Technology*.\r\n\r\n  AND\r\n\r\n  2 b) a minimum of three years' relevant experience in each of the area\r\n  described below at (i), (ii), (iii).\r\n\r\n\r\n\r\n  (i)     Application Development\r\n  *  Microsoft Visual Studio 2015 or later\r\n  *  C#.NET and ASP.NET programming skills\r\n  *  Web programming using HTML, JavaScript, CSS\r\n  *  MVC Architecture\r\n  *  Entity Framework\r\n  *  Team Foundation Server\r\n\r\n  (ii)    Azure DevOps\r\n  *  Agile Development Processes\r\n  *  Azure Boards\r\n\r\n  (iii)   Database Design\r\n  *  Database design including logical and physical data modelling\r\n  *  Microsoft SQL Server 2012 or later\r\n  *  Use of Structured Query Language (SQL)\r\n\r\n\r\n  *NB Only those courses with a computing content of 50% or more will be\r\n  considered and applicants must give full details on the application form of\r\n  how the content of the course meets this requirement.\r\n\r\n  Skills & Behaviours:\r\n\r\n  The following Assembly Skills and Behaviours will be assessed during the selection\r\n  process:\r\n\r\n  Delivering a quality service\r\n\r\n  ...is about providing a high-quality and efficient service to our customers. It is thinking\r\n  ahead, managing resources effectively and delivering work on time and to a high\r\n  standard. It is also using professional or technical expertise to enhance service\r\n  delivery.\r\n\r\n  Building relationships and effective communication\r\n  ...is creating and maintaining positive, professional and respectful internal and\r\n  external working relationships through effective and appropriate communications.\r\n\r\n  Initiating improvement and delivering change\r\n  ...is looking for and being open to new and innovative ideas and improvements to the\r\n  service provided. It is being flexible and adapting positively and professionally to\r\n\r\n  3\r\n\r\n\r\n\r\n\r\n  sustain performance when the situation changes, workloads increase or priorities\r\n  change. It is about forming sound, evidence-based decisions and being accountable\r\n  for results.\r\n\r\n\r\n\r\n\r\n  4",
+        "DocumentLanguage": "en",
+        "DocumentCulture": "en-US",
+        "ParserSettings": "Coverage.PersonalAttributes = True; Coverage.Training = True; Culture.CountryCodeForUnitedKingdomIsUK = False; Culture.DefaultCountryCode = US; Culture.Language = English; Culture.PreferEnglishVersionIfTwoLanguagesInDocument = False; Data.NormalizeSkills = True; Data.UserDefinedParsing = False; Data.UseV2SkillsTaxonomy = True; OutputFormat.AssumeCompanyNameFromPrecedingJob = False; OutputFormat.ContactMethod.PackStyle = Split; OutputFormat.DateOutputStyle = ExplicitlyKnownDateInfoOnly; OutputFormat.NestJobsBasedOnDateRanges = True; OutputFormat.NormalizeRegions = False; OutputFormat.SimpleCustomLinkedIn = True; OutputFormat.SkillsStyle = Default; OutputFormat.StripParsedDataFromPositionHistoryDescription = True; OutputFormat.TelcomNumber.Style = Raw; OutputFormat.XmlFormat = HrXmlResume25",
+        "DocumentLastModified": "2025-11-10"
+      }
+    },
+    "ProfessionNormalizationResponse": {
+      "Code": "Success",
+      "Message": "Successful transaction"
+    },
+    "ConversionMetadata": {
+      "DetectedType": "Pdf",
+      "SuggestedFileExtension": "pdf",
+      "OutputValidityCode": "ovIsProbablyValid",
+      "ElapsedMilliseconds": 0,
+      "DocumentHash": "15F92F00B9D2C5BB8460AEC7A3C31D34"
+    },
+    "Conversions": {
+      "HTML": "<div><div style=\"position: relative;\"><tk_metadata name=\"last_modified\" value=\"20/04/2021, 09:54\"> </tk_metadata><tk_metadata name=\"author\" value=\"\"> </tk_metadata> <p> </p> <div style=\"position:absolute;top:-1px;left:0px;white-space:nowrap;\"><img alt=\"image\" height=\"257\" src=\"15.jpg\" title=\"\" width=\"794\"> </img></div> <div name=\"Invisible\" style=\"color:rgba(0,0,0,0.000000); position:absolute;top:218px;left:321px;font-family:&apos;Helvetica&apos;;font-size:15pt;color:rgba(0,0,0,0.000000);white-space:nowrap;\">Northern Ireland</div> <div name=\"Invisible\" style=\"color:rgba(0,0,0,0.000000); position:absolute;top:238px;left:354px;font-family:&apos;Helvetica&apos;;font-size:15pt;color:rgba(0,0,0,0.000000);white-space:nowrap;\">Assembly</div>  <div style=\"position:absolute;top:299px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\"><b>Job Title: Senior Software Developer</b></div>  <div style=\"position:absolute;top:329px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\"><b>Salary range: £30,280 - £31,326</b></div>  <div style=\"position:absolute;top:358px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\"><b>Grade: Assembly Grade 7</b></div>  <div style=\"position:absolute;top:387px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\"><b>Directorate: Parliamentary Services</b></div>  <div style=\"position:absolute;top:416px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\"><b>Business Area/Office: Information Systems (IS) Office</b></div>  <div style=\"position:absolute;top:445px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\"><b>Accountable to: Lead Software Developer</b></div>  <div style=\"position:absolute;top:474px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\"><b>Accountable for: Software Developers and Junior Developers</b></div>  <div style=\"position:absolute;top:534px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\"><b>Job Purpose</b></div> <div style=\"position:absolute;top:571px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">As a Senior Software Developer, you will be responsible for planning, developing and</div> <div style=\"position:absolute;top:589px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">integrating related software components using an Agile approach and utilising</div> <div style=\"position:absolute;top:608px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Microsoft Visual Studio and Azure DevOps.</div> <div style=\"position:absolute;top:645px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">You will work on a range of systems, from simple workflow database applications to</div> <div style=\"position:absolute;top:663px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">highly complex business-critical systems that interface with cloud technology. You will</div> <div style=\"position:absolute;top:682px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">have an understanding of the whole system and take responsibility for teaching this to</div> <div style=\"position:absolute;top:700px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">others. You will work with other disciplines to understand what needs to be built. You</div> <div style=\"position:absolute;top:714px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">will coach and mentor more junior colleagues to ensure that software meets users’</div> <div style=\"position:absolute;top:737px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">needs, taking responsibility for writing clean, secure and effective code, following best</div> <div style=\"position:absolute;top:755px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">practice guidelines and quality assurance processes.</div>  <div style=\"position:absolute;top:792px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\"><b>Job Description:</b></div> <div style=\"position:absolute;top:829px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Working in an Agile team environment and reporting directly to a Lead Software</div> <div style=\"position:absolute;top:848px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Developer, the main duties and responsibilities of the post are:</div> <div style=\"position:absolute;top:902px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:905px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">plan and lead the analysis and development of sets of related user stories</div> <div style=\"position:absolute;top:923px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">using Agile processes, including liaison with users throughout the organisation</div> <div style=\"position:absolute;top:941px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">to create work item technical specifications.</div> <div style=\"position:absolute;top:958px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:961px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">contribute to the system design and have an understanding of the whole</div> <div style=\"position:absolute;top:979px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">system, and take responsibility for teaching this to others</div> <div style=\"position:absolute;top:996px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:999px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">contribute to systems integration design and build, including awareness of</div> <div style=\"position:absolute;top:1021px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">cross-system dependencies</div> <div style=\"position:absolute;top:1046px;left:393px;font-family:&apos;Calibri&apos;;font-size:11pt;white-space:nowrap;\">1 </div> <div style=\"position:absolute;top:1121px;left:12px;white-space:nowrap;\"><hr> </hr></div> <div style=\"position:absolute;top:1219px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:1222px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">design solutions and services with security controls embedded, specifically</div> <div style=\"position:absolute;top:1240px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">engineered as mitigation against security threats</div> <div style=\"position:absolute;top:1257px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:1260px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">design, code, test, review and document software components of medium to</div> <div style=\"position:absolute;top:1278px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">high complexity to agreed technical specification.</div> <div style=\"position:absolute;top:1295px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:1298px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">develop software using the latest Microsoft technologies such as ASP.Net</div> <div style=\"position:absolute;top:1316px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Core MVC, C#.Net, Entity Framework Core and SQL Server</div> <div style=\"position:absolute;top:1333px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:1335px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">support and maintain legacy systems developed using VB.Net, WinForm and</div> <div style=\"position:absolute;top:1354px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">WebForms.</div> <div style=\"position:absolute;top:1371px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:1373px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">write clean, secure and effective code by adhering to software development</div> <div style=\"position:absolute;top:1392px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">policies, standards, and best practice guidelines</div> <div style=\"position:absolute;top:1408px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:1411px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">develop, support and provide technical advice on cloud-based technologies</div> <div style=\"position:absolute;top:1430px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">such as Microsoft Azure, Office 365, Microsoft Teams and SharePoint Online.</div> <div style=\"position:absolute;top:1446px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:1449px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">develop and support software solutions that integrate 3rd party software such</div> <div style=\"position:absolute;top:1468px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">as EPiServer CMS and Umbraco CMS</div> <div style=\"position:absolute;top:1484px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:1487px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">provide technical support of bespoke systems, including support of business-</div> <div style=\"position:absolute;top:1505px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">critical procedural systems to ensure the smooth running of Plenary and</div> <div style=\"position:absolute;top:1524px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Committee business</div> <div style=\"position:absolute;top:1540px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:1543px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">line management of Developers and Junior Developers, including monitoring of</div> <div style=\"position:absolute;top:1562px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">performance, quality assurance, coaching and mentoring</div> <div style=\"position:absolute;top:1578px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:1581px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">advice and training to Assembly Members and their staff in the use of ICT</div> <div style=\"position:absolute;top:1600px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">systems, including system demonstrations and the preparation of user</div> <div style=\"position:absolute;top:1618px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">documentation</div> <div style=\"position:absolute;top:1635px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:1637px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">assist in the development and implementation of relevant IT policy, strategy and</div> <div style=\"position:absolute;top:1656px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">standards.</div> <div style=\"position:absolute;top:1673px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:1675px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">co-operation with other ICT staff in maintaining effective computing services</div> <div style=\"position:absolute;top:1692px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:1695px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">project management duties;</div> <div style=\"position:absolute;top:1711px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:1714px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">assist in the development, implementation and monitoring of IT security</div> <div style=\"position:absolute;top:1733px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">measures</div> <div style=\"position:absolute;top:1749px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:1752px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">undertaking other duties in line with the needs and level of this post.</div> <div style=\"position:absolute;top:1769px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:1767px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">comply with all of the Assembly Commission’s staff policies and procedures</div> <div style=\"position:absolute;top:1790px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">including Equal Opportunities and Dignity at Work policies and procedures.</div> <div style=\"position:absolute;top:1807px;left:120px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:1809px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">carry out other duties that the Assembly Commission reasonably requires of</div> <div style=\"position:absolute;top:1828px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">you.</div>  <div style=\"position:absolute;top:1875px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\"><b>Essential Criteria:</b></div> <div style=\"position:absolute;top:1913px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Applicants for the post must by the closing date for application:</div> <div style=\"position:absolute;top:1945px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">1 a) Be in possession of a Bachelor’s (or higher) Degree in either Computing,</div> <div style=\"position:absolute;top:1968px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Computer Science, Software Engineering, or other discipline relevant to</div> <div style=\"position:absolute;top:1986px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Information Systems / Information Technology*.</div> <div style=\"position:absolute;top:2023px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">AND</div> <div style=\"position:absolute;top:2060px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">1 b) a minimum of two years’ relevant experience in each of the area described</div> <div style=\"position:absolute;top:2079px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">below at (i), (ii), (iii).</div> <div style=\"position:absolute;top:2120px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">OR</div> <div style=\"position:absolute;top:2167px;left:393px;font-family:&apos;Calibri&apos;;font-size:11pt;white-space:nowrap;\">2 </div> <div style=\"position:absolute;top:2243px;left:12px;white-space:nowrap;\"><hr> </hr></div> <div style=\"position:absolute;top:2342px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">2 a) Be in possession of an HND or Foundation Degree in Computing or other</div> <div style=\"position:absolute;top:2361px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">discipline relevant to Information Systems / Information Technology*.</div> <div style=\"position:absolute;top:2398px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">AND</div> <div style=\"position:absolute;top:2430px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">2 b) a minimum of three years’ relevant experience in each of the area</div> <div style=\"position:absolute;top:2453px;left:144px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">described below at (i), (ii), (iii).</div> <div style=\"position:absolute;top:2527px;left:120px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">(i)   </div> <div style=\"position:absolute;top:2527px;left:168px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Application Development</div> <div style=\"position:absolute;top:2544px;left:168px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:2547px;left:192px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Microsoft Visual Studio 2015 or later</div> <div style=\"position:absolute;top:2563px;left:168px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:2566px;left:192px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">C#.NET and ASP.NET programming skills</div> <div style=\"position:absolute;top:2583px;left:168px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:2586px;left:192px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Web programming using HTML, JavaScript, CSS</div> <div style=\"position:absolute;top:2602px;left:168px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:2605px;left:192px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">MVC Architecture</div> <div style=\"position:absolute;top:2622px;left:168px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:2625px;left:192px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Entity Framework</div> <div style=\"position:absolute;top:2641px;left:168px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:2644px;left:192px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Team Foundation Server</div> <div style=\"position:absolute;top:2681px;left:120px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">(ii)   </div> <div style=\"position:absolute;top:2681px;left:168px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Azure DevOps</div> <div style=\"position:absolute;top:2698px;left:168px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:2700px;left:192px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Agile Development Processes</div> <div style=\"position:absolute;top:2717px;left:168px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:2720px;left:192px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Azure Boards</div> <div style=\"position:absolute;top:2757px;left:120px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">(iii)   </div> <div style=\"position:absolute;top:2757px;left:168px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Database Design</div> <div style=\"position:absolute;top:2773px;left:168px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:2776px;left:192px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Database design including logical and physical data modelling</div> <div style=\"position:absolute;top:2793px;left:168px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:2796px;left:192px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Microsoft SQL Server 2012 or later</div> <div style=\"position:absolute;top:2812px;left:168px;font-size:12pt;white-space:nowrap;\">●  </div> <div style=\"position:absolute;top:2815px;left:192px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">Use of Structured Query Language (SQL)</div> <div style=\"position:absolute;top:2862px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\"><b>*NB Only those courses with a computing content of 50% or more will be</b></div> <div style=\"position:absolute;top:2881px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\"><b>considered and applicants must give full details on the application form of</b></div> <div style=\"position:absolute;top:2899px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\"><b>how the content of the course meets this requirement.</b></div>  <div style=\"position:absolute;top:2928px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\"><b>Skills &amp; Behaviours:</b></div> <div style=\"position:absolute;top:2958px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">The following Assembly Skills and Behaviours will be assessed during the selection</div> <div style=\"position:absolute;top:2976px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">process:</div>  <div style=\"position:absolute;top:3005px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\"><b>Delivering a quality service</b></div> <div style=\"position:absolute;top:3042px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">...is about providing a high-quality and efficient service to our customers. It is thinking</div> <div style=\"position:absolute;top:3060px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">ahead, managing resources effectively and delivering work on time and to a high</div> <div style=\"position:absolute;top:3079px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">standard. It is also using professional or technical expertise to enhance service</div> <div style=\"position:absolute;top:3097px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">delivery.</div> <div style=\"position:absolute;top:3134px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\"><b>Building relationships and effective communication</b></div> <div style=\"position:absolute;top:3152px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">...is creating and maintaining positive, professional and respectful internal and</div> <div style=\"position:absolute;top:3171px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">external working relationships through effective and appropriate communications.</div>  <div style=\"position:absolute;top:3218px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\"><b>Initiating improvement and delivering change</b></div> <div style=\"position:absolute;top:3236px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">...is looking for and being open to new and innovative ideas and improvements to the</div> <div style=\"position:absolute;top:3259px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">service provided. It is being flexible and adapting positively and professionally to</div> <div style=\"position:absolute;top:3289px;left:393px;font-family:&apos;Calibri&apos;;font-size:11pt;white-space:nowrap;\">3 </div> <div style=\"position:absolute;top:3364px;left:12px;white-space:nowrap;\"><hr> </hr></div> <div style=\"position:absolute;top:3463px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">sustain performance when the situation changes, workloads increase or priorities</div> <div style=\"position:absolute;top:3482px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">change. It is about forming sound, evidence-based decisions and being accountable</div> <div style=\"position:absolute;top:3504px;left:96px;font-family:&apos;Arial&apos;;font-size:12pt;white-space:nowrap;\">for results.</div> <div style=\"position:absolute;top:4410px;left:393px;font-family:&apos;Calibri&apos;;font-size:11pt;white-space:nowrap;\">4 </div>  </div></div>\n"
+    },
+    "ParsingMetadata": {
+      "ElapsedMilliseconds": 1797,
+      "TimedOut": false
+    }
+  }
+}
