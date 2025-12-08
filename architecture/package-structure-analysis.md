@@ -46,7 +46,7 @@ tech.eagledrive.services.match/
 
 #### ⚠️ parse-service (Needs Standardization)
 ```
-tech.eagledrive.services.parse/
+tech.eagledrive.services.document/
 ├── ParseResource.java                   # ⚠️ Should be in presentation/
 ├── domain/
 │   ├── SourceDocumentService.java      # ✓ Domain service
@@ -133,7 +133,7 @@ tech.eagledrive.client.auth/
 
 #### ✅ parse-client (Good)
 ```
-tech.eagledrive.client.parse/
+tech.eagledrive.client.document/
 └── ParseServiceClient.java              # ✓ REST client interface
 ```
 
