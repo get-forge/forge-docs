@@ -70,6 +70,8 @@ Frontend → POST /auth/register (backend-candidate)
 
 ## Request Flow
 
+### User-Initiated Requests
+
 All frontend requests route through `backend-candidate` (port 8500), which proxies to appropriate services:
 
 - `POST /auth/login` → `backend-candidate` → `auth-service`
@@ -79,23 +81,69 @@ All frontend requests route through `backend-candidate` (port 8500), which proxi
 - `GET /candidates/{id}` → `backend-candidate` → `candidate-service`
 - `POST /resumes` → `backend-candidate` → `document-service`
 
+### Service-to-Service Requests
+
+Services can make calls to other services using service JWTs:
+
+- `document-service` → `match-service` (with service JWT)
+- `auth-service` → `candidate-service` (with service JWT)
+- Background jobs / scheduled tasks (with service JWT, no user context)
+
 ## Security Model
 
 ### Backend REST Endpoints
 
-All REST endpoints use JWT-based authentication:
+All REST endpoints use JWT-based authentication supporting both user and service tokens:
 
-1. **JwtAuthenticationFilter** (automatic):
+1. **TokenAuthenticationFilter** (automatic):
    - Intercepts all JAX-RS requests
    - Checks for `Authorization: Bearer <token>` header
-   - Validates JWT token using `JwtAuthenticationProvider`
-   - Sets authenticated `User` in request context if valid
+   - Validates JWT token using `ServiceTokenValidator`
+   - Detects service tokens (via `custom:service_id` claim) or user tokens
+   - Sets authenticated `User` or `authenticatedServiceId` in request context if valid
 
 2. **AuthenticatedInterceptor** (automatic):
    - Intercepts methods annotated with `@Secured`
    - Checks request context for authenticated user
    - Throws `AuthenticationException` if no user found
    - Returns 401 Unauthorized response
+
+3. **ServiceAuthorizationInterceptor** (automatic):
+   - Intercepts methods annotated with `@AllowedServices`
+   - Checks request context for authenticated service ID
+   - Verifies service ID is in the allowed list
+   - Throws `AuthenticationException` if service is not authorized
+   - Returns 403 Forbidden response
+
+### Service-to-Service Authentication Flow
+
+```
+1. Service starts up
+   ↓
+2. CognitoServiceTokenProvider initializes (if credentials configured)
+   ↓
+3. Service makes REST client call
+   ↓
+4. TokenClientRequestFilter runs → forwards user token if present
+   ↓
+5. ServiceClientRequestFilter runs → adds service token if no user token
+   ↓
+6. Receiving service receives request with service JWT
+   ↓
+7. JwtAuthenticationFilter validates token → detects custom:service_id claim
+   ↓
+8. Stores authenticatedServiceId in request context
+   ↓
+9. ServiceAuthorizationInterceptor checks @AllowedServices annotation
+   ↓
+10. Request proceeds if service is authorized ✅
+```
+
+**Key Points:**
+- User tokens take precedence (forwarded first by `TokenClientRequestFilter`)
+- Service tokens are used when no user token is present
+- Service tokens are automatically cached and refreshed
+- Service-level authorization is enforced via `@AllowedServices` annotation
 
 ### Frontend UI Modules
 
@@ -112,10 +160,17 @@ Frontend applications handle authentication client-side:
 ### Core Security Library (`libs/security`)
 
 - **`@Secured`**: Annotation to mark JAX-RS methods/classes requiring authentication
-- **`JwtAuthenticationFilter`**: JAX-RS filter for JWT token validation
-- **`AuthenticatedInterceptor`**: CDI interceptor that enforces `@Secured`
-- **`JwtAuthenticationProvider`**: Interface for JWT operations
-- **`UserPoolAuthenticationProvider`**: Interface for user pool operations
+- **`@AllowedServices`**: Annotation to restrict endpoints to specific services
+- **`TokenAuthenticationFilter`**: JAX-RS filter for token validation (supports both user and service tokens)
+- **`SecuredTokenAuthenticationInterceptor`**: CDI interceptor that enforces `@Secured`
+- **`ServiceAuthorizationInterceptor`**: CDI interceptor that enforces `@AllowedServices`
+- **`TokenClientRequestFilter`**: Client filter that forwards user tokens to downstream services
+- **`ServiceClientRequestFilter`**: Client filter that adds service tokens when no user token is present
+- **`ServiceTokenValidator`**: Interface for JWT token validation
+- **`ServiceAuthenticationProvider`**: Interface for service authentication
+- **`ServiceTokenProvider`**: Interface for obtaining and caching service JWT tokens
+- **`CognitoServiceTokenValidator`**: Cognito implementation of ServiceTokenValidator
+- **`CognitoServiceTokenProvider`**: Cognito implementation of ServiceTokenProvider with caching and automatic refresh
 
 ### Auth Service (`services/auth-service`)
 
@@ -128,6 +183,7 @@ Frontend applications handle authentication client-side:
 - **`CognitoSecurityIdentityAugmentor`**: Maps OIDC claims to `AuthUser` domain model
 - **`OidcTenantResolver`**: Resolves OIDC tenant (Cognito vs LinkedIn)
 - **`TokenStore`**: Generates temporary tokens for OIDC flows
+- **`CognitoServiceAuthenticationProvider`**: Authenticates services with Cognito using service account credentials
 
 ### Backend Candidate (`application/backend-candidate`)
 
@@ -144,6 +200,8 @@ Frontend applications handle authentication client-side:
 | `COGNITO_USER_POOL_ID` | AWS Cognito user pool ID | - |
 | `COGNITO_CLIENT_ID` | AWS Cognito client ID | - |
 | `COGNITO_CLIENT_SECRET` | AWS Cognito client secret | - |
+| `COGNITO_SERVICE_ACCOUNT_USERNAME` | Service account username (e.g., `service-document-service`) | - |
+| `COGNITO_SERVICE_ACCOUNT_PASSWORD` | Service account password | - |
 | `AWS_REGION` | AWS region | `us-west-2` |
 | `OAUTH2_LINKEDIN_CLIENT_ID` | LinkedIn OAuth2 client ID | - |
 | `OAUTH2_LINKEDIN_SECRET` | LinkedIn OAuth2 secret | - |
@@ -199,6 +257,39 @@ The `OidcTenantResolver` determines which OIDC tenant configuration to use:
 
 All other endpoints require `@Secured` annotation and valid JWT token in `Authorization: Bearer <token>` header.
 
+## Zero-Trust Architecture
+
+The authentication system implements a zero-trust security model where:
+
+✅ **Every service call is authenticated** - Services must have valid JWTs (user or service tokens)
+✅ **Service identity verification** - Receiving services know which service is calling via `custom:service_id` claim
+✅ **Service-level authorization** - Fine-grained control with `@AllowedServices` annotation
+✅ **No trusted network assumptions** - Services verify each other's identity regardless of network location
+✅ **Credential isolation** - Service credentials are separate from user credentials
+✅ **Automatic token management** - Service tokens are cached and refreshed automatically
+
+### Zero-Trust Principles Implemented
+
+1. **Verify Explicitly**: Every request is authenticated and authorized
+2. **Use Least Privilege**: Services can only access endpoints they're authorized for
+3. **Assume Breach**: Service credentials can be revoked independently of user credentials
+
+### What's In Place
+
+- ✅ Service-to-service authentication with Cognito service accounts
+- ✅ Service-level authorization with `@AllowedServices`
+- ✅ Automatic service token injection into outgoing requests
+- ✅ Token caching and automatic refresh
+- ✅ User and service token support in the same infrastructure
+
+### Potential Future Enhancements
+
+- Mutual TLS (mTLS) for additional transport security
+- Service mesh integration (Istio, Linkerd)
+- Certificate-based service authentication
+- Network policy enforcement
+- Service-to-service encryption at rest
+
 ## Benefits
 
 1. **True Stateless**: No server-side session state
@@ -207,6 +298,9 @@ All other endpoints require `@Secured` annotation and valid JWT token in `Author
 4. **Better Performance**: No session lookups
 5. **Mobile-Friendly**: JWT tokens work well for mobile apps
 6. **Consistent Security**: Same `@Secured` annotation everywhere
+7. **Zero-Trust Ready**: Service-to-service authentication with service-level authorization
+8. **Background Jobs**: Services can make calls without user context
+9. **Service Isolation**: Service credentials are separate from user credentials
 
 ## Implementation Guide
 

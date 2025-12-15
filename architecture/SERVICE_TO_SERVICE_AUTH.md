@@ -150,36 +150,96 @@ parse-service → Can check: "Is the caller document-service?" → ✅ Authorize
 - Other services can't call admin endpoints even with valid user tokens
 - Fine-grained service-level authorization
 
-## Your Current Architecture
+## Implementation Status
+
+**✅ IMPLEMENTED** - Service-to-service authentication is now fully implemented.
 
 **What you have:**
 - ✅ User authentication (users get JWTs)
 - ✅ Token forwarding (services forward user JWTs)
 - ✅ Token validation (services validate JWTs)
-- ❌ Service identity (services don't have their own identity)
-- ❌ Service authorization (can't restrict calls to specific services)
+- ✅ Service identity (services authenticate with Cognito to get service JWTs)
+- ✅ Service authorization (can restrict calls to specific services with `@AllowedServices`)
 
-**Is this a problem?**
-- **For now:** Probably fine if:
-  - All services are in a trusted network (VPC, private network)
-  - You don't have background jobs that need to make service calls
-  - You don't need service-level authorization
-  - You're okay with "any valid user token can call any service"
+## Implementation Details
 
-- **You'll need service accounts if:**
-  - Services are exposed to untrusted networks
-  - You need background jobs/scheduled tasks
-  - You want service-level authorization
-  - You're implementing zero-trust architecture
-  - You need to audit which services are making calls
+### Service Accounts
 
-## Implementation (If Needed)
+Service accounts are created in Cognito using the seed script (`scripts/aws/sandbox-cognito-seed.sh`):
+- Username format: `service-{service-name}` (e.g., `service-document-service`)
+- Custom attribute: `custom:service_id` = `{service-name}`
+- Credentials stored in AWS Parameter Store and `.envrc`
 
-Per ADR-0005, you would:
-1. Create service accounts in Cognito (one per service)
-2. Services authenticate with Cognito to get service JWTs
-3. Services include service JWT in calls to other services
-4. Receiving services validate service JWT and check service identity
-5. Implement service-level authorization rules
+### Service Authentication Flow
 
-But this is **not implemented yet** - your current system works fine for user-initiated requests.
+```
+1. Service starts up
+   ↓
+2. CognitoServiceTokenProvider initializes (if credentials configured)
+   ↓
+3. Service makes REST client call
+   ↓
+4. JwtClientRequestFilter runs → forwards user token if present
+   ↓
+5. ServiceClientRequestFilter runs → adds service token if no user token
+   ↓
+6. Receiving service receives request with service JWT
+   ↓
+7. TokenAuthenticationFilter validates token → detects custom:service_id claim
+   ↓
+8. Stores authenticatedServiceId in request context
+   ↓
+9. ServiceAuthorizationInterceptor checks @AllowedServices annotation
+   ↓
+10. Request proceeds if service is authorized ✅
+```
+
+### Components
+
+**Domain Interfaces:**
+- `ServiceAuthenticationProvider` - Authenticate services
+- `ServiceTokenProvider` - Get and cache service JWTs
+
+**Infrastructure:**
+- `CognitoServiceAuthenticationProvider` - Authenticates services with Cognito
+- `CognitoServiceTokenProvider` - Caches and refreshes service JWTs automatically
+
+**Presentation:**
+- `ServiceClientRequestFilter` - Automatically injects service JWTs into outgoing REST client calls
+- `ServiceAuthorizationInterceptor` - Enforces `@AllowedServices` restrictions
+- `@AllowedServices` - Annotation to restrict endpoints to specific services
+
+### Configuration
+
+Services need the following configuration to enable service-to-service authentication:
+
+```properties
+cognito.service-account.username=service-document-service
+cognito.service-account.password=<password-from-parameter-store>
+quarkus.application.name=document-service
+```
+
+These are automatically set by the Cognito seed script in AWS Parameter Store and `.envrc`.
+
+### Zero-Trust Architecture
+
+This implementation provides the foundation for zero-trust architecture:
+
+✅ **Every service call is authenticated** - Services must have valid JWTs
+✅ **Service identity verification** - Receiving services know which service is calling
+✅ **Service-level authorization** - Fine-grained control over which services can access endpoints
+✅ **No trusted network assumptions** - Services verify each other's identity regardless of network location
+✅ **Credential isolation** - Service credentials are separate from user credentials
+✅ **Automatic token management** - Tokens are cached and refreshed automatically
+
+**What's in place:**
+- Service-to-service authentication ✅
+- Service-level authorization ✅
+- Automatic token injection ✅
+- Token caching and refresh ✅
+
+**Potential future enhancements:**
+- Mutual TLS (mTLS) for additional transport security
+- Service mesh integration (Istio, Linkerd)
+- Certificate-based service authentication
+- Network policy enforcement

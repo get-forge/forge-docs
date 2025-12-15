@@ -227,8 +227,8 @@ tech.eagledrive.security/
 ├── domain/
 │   ├── dto/
 │   ├── exception/
-│   ├── JwtAuthenticationProvider.java
-│   └── UserPoolAuthenticationProvider.java
+│   ├── ServiceTokenValidator.java
+│   └── UserAuthenticationProvider.java
 ├── infrastructure/
 │   └── config/
 │       └── CognitoClientProducer.java
@@ -236,11 +236,10 @@ tech.eagledrive.security/
 │   └── rest/
 │       ├── exception/
 │       ├── Secured.java
-│       ├── JwtAuthenticationFilter.java
-│       └── AuthenticatedInterceptor.java
+│       └── [Other presentation classes]
 └── adapters/
     └── cognito/
-        └── CognitoUserPoolAdapter.java
+        └── CognitoUserAuthenticationProvider.java
 ```
 
 ### **Good Structure: backend-candidate**
