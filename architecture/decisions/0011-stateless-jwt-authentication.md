@@ -30,8 +30,8 @@ We will use **fully stateless JWT-based authentication** across all modules (bac
 All authentication flows return JWT tokens that are:
 - Stored client-side (localStorage for web applications)
 - Included in API requests via `Authorization: Bearer <token>` header
-- Validated server-side by `JwtAuthenticationFilter`
-- Enforced by `@Secured` annotation via `AuthenticatedInterceptor`
+- Validated server-side by `TokenAuthenticationFilter`
+- Enforced by `@Secured` annotation via `SecuredTokenAuthenticationInterceptor`
 
 ### **Key Changes**
 
@@ -82,8 +82,8 @@ All authentication flows return JWT tokens that are:
 ### **Backend**
 
 All REST endpoints use `@Secured` annotation:
-- `JwtAuthenticationFilter` validates tokens from `Authorization` header
-- `AuthenticatedInterceptor` enforces authentication for `@Secured` methods
+- `TokenAuthenticationFilter` validates tokens from `Authorization` header
+- `SecuredTokenAuthenticationInterceptor` enforces authentication for `@Secured` methods
 - Returns 401 Unauthorized if token is missing or invalid
 
 ### **Frontend**
