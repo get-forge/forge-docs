@@ -175,7 +175,7 @@ Service accounts are created in Cognito using the seed script (`scripts/aws/sand
 ```
 1. Service starts up
    ↓
-2. CognitoServiceTokenProvider initializes (if credentials configured)
+2. CachingServiceTokenProvider initializes (if credentials configured)
    ↓
 3. Service makes REST client call
    ↓
@@ -202,7 +202,7 @@ Service accounts are created in Cognito using the seed script (`scripts/aws/sand
 
 **Infrastructure:**
 - `CognitoServiceAuthenticationProvider` - Authenticates services with Cognito
-- `CognitoServiceTokenProvider` - Caches and refreshes service JWTs automatically
+- `CachingServiceTokenProvider` - Caches and refreshes service JWTs automatically
 
 **Presentation:**
 - `ServiceClientRequestFilter` - Automatically injects service JWTs into outgoing REST client calls

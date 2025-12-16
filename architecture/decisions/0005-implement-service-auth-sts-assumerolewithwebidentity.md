@@ -50,9 +50,9 @@ We will implement **service-to-service authentication and AWS access** using **C
 
 ---
 
-## **Implementation Detail: CognitoServiceTokenValidator**
+## **Implementation Detail: CognitoTokenValidator**
 
-The `CognitoServiceTokenValidator` will:
+The `CognitoTokenValidator` will:
 
 * Authenticate against AWS Cognito in all environments.
 * Retrieve a valid access token (JWT).
