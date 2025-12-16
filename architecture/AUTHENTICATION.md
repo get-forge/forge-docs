@@ -98,7 +98,7 @@ All REST endpoints use JWT-based authentication supporting both user and service
 1. **TokenAuthenticationFilter** (automatic):
    - Intercepts all JAX-RS requests
    - Checks for `Authorization: Bearer <token>` header
-   - Validates JWT token using `ServiceTokenValidator`
+   - Validates JWT token using `TokenValidator`
    - Detects service tokens (via `custom:service_id` claim) or user tokens
    - Sets authenticated `User` or `authenticatedServiceId` in request context if valid
 
@@ -120,7 +120,7 @@ All REST endpoints use JWT-based authentication supporting both user and service
 ```
 1. Service starts up
    ↓
-2. CognitoServiceTokenProvider initializes (if credentials configured)
+2. CachingServiceTokenProvider initializes (if credentials configured)
    ↓
 3. Service makes REST client call
    ↓
@@ -166,11 +166,11 @@ Frontend applications handle authentication client-side:
 - **`ServiceAuthorizationInterceptor`**: CDI interceptor that enforces `@AllowedServices`
 - **`TokenClientRequestFilter`**: Client filter that forwards user tokens to downstream services
 - **`ServiceClientRequestFilter`**: Client filter that adds service tokens when no user token is present
-- **`ServiceTokenValidator`**: Interface for JWT token validation
+- **`TokenValidator`**: Interface for JWT token validation (validates both user and service tokens)
 - **`ServiceAuthenticationProvider`**: Interface for service authentication
 - **`ServiceTokenProvider`**: Interface for obtaining and caching service JWT tokens
-- **`CognitoServiceTokenValidator`**: Cognito implementation of ServiceTokenValidator
-- **`CognitoServiceTokenProvider`**: Cognito implementation of ServiceTokenProvider with caching and automatic refresh
+- **`CognitoTokenValidator`**: Cognito implementation of TokenValidator
+- **`CachingServiceTokenProvider`**: Cognito implementation of ServiceTokenProvider with caching and automatic refresh
 
 ### Auth Service (`services/auth-service`)
 
@@ -197,9 +197,12 @@ Frontend applications handle authentication client-side:
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `COGNITO_USER_POOL_ID` | AWS Cognito user pool ID | - |
-| `COGNITO_CLIENT_ID` | AWS Cognito client ID | - |
-| `COGNITO_CLIENT_SECRET` | AWS Cognito client secret | - |
+| `COGNITO_CANDIDATE_POOL_ID` | AWS Cognito candidate pool ID (for job seekers) | - |
+| `COGNITO_CANDIDATE_CLIENT_ID` | AWS Cognito candidate client ID | - |
+| `COGNITO_CANDIDATE_CLIENT_SECRET` | AWS Cognito candidate client secret | - |
+| `COGNITO_SERVICE_POOL_ID` | AWS Cognito service pool ID (for service accounts) | - |
+| `COGNITO_SERVICE_CLIENT_ID` | AWS Cognito service client ID | - |
+| `COGNITO_SERVICE_CLIENT_SECRET` | AWS Cognito service client secret | - |
 | `COGNITO_SERVICE_ACCOUNT_USERNAME` | Service account username (e.g., `service-document-service`) | - |
 | `COGNITO_SERVICE_ACCOUNT_PASSWORD` | Service account password | - |
 | `AWS_REGION` | AWS region | `us-west-2` |
@@ -214,9 +217,9 @@ The system uses Quarkus OIDC multi-tenant configuration for OAuth2 flows.
 
 ```properties
 quarkus.oidc.tenant-enabled=true
-quarkus.oidc.auth-server-url=https://cognito-idp.${aws.region}.amazonaws.com/${cognito.user-pool.user-pool-id}
-quarkus.oidc.client-id=${cognito.user-pool.client-id}
-quarkus.oidc.credentials.secret=${cognito.user-pool.client-secret}
+quarkus.oidc.auth-server-url=https://cognito-idp.${aws.region}.amazonaws.com/${cognito.candidate.user-pool-id}
+quarkus.oidc.client-id=${cognito.candidate.client-id}
+quarkus.oidc.credentials.secret=${cognito.candidate.client-secret}
 quarkus.oidc.application-type=web-app
 quarkus.oidc.authentication.scopes=openid,profile,email
 quarkus.oidc.authentication.redirect-path=/auth/cognito/success

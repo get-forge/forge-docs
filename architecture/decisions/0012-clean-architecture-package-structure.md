@@ -227,7 +227,7 @@ tech.eagledrive.security/
 ├── domain/
 │   ├── dto/
 │   ├── exception/
-│   ├── ServiceTokenValidator.java
+│   ├── TokenValidator.java
 │   └── UserAuthenticationProvider.java
 ├── infrastructure/
 │   └── config/
