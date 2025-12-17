@@ -108,7 +108,7 @@ All REST endpoints use JWT-based authentication supporting both user and service
    - Throws `AuthenticationException` if no user found
    - Returns 401 Unauthorized response
 
-3. **ServiceAuthorizationInterceptor** (automatic):
+3. **ServiceTokenAuthorizationInterceptor** (automatic):
    - Intercepts methods annotated with `@AllowedServices`
    - Checks request context for authenticated service ID
    - Verifies service ID is in the allowed list
@@ -124,9 +124,9 @@ All REST endpoints use JWT-based authentication supporting both user and service
    ↓
 3. Service makes REST client call
    ↓
-4. TokenClientRequestFilter runs → forwards user token if present
+4. UserTokenClientRequestFilter runs → forwards user token if present
    ↓
-5. ServiceClientRequestFilter runs → adds service token if no user token
+5. ServiceTokenClientRequestFilter runs → adds service token if no user token
    ↓
 6. Receiving service receives request with service JWT
    ↓
@@ -134,13 +134,13 @@ All REST endpoints use JWT-based authentication supporting both user and service
    ↓
 8. Stores authenticatedServiceId in request context
    ↓
-9. ServiceAuthorizationInterceptor checks @AllowedServices annotation
+9. ServiceTokenAuthorizationInterceptor checks @AllowedServices annotation
    ↓
 10. Request proceeds if service is authorized ✅
 ```
 
 **Key Points:**
-- User tokens take precedence (forwarded first by `TokenClientRequestFilter`)
+- User tokens take precedence (forwarded first by `UserTokenClientRequestFilter`)
 - Service tokens are used when no user token is present
 - Service tokens are automatically cached and refreshed
 - Service-level authorization is enforced via `@AllowedServices` annotation
@@ -162,10 +162,10 @@ Frontend applications handle authentication client-side:
 - **`@Secured`**: Annotation to mark JAX-RS methods/classes requiring authentication
 - **`@AllowedServices`**: Annotation to restrict endpoints to specific services
 - **`TokenAuthenticationFilter`**: JAX-RS filter for token validation (supports both user and service tokens)
-- **`SecuredTokenAuthenticationInterceptor`**: CDI interceptor that enforces `@Secured`
-- **`ServiceAuthorizationInterceptor`**: CDI interceptor that enforces `@AllowedServices`
-- **`TokenClientRequestFilter`**: Client filter that forwards user tokens to downstream services
-- **`ServiceClientRequestFilter`**: Client filter that adds service tokens when no user token is present
+- **`UserTokenAuthorizationInterceptor`**: CDI interceptor that enforces `@Secured`
+- **`ServiceTokenAuthorizationInterceptor`**: CDI interceptor that enforces `@AllowedServices`
+- **`UserTokenClientRequestFilter`**: Client filter that forwards user tokens to downstream services
+- **`ServiceTokenClientRequestFilter`**: Client filter that adds service tokens when no user token is present
 - **`TokenValidator`**: Interface for JWT token validation (validates both user and service tokens)
 - **`ServiceAuthenticationProvider`**: Interface for service authentication
 - **`ServiceTokenProvider`**: Interface for obtaining and caching service JWT tokens
