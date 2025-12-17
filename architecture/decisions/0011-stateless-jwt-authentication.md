@@ -31,7 +31,7 @@ All authentication flows return JWT tokens that are:
 - Stored client-side (localStorage for web applications)
 - Included in API requests via `Authorization: Bearer <token>` header
 - Validated server-side by `TokenAuthenticationFilter`
-- Enforced by `@Secured` annotation via `SecuredTokenAuthenticationInterceptor`
+- Enforced by `@Secured` annotation via `UserTokenAuthorizationInterceptor`
 
 ### **Key Changes**
 
@@ -83,7 +83,7 @@ All authentication flows return JWT tokens that are:
 
 All REST endpoints use `@Secured` annotation:
 - `TokenAuthenticationFilter` validates tokens from `Authorization` header
-- `SecuredTokenAuthenticationInterceptor` enforces authentication for `@Secured` methods
+- `UserTokenAuthorizationInterceptor` enforces authorization for `@Secured` methods
 - Returns 401 Unauthorized if token is missing or invalid
 
 ### **Frontend**

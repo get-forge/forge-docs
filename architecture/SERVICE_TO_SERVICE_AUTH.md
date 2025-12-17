@@ -181,7 +181,7 @@ Service accounts are created in Cognito using the seed script (`scripts/aws/sand
    ↓
 4. JwtClientRequestFilter runs → forwards user token if present
    ↓
-5. ServiceClientRequestFilter runs → adds service token if no user token
+5. ServiceTokenClientRequestFilter runs → adds service token if no user token
    ↓
 6. Receiving service receives request with service JWT
    ↓
@@ -189,7 +189,7 @@ Service accounts are created in Cognito using the seed script (`scripts/aws/sand
    ↓
 8. Stores authenticatedServiceId in request context
    ↓
-9. ServiceAuthorizationInterceptor checks @AllowedServices annotation
+9. ServiceTokenAuthorizationInterceptor checks @AllowedServices annotation
    ↓
 10. Request proceeds if service is authorized ✅
 ```
@@ -204,9 +204,9 @@ Service accounts are created in Cognito using the seed script (`scripts/aws/sand
 - `CognitoServiceAuthenticationProvider` - Authenticates services with Cognito
 - `CachingServiceTokenProvider` - Caches and refreshes service JWTs automatically
 
-**Presentation:**
-- `ServiceClientRequestFilter` - Automatically injects service JWTs into outgoing REST client calls
-- `ServiceAuthorizationInterceptor` - Enforces `@AllowedServices` restrictions
+**Infrastructure:**
+- `ServiceTokenClientRequestFilter` - Automatically injects service JWTs into outgoing REST client calls
+- `ServiceTokenAuthorizationInterceptor` - Enforces `@AllowedServices` restrictions
 - `@AllowedServices` - Annotation to restrict endpoints to specific services
 
 ### Configuration
