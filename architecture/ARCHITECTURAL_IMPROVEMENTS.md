@@ -17,6 +17,7 @@ This document identifies high-impact architectural improvements aligned with ent
    - Stateless frontend and backend
    - Service-to-service authentication
    - Secrets management (SmallRye Config Crypto + AWS SSM)
+   - Network-level security for management endpoints (WAF + Security Groups + VPC isolation)
 
 2. **Fault Tolerance**
    - Circuit breakers, retries, timeouts (MicroProfile Fault Tolerance)
@@ -92,7 +93,19 @@ This document identifies high-impact architectural improvements aligned with ent
    - Configure for production environment
    - Document metrics export strategy
 
-**See:** `docs/architecture/METRICS_IMPLEMENTATION_STATUS.md` for detailed status
+**Security Decision - Metrics Endpoint Protection:**
+
+Application-level authentication for `/q/metrics` and `/q/health` endpoints is **not required** given the AWS infrastructure security layers:
+
+- **AWS WAF**: Programmatically configured to block `/q/metrics` and `/q/health` from external/public IPs, allowing only known monitoring system IPs (Prometheus, CloudWatch, etc.)
+- **Security Groups**: ECS tasks restricted to allow traffic only from ALB security groups and monitoring system security groups
+- **VPC Isolation**: Containers deployed in private subnets with no public IPs, NAT Gateway for outbound-only internet access
+- **ALB**: SSL termination and path-based routing with internal ALB for metrics/health endpoints if needed
+
+This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provides sufficient protection without requiring application-level authentication, simplifying Prometheus scraping and reducing operational complexity.
+
+**See:** `docs/architecture/METRICS_IMPLEMENTATION_STATUS.md` for detailed status  
+**See:** `docs/architecture/METRICS_SECURITY.md` for security analysis (superseded by infrastructure-based approach)
 
 **Effort Remaining:** ~10-15 hours (1.5-2 days)  
 **Value:** Critical for production operations
@@ -101,45 +114,56 @@ This document identifies high-impact architectural improvements aligned with ent
 
 ### 1.2 Enhanced Health Checks
 
-**Current State:** Basic health endpoints exist (`/q/health/live`, `/q/health/ready`) but no custom checks for dependencies.
+**Status:** ~90% Complete  
+**Last Updated:** 2025-01-27
 
-**Impact:** Cannot detect degraded dependencies before they cause failures.
+**Current State:** Custom readiness checks are implemented via a shared health library and per service registration classes. All critical backend dependencies (PostgreSQL, DynamoDB, S3, Cognito) now have explicit readiness checks where they are actually used.
 
-**Recommendations:**
+**Impact:** Services can now fail fast when dependencies are unavailable, and `/q/health/ready` exposes a clear view of dependency status for load balancers and operators.
 
-1. **Implement Readiness Checks**
-   ```java
-   @Readiness
-   public class DatabaseHealthCheck implements HealthCheck {
-       // Check PostgreSQL connection
-   }
-   
-   @Readiness
-   public class DynamoDbHealthCheck implements HealthCheck {
-       // Check DynamoDB table accessibility
-   }
-   
-   @Readiness
-   public class S3HealthCheck implements HealthCheck {
-       // Check S3 bucket accessibility
-   }
-   
-   @Readiness
-   public class CognitoHealthCheck implements HealthCheck {
-       // Check Cognito token validation endpoint
-   }
-   ```
+**Completed:**
 
-2. **Implement Liveness Checks**
-   - Basic application liveness (already exists)
-   - Memory/thread pool health
+1. **Shared health check library (`libs/health`)**
+   - Introduced reusable abstract health check base classes:
+     - `PostgresHealthCheck` (supports checking multiple tables)
+     - `S3HealthCheck` (supports checking multiple buckets)
+     - `DynamoDbHealthCheck` (supports checking multiple tables)
+     - `CognitoHealthCheck` (checks Cognito User Pool accessibility)
+   - Base classes are dependency agnostic and accept fully configured clients and identifiers.
 
-3. **Health Check Aggregation**
-   - Use `/q/health/ready` for ALB target group health checks
-   - Include dependency status in response
+2. **Per service health check registration pattern**
+   - Each service uses a single `*ServiceHealthChecks` class with `@Produces @Readiness @ApplicationScoped` methods that return anonymous subclasses of the shared base checks.
+   - `candidate-service`
+     - Custom Postgres readiness check using `PostgresHealthCheck` for `bravo` and the `candidates` table.
+   - `document-service`
+     - Custom S3 readiness check using `S3HealthCheck` for `bravo-candidate-resumes` and `bravo-client-jobs`.
+     - Custom DynamoDB readiness check using `DynamoDbHealthCheck` for `RESUMES` and `JOBS`.
+   - `match-service`
+     - Custom DynamoDB readiness check using `DynamoDbHealthCheck` for match related tables.
+   - `auth-service`
+     - Two custom Cognito readiness checks using `CognitoHealthCheck` for the candidate and service user pools.
+   - Quarkus built-in datasource health check is disabled in favor of the custom Postgres health check.
 
-**Effort:** Low-Medium (1-2 days)  
-**Value:** High - enables proper load balancer integration
+3. **Documentation**
+   - `HEALTH_CHECKS_IMPLEMENTATION.md` updated to describe the shared library pattern, per-service registration classes, and verification checklist.
+
+**Remaining Work:**
+
+1. **Liveness and startup checks (optional but recommended)**
+   - Keep existing basic liveness checks.
+   - Consider adding lightweight `@Liveness` checks for JVM/memory/thread pool where helpful.
+   - Consider `@Startup` checks if future startup-time work (for example migrations or warmups) needs explicit validation.
+
+2. **Operational integration**
+   - Confirm all production ALB target groups use `/q/health/ready` for health checks.
+   - Wire health check failures into alerting (CloudWatch alarms, PagerDuty/Slack, etc).
+
+3. **Future enhancement - Bravo status page**
+   - Design and implement a Bravo wide application status page that aggregates service health:
+     - Option A: External status page SaaS (for example, Atlassian Statuspage, Better Uptime) polling `/q/health/ready`.
+     - Option B: Small Quarkus “status gateway” service aggregating health endpoints and serving JSON + HTML/Qute dashboard.
+     - Option C: Prometheus/Grafana driven internal “ops status” dashboard based on health and uptime metrics.
+   - Actual choice and implementation are deferred; options are captured in `HEALTH_CHECKS_IMPLEMENTATION.md` for future work.
 
 ---
 
