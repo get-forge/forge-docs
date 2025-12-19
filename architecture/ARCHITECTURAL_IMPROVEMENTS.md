@@ -169,27 +169,80 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 
 ### 1.3 Rate Limiting
 
-**Current State:** Mentioned in README as TODO, not implemented.
+**Status:** ~95% Complete  
+**Last Updated:** 2025-12-18
 
-**Impact:** No protection against abuse, DDoS, or accidental traffic spikes.
+**Current State:** Application-level rate limiting is fully implemented using Bucket4j with per-user, per-service, and per-IP limits. The system includes comprehensive metrics collection and Grafana dashboards for monitoring. Rate limiting runs before authentication to protect all endpoints, including public authentication endpoints.
 
-**Recommendations:**
+**Impact:** Services are now protected against abuse, DDoS, and accidental traffic spikes. Rate limit violations and utilization are tracked with detailed metrics for operational visibility.
 
-1. **Application-Level Rate Limiting**
-   - Use Quarkus `quarkus-redis-client` with Redis for distributed rate limiting
-   - Implement per-user and per-IP rate limits
-   - Different limits for authenticated vs. unauthenticated endpoints
+**Completed:**
 
-2. **Service-Level Rate Limiting**
-   - Rate limit service-to-service calls
-   - Protect external API integrations (TextKernel)
+1. **Application-Level Rate Limiting Infrastructure**
+   - Bucket4j-based rate limiter implementation with token bucket algorithm
+   - `RateLimitingFilter` using `@ServerRequestFilter` with priority 1 (before authentication)
+   - Conditional bean production - rate limiting only active when configuration is present
+   - Supports gradual rollout per service via configuration
 
-3. **AWS WAF Integration** (for production)
+2. **Multi-Level Rate Limiting**
+   - Per-user rate limits (extracted from JWT user tokens)
+   - Per-service rate limits (extracted from JWT service tokens via `custom:service_id` claim)
+   - Per-IP rate limits (for unauthenticated requests)
+   - Special handling for malformed tokens (`auth:unidentified` key to prevent IP fallback exploitation)
+
+3. **Configuration System**
+   - `RateLimiterProperties` with configurable limits per key type
+   - Environment variable-based configuration
+   - Supports different limits for user, service, IP, and auth endpoints
+   - Configuration validation and type-safe property access
+
+4. **Metrics and Observability**
+   - `ThrottleMetricsHandler` integrated with metrics collection interceptor
+   - Four metric types recorded:
+     - `rate.limit.requests` - allowed vs blocked requests by key type
+     - `rate.limit.violations` - specific identifiers (user IDs, service IDs, IPs) that exceeded limits
+     - `rate.limit.utilization` - percentage utilization (0-100%) by key type and service
+     - `rate.limit.failures` - rate limiting system failures (e.g., Redis connection issues)
+   - Grafana dashboard "Bravo Throttle Metrics" with panels for:
+     - Rate limit requests (allowed vs blocked)
+     - Violations by key type and identifier
+     - Utilization by key type (average and max)
+     - Utilization by service (average and max)
+     - Violations by service
+     - System failures
+
+5. **Request Context Integration**
+   - Rate limit data stored in request context properties for metrics handler access
+   - `RateLimitKeyParser` utility for extracting key type and identifier from rate limit keys
+   - Constants centralized in `RateLimitKeyParser` for cross-library reuse
+
+6. **Response Headers**
+   - 429 responses include `X-RateLimit-Limit`, `X-RateLimit-Remaining`, and `Retry-After` headers
+   - Clear error messages for rate limit violations
+
+**Remaining Work:**
+
+1. **Distributed Rate Limiting (Future Enhancement)**
+   - Current implementation uses in-memory Bucket4j buckets (per-instance limits)
+   - For multi-instance deployments, consider Redis-backed distributed rate limiting
+   - Use `quarkus-redis-client` with Bucket4j Redis integration
+   - Effort: Medium (2-3 days)
+
+2. **AWS WAF Integration (Production)**
    - Layer 7 protection at ALB/CloudFront
    - Geographic restrictions if needed
+   - Additional DDoS protection beyond application-level limits
+   - Effort: Low-Medium (1-2 days)
 
-**Effort:** Medium (3-4 days)  
-**Value:** High - security and cost protection
+3. **Service-to-Service Rate Limiting (Optional)**
+   - Explicit rate limiting for service-to-service calls
+   - Currently handled by per-service limits, but could be more granular
+   - Effort: Low (0.5 days)
+
+**See:** `docs/architecture/METRICS_USAGE.md` for rate limiting metrics documentation
+
+**Effort Remaining:** ~3-5 days (for distributed rate limiting and WAF integration)  
+**Value:** High - security and cost protection, production-ready for single-instance deployments
 
 ---
 
@@ -581,9 +634,9 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 ## Implementation Roadmap
 
 ### Phase 1: Critical Production Blockers (Week 1-2)
-1. Metrics implementation (1.1)
-2. Enhanced health checks (1.2)
-3. Rate limiting (1.3)
+1. ✅ Metrics implementation (1.1) - ~60% complete
+2. ✅ Enhanced health checks (1.2) - ~90% complete
+3. ✅ Rate limiting (1.3) - ~95% complete (distributed rate limiting deferred)
 
 ### Phase 2: Observability (Week 3-4)
 1. Metrics dashboard (2.1)
