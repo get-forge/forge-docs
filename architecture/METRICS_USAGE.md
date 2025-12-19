@@ -73,7 +73,7 @@ sum(rate(rate_limit_failures_total[5m])) by (exception_type)
 Use `ApplicationMetrics` from the `common` library to record custom business metrics:
 
 ```java
-import tech.eagledrive.common.metrics.ApplicationMetrics;
+import tech.eagledrive.metrics.ApplicationMetrics;
 import jakarta.inject.Inject;
 
 @ApplicationScoped
