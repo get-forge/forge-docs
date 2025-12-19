@@ -18,6 +18,56 @@ The following metrics are automatically collected by Quarkus/Micrometer:
 - **Process Metrics**: Uptime (`process.*`)
 - **Database Metrics**: Connection pool stats (if using HikariCP)
 
+### Rate Limiting Metrics
+
+Rate limiting metrics are automatically collected by the `RateLimitingFilter` for all requests. These metrics provide:
+
+1. **Violation Tracking**: Specific IP addresses or user IDs that exceed rate limits
+2. **Generic Overview**: Overall rate limit utilization to assess if limits are reasonable
+
+**Available Metrics:**
+
+- `rate.limit.requests`: Counter tracking allowed and blocked requests
+  - Tags: `key_type` (user, service, ip, auth), `status` (allowed, blocked)
+  - Use for: Overall rate limiting activity
+
+- `rate.limit.violations`: Counter tracking specific violations
+  - Tags: `key_type` (user, service, ip, auth), `identifier` (username, serviceId, IP address)
+  - Use for: Identifying specific entities that are hitting limits (alerting on breaches)
+
+- `rate.limit.utilization`: Distribution summary tracking utilization percentage
+  - Tags: `key_type` (user, service, ip, auth)
+  - Use for: Understanding if limits are reasonable or being approached (0-100%)
+
+- `rate.limit.failures`: Counter tracking rate limiting mechanism failures
+  - Tags: `exception_type` (exception class name)
+  - Use for: Detecting when the rate limiting system itself fails (e.g., Redis connection issues)
+
+**Example Prometheus Queries:**
+
+```promql
+# Count of rate limit violations by type
+sum(rate(rate_limit_violations_total[5m])) by (key_type)
+
+# Specific IPs or users hitting limits
+sum(rate(rate_limit_violations_total[5m])) by (identifier)
+
+# Average utilization by key type (are limits reasonable?)
+avg(rate_limit_utilization) by (key_type)
+
+# Requests blocked vs allowed
+sum(rate(rate_limit_requests_total[5m])) by (status)
+
+# Rate limiting system failures
+sum(rate(rate_limit_failures_total[5m])) by (exception_type)
+```
+
+**Grafana Dashboard Recommendations:**
+
+- **Violations Panel**: Show `rate_limit_violations_total` grouped by `identifier` to identify problematic IPs/users
+- **Utilization Panel**: Show `rate_limit_utilization` as a gauge or time series to see if limits are being approached
+- **Overview Panel**: Show `rate_limit_requests_total` with `status=blocked` vs `status=allowed` for general health
+
 ### Custom Metrics
 
 Use `ApplicationMetrics` from the `common` library to record custom business metrics:
@@ -149,6 +199,8 @@ Custom metrics can add additional tags:
 - `api`: External API name (`textkernel`, `cognito`)
 - `operation`: Database operation (`find`, `save`, `delete`)
 - `entity`: Entity type (`candidate`, `match`)
+- `key_type`: Rate limit key type (`user`, `service`, `ip`, `auth`)
+- `identifier`: Rate limit identifier (username, serviceId, IP address)
 
 ## Best Practices
 
