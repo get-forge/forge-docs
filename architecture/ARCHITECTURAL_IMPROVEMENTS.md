@@ -45,7 +45,7 @@ This document identifies high-impact architectural improvements aligned with ent
 
 ### 1.1 Metrics Implementation (CRITICAL)
 
-**Status:** ~65% Complete  
+**Status:** ~75% Complete  
 **Last Updated:** 2025-01-27
 
 **Current State:** 
@@ -55,10 +55,11 @@ This document identifies high-impact architectural improvements aligned with ent
 - ✅ Four dashboards created (HTTP, User, JVM, Rate Limiting metrics)
 - ✅ Authentication metrics implemented in AuthService
 - ✅ Rate limiting metrics fully implemented with comprehensive dashboard
+- ✅ External API call metrics (TextKernel) implemented in document-service and match-service
 - ⚠️ Custom business metrics infrastructure exists but not fully utilized
 - ❌ CloudWatch integration not implemented
 
-**Impact:** Basic metrics infrastructure is operational with rate limiting metrics complete. Custom business metrics (external APIs, database operations, circuit breakers) are not yet instrumented, limiting production observability.
+**Impact:** Basic metrics infrastructure is operational with rate limiting and external API metrics complete. Database operation metrics and circuit breaker metrics are not yet instrumented, limiting production observability. AWS service metrics (Cognito, S3, DynamoDB) are intentionally excluded - health checks provide sufficient dependency monitoring.
 
 **Completed:**
 
@@ -80,16 +81,26 @@ This document identifies high-impact architectural improvements aligned with ent
    - `ApplicationMetrics` class with methods for all metric types
    - Authentication metrics implemented in `AuthService`
    - Rate limiting metrics fully implemented via `ThrottleMetricsHandler` with comprehensive tracking
+   - External API call metrics (TextKernel) implemented in `document-service` and `match-service`, tested in Grafana
 
 **Remaining Work:**
 
-1. **Add Custom Business Metrics** (6-9 hours)
-   - ❌ External API call metrics (TextKernel, Cognito) - methods exist, not used
+1. **Add Custom Business Metrics** (4-6 hours)
+   - ✅ External API call metrics (TextKernel) - implemented in document-service and match-service
    - ❌ Database operation metrics - methods exist, not used in repositories
    - ❌ Circuit breaker state transitions - methods exist, not used
-   - ❌ Token validation metrics - not implemented
    - ⚠️ Error rate by endpoint - available via HTTP status codes, not explicit metric
-   - ⚠️ Database connection pool metrics - may be automatic, needs verification
+   - ❌ Database connection pool metrics - needs implementation (next priority)
+
+**Decision - AWS Service Metrics (Cognito, S3, DynamoDB):**
+Metrics for AWS-managed services are **not recommended** because:
+- AWS already provides CloudWatch metrics for their services
+- Health checks (already implemented) catch availability issues
+- Application-level metrics (HTTP latency, error rates) already reflect AWS service performance
+- AWS outages are well-publicized and affect all customers
+- Adds code complexity with limited operational value
+
+Health checks are sufficient for AWS services - they provide the necessary dependency status for load balancers and operators without the overhead of custom metrics.
 
 2. **Integrate with CloudWatch Metrics** (2-3 hours)
    - Add `micrometer-registry-cloudwatch2` dependency
@@ -110,7 +121,7 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 **See:** `docs/architecture/METRICS_IMPLEMENTATION_STATUS.md` for detailed status  
 **See:** `docs/architecture/METRICS_SECURITY.md` for security analysis (superseded by infrastructure-based approach)
 
-**Effort Remaining:** ~10-15 hours (1.5-2 days)  
+**Effort Remaining:** ~6-9 hours (1 day)  
 **Value:** Critical for production operations
 
 ---
@@ -643,7 +654,7 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 ## Implementation Roadmap
 
 ### Phase 1: Critical Production Blockers (Week 1-2)
-1. ✅ Metrics implementation (1.1) - ~65% complete (rate limiting metrics done, business metrics pending)
+1. ✅ Metrics implementation (1.1) - ~75% complete (rate limiting and external API metrics done, database and circuit breaker metrics pending)
 2. ✅ Enhanced health checks (1.2) - ~90% complete
 3. ✅ Rate limiting (1.3) - ~95% complete (distributed rate limiting deferred)
 
