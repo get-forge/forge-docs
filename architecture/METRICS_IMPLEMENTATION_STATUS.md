@@ -51,12 +51,10 @@
 #### 1. Custom Business Metrics Usage
 
 **External API Call Metrics:**
-- ❌ TextKernel API calls not instrumented
+- ✅ TextKernel API calls instrumented in document-service and match-service
   - Location: `TextkernelTxParserService.parseResume()`, `parseJobSpec()`
-  - Should record: duration, success/failure
-- ❌ Cognito API calls not instrumented
-  - Location: `CognitoUserAuthenticationProvider`, `CognitoServiceAuthenticationProvider`
-  - Should record: token validation duration, user operations duration
+  - Records: duration, success/failure
+- ⚠️ Cognito API calls - intentionally excluded (see decision below)
 
 **Database Operation Metrics:**
 - ❌ Repository operations not instrumented
@@ -76,14 +74,19 @@
 - Could be derived from `http_server_requests_seconds_count{status=~"4..|5.."}`
 
 **Token Validation Metrics:**
-- ❌ Not implemented
-  - Location: `TokenAuthenticationFilter`, `BaseCognitoTokenValidator`
-  - Should record: validation duration, success/failure rate
+- ⚠️ Intentionally excluded - Cognito-related metrics not recommended (see decision below)
 
 **Database Connection Pool Metrics:**
-- ⚠️ May be automatically available if HikariCP is used
 - ❌ Not verified or documented
-- Should check: `hikaricp_connections_active`, `hikaricp_connections_idle`, etc.
+- Should check: `hikaricp_connections_active`, `hikaricp_connections_idle`, etc. (if HikariCP is used)
+
+**AWS Service Metrics Decision:**
+Metrics for AWS-managed services (Cognito, S3, DynamoDB) are **intentionally excluded**:
+- AWS provides CloudWatch metrics for their services
+- Health checks (already implemented) catch availability issues
+- Application-level metrics (HTTP latency, error rates) already reflect AWS service performance
+- AWS outages are well-publicized
+- Health checks provide sufficient dependency monitoring without custom metrics overhead
 
 #### 2. Production Readiness
 
@@ -98,10 +101,9 @@
 
 ### Priority 1: Complete Custom Metrics Implementation
 
-1. **Add External API Metrics** (2-3 hours)
-   - Instrument `TextkernelTxParserService` methods
-   - Instrument Cognito provider methods
-   - Record duration and failure metrics
+1. **Add External API Metrics** (✅ Complete)
+   - ✅ TextKernel API metrics implemented in document-service and match-service
+   - ⚠️ Cognito metrics intentionally excluded (see AWS Service Metrics Decision above)
 
 2. **Add Database Operation Metrics** (2-3 hours)
    - Wrap repository methods with timing
