@@ -45,7 +45,7 @@ This document identifies high-impact architectural improvements aligned with ent
 
 ### 1.1 Metrics Implementation (CRITICAL)
 
-**Status:** ~85% Complete  
+**Status:** ~95% Complete  
 **Last Updated:** 2025-01-27
 
 **Current State:** 
@@ -58,10 +58,10 @@ This document identifies high-impact architectural improvements aligned with ent
 - ✅ External API call metrics (TextKernel) implemented in document-service and match-service
 - ✅ Database operation metrics implemented via `@DatabaseMetrics` interceptor pattern
 - ✅ Database connection pool metrics (Agroal) enabled and visualized
-- ⚠️ Circuit breaker state transition metrics not yet instrumented
-- ❌ CloudWatch integration not implemented
+- ✅️ Circuit breaker state transition metrics captured and displayed
+- ⏸️ CloudWatch integration deferred to production infrastructure work
 
-**Impact:** Metrics infrastructure is production-ready with comprehensive coverage of application operations, external APIs, database operations, and connection pools. Circuit breaker metrics remain pending but are lower priority given existing fault tolerance observability.
+**Impact:** Metrics infrastructure is production-ready with comprehensive coverage of application operations, external APIs, database operations, and connection pools. All necessary application-level metrics are implemented and operational.
 
 **Completed:**
 
@@ -81,21 +81,16 @@ This document identifies high-impact architectural improvements aligned with ent
      - Bravo Infrastructure Metrics (TextKernel API, database operation duration, database connection pool metrics)
 
 3. **✅ Metrics Infrastructure**
-   - `ApplicationMetrics` class with methods for all metric types
    - Authentication metrics implemented in `AuthService`
    - Rate limiting metrics fully implemented via `ThrottleMetricsHandler` with comprehensive tracking
    - External API call metrics (TextKernel) implemented in `document-service` and `match-service`, tested in Grafana
    - Database operation metrics implemented via `@DatabaseMetrics` annotation and `DatabaseMetricsInterceptor` for automatic timing collection
    - Database connection pool metrics (Agroal) automatically exposed and visualized in Infrastructure dashboard
+   - Error rate by endpoint visualized via heatmap and table panels (derived from HTTP status codes)
+   - Circuit breaker state transitions implemented with `@CircuitBreakerMetrics` for automatic state change recording
 
-**Remaining Work:**
-
-1. **Add Custom Business Metrics** (1-2 hours)
-   - ✅ External API call metrics (TextKernel) - implemented in document-service and match-service
-   - ✅ Database connection pool metrics - enabled (Agroal metrics automatically exposed, dashboard panels added)
-   - ✅ Error rate by endpoint - visualized via heatmap and table panels (derived from HTTP status codes)
-   - ✅ Database operation metrics - implemented via `@DatabaseMetrics` interceptor, applied to all repositories (Candidate, ParsedResume, ParsedJobSpec, Match), visualized in Infrastructure dashboard with Average and Max duration panels
-   - ❌ Circuit breaker state transitions - methods exist in `ApplicationMetrics`, not yet used in repositories
+**Decision - Business Event Metrics:**
+Additional business event metrics beyond the current implementation are **not required**. The existing metrics (HTTP, authentication, rate limiting, external API calls, database operations, and connection pools) provide sufficient operational visibility. Business events are adequately captured through HTTP request metrics and application logs.
 
 **Decision - AWS Service Metrics (Cognito, S3, DynamoDB):**
 Metrics for AWS-managed services are **not recommended** because:
@@ -107,14 +102,13 @@ Metrics for AWS-managed services are **not recommended** because:
 
 Health checks are sufficient for AWS services - they provide the necessary dependency status for load balancers and operators without the overhead of custom metrics.
 
-2. **Integrate with CloudWatch Metrics** (2-3 hours)
+**Deferred Work:**
+
+1. **CloudWatch Integration** (deferred to production infrastructure work)
    - Add `micrometer-registry-cloudwatch2` dependency
    - Configure for production environment
    - Document metrics export strategy
-
-3. **Circuit Breaker Metrics** (1-2 hours)
-   - Call `ApplicationMetrics.recordCircuitBreakerStateChange()` in repository methods where circuit breakers are used
-   - Add circuit breaker state dashboard panel to Infrastructure dashboard
+   - Will be addressed as part of production infrastructure setup
 
 **Security Decision - Metrics Endpoint Protection:**
 
@@ -130,8 +124,8 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 **See:** `docs/architecture/METRICS_IMPLEMENTATION_STATUS.md` for detailed status  
 **See:** `docs/architecture/METRICS_SECURITY.md` for security analysis (superseded by infrastructure-based approach)
 
-**Effort Remaining:** ~3-5 hours (0.5 day)  
-**Value:** Critical for production operations
+**Effort Remaining:** CloudWatch integration deferred to production infrastructure work  
+**Value:** Critical for production operations - application-level metrics complete and production-ready
 
 ---
 
@@ -273,33 +267,28 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 
 ### 2.1 Metrics Dashboard & Alerting
 
-**Current State:** Basic dashboards implemented (see 1.1). Four dashboards operational: HTTP metrics, User metrics, JVM metrics, and Rate Limiting metrics. Alerting and CloudWatch integration pending.
+**Current State:** Five dashboards operational: HTTP metrics, User metrics, JVM metrics, Rate Limiting metrics, and Infrastructure metrics (see 1.1). Production alerting and CloudWatch integration deferred to production infrastructure work.
 
 **Completed:**
 - ✅ Prometheus + Grafana infrastructure in `compose.yml`
-- ✅ Four pre-configured dashboards:
+- ✅ Five pre-configured dashboards:
   - Request rates and latencies (HTTP metrics)
   - Authentication attempts (User metrics)
   - JVM metrics (heap, GC, threads)
   - Rate limiting metrics (requests, violations, utilization)
+  - Infrastructure metrics (external API calls, database operations, connection pools)
 
-**Remaining Work:**
+**Deferred Work:**
 
-1. **Production Alerting**
-
+1. **Production Alerting** (deferred to production infrastructure work)
    - CloudWatch Dashboards (migrate from Grafana or replicate)
    - CloudWatch Alarms for:
      - High error rates
-     - Circuit breaker open
      - High latency (p95, p99)
      - Dependency health check failures
      - Rate limit violations (high volume)
 
-2. **Circuit Breaker State Dashboard**
-   - Dashboard for circuit breaker state transitions
-   - Requires circuit breaker metrics implementation (see 1.1)
-
-**Effort:** Medium (2-3 days)  
+**Effort:** Medium (2-3 days) - deferred to production infrastructure work  
 **Value:** High - operational visibility
 
 ---
@@ -663,7 +652,7 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 ## Implementation Roadmap
 
 ### Phase 1: Critical Production Blockers (Week 1-2)
-1. ✅ Metrics implementation (1.1) - ~85% complete (rate limiting, external API, database operation, and database connection pool metrics done; circuit breaker metrics pending)
+1. ✅ Metrics implementation (1.1) - ~95% complete (all application-level metrics implemented; CloudWatch integration deferred to production infrastructure work)
 2. ✅ Enhanced health checks (1.2) - ~90% complete
 3. ✅ Rate limiting (1.3) - ~95% complete (distributed rate limiting deferred)
 
