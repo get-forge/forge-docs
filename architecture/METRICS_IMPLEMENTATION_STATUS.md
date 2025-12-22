@@ -77,8 +77,9 @@
 - ⚠️ Intentionally excluded - Cognito-related metrics not recommended (see decision below)
 
 **Database Connection Pool Metrics:**
-- ❌ Not verified or documented
-- Should check: `hikaricp_connections_active`, `hikaricp_connections_idle`, etc. (if HikariCP is used)
+- ✅ Enabled and verified - Agroal metrics automatically exposed
+- Available metrics: `agroal_active_count`, `agroal_available_count`, `agroal_awaiting_count`, etc.
+- Configuration: `quarkus.datasource.metrics.enabled=true` in `database.properties`
 
 **AWS Service Metrics Decision:**
 Metrics for AWS-managed services (Cognito, S3, DynamoDB) are **intentionally excluded**:
