@@ -45,21 +45,23 @@ This document identifies high-impact architectural improvements aligned with ent
 
 ### 1.1 Metrics Implementation (CRITICAL)
 
-**Status:** ~80% Complete  
+**Status:** ~85% Complete  
 **Last Updated:** 2025-01-27
 
 **Current State:** 
 - ✅ Micrometer configured and Prometheus registry enabled
 - ✅ Metrics endpoint working (`/q/metrics`)
 - ✅ Prometheus and Grafana infrastructure set up
-- ✅ Four dashboards created (HTTP, User, JVM, Rate Limiting metrics)
+- ✅ Five dashboards created (HTTP, User, JVM, Rate Limiting, Infrastructure metrics)
 - ✅ Authentication metrics implemented in AuthService
 - ✅ Rate limiting metrics fully implemented with comprehensive dashboard
 - ✅ External API call metrics (TextKernel) implemented in document-service and match-service
-- ⚠️ Custom business metrics infrastructure exists but not fully utilized
+- ✅ Database operation metrics implemented via `@DatabaseMetrics` interceptor pattern
+- ✅ Database connection pool metrics (Agroal) enabled and visualized
+- ⚠️ Circuit breaker state transition metrics not yet instrumented
 - ❌ CloudWatch integration not implemented
 
-**Impact:** Basic metrics infrastructure is operational with rate limiting and external API metrics complete. Database operation metrics and circuit breaker metrics are not yet instrumented, limiting production observability. AWS service metrics (Cognito, S3, DynamoDB) are intentionally excluded - health checks provide sufficient dependency monitoring.
+**Impact:** Metrics infrastructure is production-ready with comprehensive coverage of application operations, external APIs, database operations, and connection pools. Circuit breaker metrics remain pending but are lower priority given existing fault tolerance observability.
 
 **Completed:**
 
@@ -76,22 +78,24 @@ This document identifies high-impact architectural improvements aligned with ent
      - Bravo User Metrics (authentication attempts)
      - Quarkus JVM Metrics (per-service memory, GC, threads)
      - Bravo Throttle Metrics (rate limiting requests, violations, utilization)
-     - Bravo Infrastructure Metrics (TextKernel API, database connection pool metrics)
+     - Bravo Infrastructure Metrics (TextKernel API, database operation duration, database connection pool metrics)
 
 3. **✅ Metrics Infrastructure**
    - `ApplicationMetrics` class with methods for all metric types
    - Authentication metrics implemented in `AuthService`
    - Rate limiting metrics fully implemented via `ThrottleMetricsHandler` with comprehensive tracking
    - External API call metrics (TextKernel) implemented in `document-service` and `match-service`, tested in Grafana
+   - Database operation metrics implemented via `@DatabaseMetrics` annotation and `DatabaseMetricsInterceptor` for automatic timing collection
+   - Database connection pool metrics (Agroal) automatically exposed and visualized in Infrastructure dashboard
 
 **Remaining Work:**
 
-1. **Add Custom Business Metrics** (2-4 hours)
+1. **Add Custom Business Metrics** (1-2 hours)
    - ✅ External API call metrics (TextKernel) - implemented in document-service and match-service
    - ✅ Database connection pool metrics - enabled (Agroal metrics automatically exposed, dashboard panels added)
    - ✅ Error rate by endpoint - visualized via heatmap and table panels (derived from HTTP status codes)
-   - ❌ Database operation metrics - methods exist, not used in repositories
-   - ❌ Circuit breaker state transitions - methods exist, not used
+   - ✅ Database operation metrics - implemented via `@DatabaseMetrics` interceptor, applied to all repositories (Candidate, ParsedResume, ParsedJobSpec, Match), visualized in Infrastructure dashboard with Average and Max duration panels
+   - ❌ Circuit breaker state transitions - methods exist in `ApplicationMetrics`, not yet used in repositories
 
 **Decision - AWS Service Metrics (Cognito, S3, DynamoDB):**
 Metrics for AWS-managed services are **not recommended** because:
@@ -108,6 +112,10 @@ Health checks are sufficient for AWS services - they provide the necessary depen
    - Configure for production environment
    - Document metrics export strategy
 
+3. **Circuit Breaker Metrics** (1-2 hours)
+   - Call `ApplicationMetrics.recordCircuitBreakerStateChange()` in repository methods where circuit breakers are used
+   - Add circuit breaker state dashboard panel to Infrastructure dashboard
+
 **Security Decision - Metrics Endpoint Protection:**
 
 Application-level authentication for `/q/metrics` and `/q/health` endpoints is **not required** given the AWS infrastructure security layers:
@@ -122,7 +130,7 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 **See:** `docs/architecture/METRICS_IMPLEMENTATION_STATUS.md` for detailed status  
 **See:** `docs/architecture/METRICS_SECURITY.md` for security analysis (superseded by infrastructure-based approach)
 
-**Effort Remaining:** ~4-6 hours (0.5-1 day)  
+**Effort Remaining:** ~3-5 hours (0.5 day)  
 **Value:** Critical for production operations
 
 ---
@@ -655,7 +663,7 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 ## Implementation Roadmap
 
 ### Phase 1: Critical Production Blockers (Week 1-2)
-1. ✅ Metrics implementation (1.1) - ~80% complete (rate limiting, external API, and database connection pool metrics done; database operation and circuit breaker metrics pending)
+1. ✅ Metrics implementation (1.1) - ~85% complete (rate limiting, external API, database operation, and database connection pool metrics done; circuit breaker metrics pending)
 2. ✅ Enhanced health checks (1.2) - ~90% complete
 3. ✅ Rate limiting (1.3) - ~95% complete (distributed rate limiting deferred)
 
