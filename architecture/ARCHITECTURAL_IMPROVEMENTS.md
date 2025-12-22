@@ -45,19 +45,20 @@ This document identifies high-impact architectural improvements aligned with ent
 
 ### 1.1 Metrics Implementation (CRITICAL)
 
-**Status:** ~60% Complete  
-**Last Updated:** 2025-01-17
+**Status:** ~65% Complete  
+**Last Updated:** 2025-01-27
 
 **Current State:** 
 - ✅ Micrometer configured and Prometheus registry enabled
 - ✅ Metrics endpoint working (`/q/metrics`)
 - ✅ Prometheus and Grafana infrastructure set up
-- ✅ Three dashboards created (HTTP, User, JVM metrics)
+- ✅ Four dashboards created (HTTP, User, JVM, Rate Limiting metrics)
 - ✅ Authentication metrics implemented in AuthService
+- ✅ Rate limiting metrics fully implemented with comprehensive dashboard
 - ⚠️ Custom business metrics infrastructure exists but not fully utilized
 - ❌ CloudWatch integration not implemented
 
-**Impact:** Basic metrics infrastructure is operational. Custom business metrics (external APIs, database operations, circuit breakers) are not yet instrumented, limiting production observability.
+**Impact:** Basic metrics infrastructure is operational with rate limiting metrics complete. Custom business metrics (external APIs, database operations, circuit breakers) are not yet instrumented, limiting production observability.
 
 **Completed:**
 
@@ -73,10 +74,12 @@ This document identifies high-impact architectural improvements aligned with ent
      - Quarkus HTTP Metrics (request rate, duration, status codes)
      - Bravo User Metrics (authentication attempts)
      - Quarkus JVM Metrics (per-service memory, GC, threads)
+     - Bravo Throttle Metrics (rate limiting requests, violations, utilization)
 
 3. **✅ Metrics Infrastructure**
    - `ApplicationMetrics` class with methods for all metric types
    - Authentication metrics implemented in `AuthService`
+   - Rate limiting metrics fully implemented via `ThrottleMetricsHandler` with comprehensive tracking
 
 **Remaining Work:**
 
@@ -170,7 +173,7 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 ### 1.3 Rate Limiting
 
 **Status:** ~95% Complete  
-**Last Updated:** 2025-12-18
+**Last Updated:** 2025-01-27
 
 **Current State:** Application-level rate limiting is fully implemented using Bucket4j with per-user, per-service, and per-IP limits. The system includes comprehensive metrics collection and Grafana dashboards for monitoring. Rate limiting runs before authentication to protect all endpoints, including public authentication endpoints.
 
@@ -250,25 +253,31 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 
 ### 2.1 Metrics Dashboard & Alerting
 
-**Current State:** Metrics not implemented (see 1.1).
+**Current State:** Basic dashboards implemented (see 1.1). Four dashboards operational: HTTP metrics, User metrics, JVM metrics, and Rate Limiting metrics. Alerting and CloudWatch integration pending.
 
-**Recommendations:**
+**Completed:**
+- ✅ Prometheus + Grafana infrastructure in `compose.yml`
+- ✅ Four pre-configured dashboards:
+  - Request rates and latencies (HTTP metrics)
+  - Authentication attempts (User metrics)
+  - JVM metrics (heap, GC, threads)
+  - Rate limiting metrics (requests, violations, utilization)
 
-1. **Local Development**
-   - Prometheus + Grafana in `compose.yml`
-   - Pre-configured dashboards for:
-     - Request rates and latencies
-     - Error rates
-     - Circuit breaker states
-     - JVM metrics (heap, GC, threads)
+**Remaining Work:**
 
-2. **Production (AWS)**
-   - CloudWatch Dashboards
+1. **Production Alerting**
+
+   - CloudWatch Dashboards (migrate from Grafana or replicate)
    - CloudWatch Alarms for:
      - High error rates
      - Circuit breaker open
      - High latency (p95, p99)
      - Dependency health check failures
+     - Rate limit violations (high volume)
+
+2. **Circuit Breaker State Dashboard**
+   - Dashboard for circuit breaker state transitions
+   - Requires circuit breaker metrics implementation (see 1.1)
 
 **Effort:** Medium (2-3 days)  
 **Value:** High - operational visibility
@@ -634,7 +643,7 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 ## Implementation Roadmap
 
 ### Phase 1: Critical Production Blockers (Week 1-2)
-1. ✅ Metrics implementation (1.1) - ~60% complete
+1. ✅ Metrics implementation (1.1) - ~65% complete (rate limiting metrics done, business metrics pending)
 2. ✅ Enhanced health checks (1.2) - ~90% complete
 3. ✅ Rate limiting (1.3) - ~95% complete (distributed rate limiting deferred)
 
