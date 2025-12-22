@@ -45,7 +45,7 @@ This document identifies high-impact architectural improvements aligned with ent
 
 ### 1.1 Metrics Implementation (CRITICAL)
 
-**Status:** ~75% Complete  
+**Status:** ~80% Complete  
 **Last Updated:** 2025-01-27
 
 **Current State:** 
@@ -72,10 +72,11 @@ This document identifies high-impact architectural improvements aligned with ent
 2. **✅ Infrastructure Setup**
    - Prometheus scraping all services
    - Grafana dashboards:
-     - Quarkus HTTP Metrics (request rate, duration, status codes)
+     - Quarkus HTTP Metrics (request rate, duration, status codes, error rate heatmap by endpoint)
      - Bravo User Metrics (authentication attempts)
      - Quarkus JVM Metrics (per-service memory, GC, threads)
      - Bravo Throttle Metrics (rate limiting requests, violations, utilization)
+     - Bravo Infrastructure Metrics (TextKernel API, database connection pool metrics)
 
 3. **✅ Metrics Infrastructure**
    - `ApplicationMetrics` class with methods for all metric types
@@ -85,12 +86,12 @@ This document identifies high-impact architectural improvements aligned with ent
 
 **Remaining Work:**
 
-1. **Add Custom Business Metrics** (4-6 hours)
+1. **Add Custom Business Metrics** (2-4 hours)
    - ✅ External API call metrics (TextKernel) - implemented in document-service and match-service
+   - ✅ Database connection pool metrics - enabled (Agroal metrics automatically exposed, dashboard panels added)
+   - ✅ Error rate by endpoint - visualized via heatmap and table panels (derived from HTTP status codes)
    - ❌ Database operation metrics - methods exist, not used in repositories
    - ❌ Circuit breaker state transitions - methods exist, not used
-   - ⚠️ Error rate by endpoint - available via HTTP status codes, not explicit metric
-   - ❌ Database connection pool metrics - needs implementation (next priority)
 
 **Decision - AWS Service Metrics (Cognito, S3, DynamoDB):**
 Metrics for AWS-managed services are **not recommended** because:
@@ -121,7 +122,7 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 **See:** `docs/architecture/METRICS_IMPLEMENTATION_STATUS.md` for detailed status  
 **See:** `docs/architecture/METRICS_SECURITY.md` for security analysis (superseded by infrastructure-based approach)
 
-**Effort Remaining:** ~6-9 hours (1 day)  
+**Effort Remaining:** ~4-6 hours (0.5-1 day)  
 **Value:** Critical for production operations
 
 ---
@@ -654,7 +655,7 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 ## Implementation Roadmap
 
 ### Phase 1: Critical Production Blockers (Week 1-2)
-1. ✅ Metrics implementation (1.1) - ~75% complete (rate limiting and external API metrics done, database and circuit breaker metrics pending)
+1. ✅ Metrics implementation (1.1) - ~80% complete (rate limiting, external API, and database connection pool metrics done; database operation and circuit breaker metrics pending)
 2. ✅ Enhanced health checks (1.2) - ~90% complete
 3. ✅ Rate limiting (1.3) - ~95% complete (distributed rate limiting deferred)
 

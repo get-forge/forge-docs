@@ -16,7 +16,7 @@ The following metrics are automatically collected by Quarkus/Micrometer:
 - **JVM Metrics**: Heap usage, GC, threads (`jvm.*`)
 - **System Metrics**: CPU, memory, disk (`system.*`)
 - **Process Metrics**: Uptime (`process.*`)
-- **Database Metrics**: Connection pool stats (if using HikariCP)
+- **Database Metrics**: Agroal connection pool stats (enabled via `quarkus.datasource.metrics.enabled=true`)
 
 ### Rate Limiting Metrics
 
@@ -67,6 +67,137 @@ sum(rate(rate_limit_failures_total[5m])) by (exception_type)
 - **Violations Panel**: Show `rate_limit_violations_total` grouped by `identifier` to identify problematic IPs/users
 - **Utilization Panel**: Show `rate_limit_utilization` as a gauge or time series to see if limits are being approached
 - **Overview Panel**: Show `rate_limit_requests_total` with `status=blocked` vs `status=allowed` for general health
+
+### HTTP Error Rate Visualization
+
+Error rates by endpoint are **derived** from HTTP status code metrics rather than being a separate explicit metric. This approach is standard practice and provides the same operational value.
+
+**Available in Grafana Dashboard:**
+
+The "Quarkus HTTP Metrics" dashboard includes two error rate visualizations:
+
+1. **Error Rate Table**: Shows current error rate percentage per endpoint
+   - Color-coded: Green (<1%), Yellow (1-5%), Red (>5%)
+   - Sorted by highest error rate first
+   - Useful for quick identification of problematic endpoints
+
+2. **Error Rate Heatmap**: Shows error rate trends over time by endpoint
+   - Y-axis: Endpoints (sorted by name)
+   - X-axis: Time
+   - Color intensity: Error rate percentage (green → yellow → orange → red)
+   - Perfect for spotting patterns: "Which endpoints have been failing this week?"
+
+**Prometheus Queries:**
+
+```promql
+# Error rate percentage by endpoint (current)
+sum(rate(http_server_requests_seconds_count{status=~"4..|5.."}[5m])) by (uri) 
+/ 
+sum(rate(http_server_requests_seconds_count[5m])) by (uri) * 100
+
+# Error count by endpoint and status code
+sum(rate(http_server_requests_seconds_count{status=~"4..|5.."}[5m])) by (uri, status)
+
+# Total error rate across all endpoints
+sum(rate(http_server_requests_seconds_count{status=~"4..|5.."}[5m])) 
+/ 
+sum(rate(http_server_requests_seconds_count[5m])) * 100
+```
+
+**Why Not an Explicit Metric?**
+
+- **No code changes needed**: Uses existing HTTP metrics automatically collected
+- **Lower overhead**: No additional metric collection in application code
+- **Standard practice**: Most observability stacks derive error rates from HTTP status codes
+- **Same operational value**: Provides identical insights to an explicit metric
+
+If you need more granular error categorization (e.g., "validation errors" vs "database errors"), you could add explicit metrics, but for general "is this endpoint failing?" visibility, derived metrics are sufficient.
+
+### Database Connection Pool Metrics
+
+Quarkus automatically provides **Agroal connection pool metrics** when enabled. Quarkus uses Agroal as its default connection pool (not HikariCP). These metrics are essential for monitoring database connection health and identifying connection pool exhaustion issues.
+
+**Configuration:**
+
+Enable in `database.properties`:
+```properties
+quarkus.datasource.metrics.enabled=true
+quarkus.datasource.jdbc.enable-metrics=true
+```
+
+**Available Metrics:**
+
+All metrics are prefixed with `agroal_` and include:
+
+**Connection Pool Status:**
+- `agroal_active_count` - Current number of active connections in use
+- `agroal_available_count` - Current number of idle connections available
+- `agroal_awaiting_count` - Current number of threads waiting to acquire a connection
+- `agroal_max_used_count` - Maximum number of connections active simultaneously
+
+**Connection Lifecycle:**
+- `agroal_acquire_count_total` - Total number of successful connection acquisitions
+- `agroal_creation_count_total` - Total number of connections created
+- `agroal_destroy_count_total` - Total number of connections destroyed
+- `agroal_reap_count_total` - Total number of connections removed for being idle
+- `agroal_invalid_count_total` - Total number of invalid connections removed
+- `agroal_flush_count_total` - Total number of connections flushed from pool
+
+**Performance Metrics:**
+- `agroal_blocking_time_average_milliseconds` - Average time waiting to acquire a connection
+- `agroal_blocking_time_max_milliseconds` - Maximum time waiting to acquire a connection
+- `agroal_blocking_time_total_milliseconds` - Total time spent waiting for connections
+- `agroal_creation_time_average_milliseconds` - Average time to create a connection
+- `agroal_creation_time_max_milliseconds` - Maximum time to create a connection
+- `agroal_creation_time_total_milliseconds` - Total time spent creating connections
+
+**Leak Detection:**
+- `agroal_leak_detection_count_total` - Number of connection leaks detected
+
+**Prometheus Queries:**
+
+```promql
+# Current active connections
+agroal_active_count{datasource="default"}
+
+# Current available (idle) connections
+agroal_available_count{datasource="default"}
+
+# Connection pool utilization (requires knowing max pool size from config)
+# Example: if max-size=20
+(agroal_active_count{datasource="default"} / 20) * 100
+
+# Average connection acquisition time
+agroal_blocking_time_average_milliseconds{datasource="default"}
+
+# Maximum connection acquisition time
+agroal_blocking_time_max_milliseconds{datasource="default"}
+
+# Pending connection requests (indicates pool exhaustion)
+agroal_awaiting_count{datasource="default"}
+
+# Connection acquisition rate
+rate(agroal_acquire_count_total{datasource="default"}[5m])
+
+# Connection leak detection
+rate(agroal_leak_detection_count_total{datasource="default"}[5m])
+```
+
+**Grafana Dashboard Recommendations:**
+
+- **Connection Pool Status**: Gauge showing active/available/max connections
+- **Connection Utilization**: Percentage gauge (active/max pool size)
+- **Connection Acquisition Time**: Time series showing average and max blocking time
+- **Connection Creation Time**: Time series showing average and max creation time
+- **Pending Connections**: Alert when > 0 (indicates pool exhaustion)
+- **Connection Leaks**: Counter showing leak detection rate
+
+**Alerting Thresholds:**
+
+- **Warning**: `agroal_awaiting_count{datasource="default"} > 0` (threads waiting for connections)
+- **Warning**: `agroal_blocking_time_average_milliseconds{datasource="default"} > 100` (avg acquisition time > 100ms)
+- **Critical**: `agroal_awaiting_count{datasource="default"} > 5` (multiple threads waiting)
+- **Critical**: `rate(agroal_leak_detection_count_total{datasource="default"}[5m]) > 0` (connection leaks detected)
 
 ### Custom Metrics
 
