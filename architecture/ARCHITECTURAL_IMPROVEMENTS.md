@@ -267,6 +267,9 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 
 ### 2.1 Metrics Dashboard & Alerting
 
+**Status:** ~85% Complete  
+**Last Updated:** 2025-01-27
+
 **Current State:** Five dashboards operational: HTTP metrics, User metrics, JVM metrics, Rate Limiting metrics, and Infrastructure metrics (see 1.1). Production alerting and CloudWatch integration deferred to production infrastructure work.
 
 **Completed:**
@@ -278,7 +281,7 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
   - Rate limiting metrics (requests, violations, utilization)
   - Infrastructure metrics (external API calls, database operations, connection pools)
 
-**Deferred Work:**
+**Remaining Work:**
 
 1. **Production Alerting** (deferred to production infrastructure work)
    - CloudWatch Dashboards (migrate from Grafana or replicate)
@@ -288,7 +291,7 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
      - Dependency health check failures
      - Rate limit violations (high volume)
 
-**Effort:** Medium (2-3 days) - deferred to production infrastructure work  
+**Effort Remaining:** Medium (2-3 days) - deferred to production infrastructure work  
 **Value:** High - operational visibility
 
 ---
@@ -349,25 +352,37 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 
 ### 3.1 Cyclomatic Complexity Metrics
 
-**Current State:** Static analysis present but no complexity metrics.
+**Status:** ~100% Complete  
+**Last Updated:** 2025-01-27
 
-**Impact:** Cannot identify overly complex code that's hard to maintain.
+**Current State:** Cyclomatic and cognitive complexity thresholds are implemented using Maven PMD plugin with configured rules that fail the build on violations. The complexity analysis runs automatically during the Maven verify phase as part of the static analysis workflow.
 
-**Recommendations:**
+**Impact:** Overly complex code is now automatically identified during builds, preventing maintainability issues from entering the codebase.
 
-1. **Add Complexity Analysis**
-   - Use `javancss-maven-plugin` or `sonar-maven-plugin`
-   - Set complexity thresholds:
-     - Warning at 10
-     - Error at 15
-   - Fail build on high complexity
+**Completed:**
 
-2. **CI Integration**
-   - Add complexity report to static analysis workflow
-   - Track complexity trends over time
+1. **✅ Maven PMD Plugin Configuration**
+   - `maven-pmd-plugin` configured in root `pom.xml`
+   - Plugin version: 3.28.0
+   - Configured to fail build on violations (`failOnViolation: true`)
+   - Runs during `verify` phase as part of static analysis workflow
 
-**Effort:** Low (0.5 days)  
-**Value:** Medium - long-term maintainability
+2. **✅ Complexity Rules Configuration**
+   - Custom ruleset file: `.pmd-rules.xml`
+   - **Cyclomatic Complexity:**
+     - Method threshold: 10 (reports violations above this level)
+     - Class threshold: 20 (utility class tolerance)
+   - **Cognitive Complexity:**
+     - Threshold: 15 (reports violations above this level)
+   - Both rules enforce build failure on violations
+
+3. **✅ CI Integration**
+   - Complexity analysis integrated into static analysis workflow
+   - Build fails if complexity thresholds are exceeded
+   - Violations are printed during build for immediate feedback
+
+**Effort Remaining:** None  
+**Value:** Medium - long-term maintainability (achieved)
 
 ---
 
@@ -414,22 +429,43 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 
 ### 3.3 API Documentation Enhancement
 
-**Current State:** OpenAPI/Swagger UI enabled.
+**Status:** ~90% Complete  
+**Last Updated:** 2025-01-27
 
-**Recommendations:**
+**Current State:** OpenAPI/Swagger UI enabled. All DTOs documented with `@Schema` annotations. Controllers and Resources use minimal JAX-RS annotations only - documentation is pushed down to DTOs for maintainability.
 
-1. **Enhance OpenAPI Annotations**
-   - Add detailed descriptions for all endpoints
-   - Document error responses (400, 401, 403, 500)
-   - Add examples for request/response bodies
-   - Document authentication requirements
+**Completed:**
 
-2. **API Versioning Strategy**
+1. **✅ DTO Documentation (Lightweight Approach)**
+   - All request/response DTOs annotated with `@Schema` including:
+     - Field descriptions
+     - Examples for all fields
+     - Required field indicators
+   - DTOs documented:
+     - `LoginRequest`, `RegisterRequest`, `RefreshRequest`
+     - `AuthResponse`, `RegistrationResponse`, `AuthUser`
+     - `CandidateResponse`, `RegisterRequestPartialAuth`
+     - `MatchRequest`, `Match`
+     - `ResumeResponse`, `JobSpecResponse`
+     - `ErrorResponse`
+   - Added `microprofile-openapi-api` dependency to `libs/domain-dtos`
+
+2. **✅ Controller/Resource Cleanup**
+   - All `*Controller` classes in `backend-candidate` module cleaned (no OpenAPI annotations)
+   - All `*Resource` classes in services cleaned (no OpenAPI annotations)
+   - Controllers/Resources use only JAX-RS annotations (`@Path`, `@GET`, `@POST`, etc.)
+   - OpenAPI infers schemas from DTOs and endpoints from JAX-RS annotations
+   - Documentation lives in DTOs (single source of truth)
+
+**Remaining Work:**
+
+1. **API Versioning Strategy** (optional, not critical)
    - Implement URL-based versioning (`/api/v1/...`)
    - Document deprecation policy
    - Add version to OpenAPI spec
+   - Effort: Low-Medium (1-2 days)
 
-**Effort:** Low-Medium (1-2 days)  
+**Effort Remaining:** Low (1-2 days for versioning, if desired)  
 **Value:** Medium - developer experience
 
 ---
@@ -662,9 +698,9 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 3. Distributed tracing enhancement (2.3)
 
 ### Phase 3: Code Quality (Week 5)
-1. Complexity metrics (3.1)
+1. ✅ Complexity metrics (3.1) - ~100% complete
 2. Test coverage (3.2)
-3. API documentation (3.3)
+3. ✅ API documentation (3.3) - ~90% complete
 
 ### Phase 4: Performance (Week 6-7)
 1. Performance testing framework (4.1)
