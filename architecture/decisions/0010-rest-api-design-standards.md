@@ -23,7 +23,8 @@ This inconsistency made the API harder to understand, maintain, and extend. It a
 
 ## **Decision**
 
-We will adopt **RESTful API design standards** based on RFC 7231, RESTful Web Services principles, and industry best practices. All endpoints across all services must follow these standards:
+We will adopt **RESTful API design standards** based on RFC 7231, RESTful Web Services principles, and
+industry best practices. All endpoints across all services must follow these standards:
 
 ### **Core Principles**
 
@@ -110,7 +111,8 @@ public Response updateFeature(
 
 ### **Special Cases**
 
-**Authentication Endpoints**: Authentication endpoints are an exception where action-based URLs are acceptable, as they represent authentication operations, not resource operations.
+**Authentication Endpoints**: Authentication endpoints are an exception where action-based URLs are
+acceptable, as they represent authentication operations, not resource operations.
 - ✅ `POST /auth/login`
 - ✅ `POST /auth/register`
 - ✅ `POST /auth/tokens/refresh`

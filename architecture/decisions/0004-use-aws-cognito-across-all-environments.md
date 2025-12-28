@@ -5,7 +5,8 @@
 
 **Status:** Accepted
 
-**Context:** Continuation of ADR-0003 (Auth) — refines approach for authentication, authorization etc after investigation into various development tools and cost analysis
+**Context:** Continuation of ADR-0003 (Auth) — refines approach for authentication, authorization etc
+after investigation into various development tools and cost analysis
 
 ---
 
@@ -125,7 +126,8 @@ We will adopt the following strategy:
 
 ---
 
-This ADR ensures that authentication is consistent, secure, and cost-effective across all environments, while providing full functionality without expensive development tools.
+This ADR ensures that authentication is consistent, secure, and cost-effective across all environments,
+while providing full functionality without expensive development tools.
 
 ---
 

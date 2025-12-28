@@ -2,7 +2,9 @@
 
 ## Overview
 
-The Bravo application uses **fully stateless JWT-based authentication** across all modules. All authentication flows return JWT tokens that are stored client-side and included in API requests via the `Authorization` header.
+The Bravo application uses **fully stateless JWT-based authentication** across all modules. All
+authentication flows return JWT tokens that are stored client-side and included in API requests via the
+`Authorization` header.
 
 See [ADR-0011: Stateless JWT Authentication](../decisions/0011-stateless-jwt-authentication.md) for the architectural decision.
 
@@ -227,7 +229,8 @@ quarkus.oidc.authentication.redirect-path=/auth/cognito/success
 
 #### LinkedIn (Named Tenant)
 
-LinkedIn tenant is disabled (`tenant-enabled=false`) because LinkedIn OAuth2 is handled manually via custom resources, not using Quarkus OIDC's automatic flow.
+LinkedIn tenant is disabled (`tenant-enabled=false`) because LinkedIn OAuth2 is handled manually via custom
+resources, not using Quarkus OIDC's automatic flow.
 
 ```properties
 quarkus.oidc.linkedin.tenant-enabled=false

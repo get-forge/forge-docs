@@ -21,7 +21,8 @@ This inconsistency made the codebase harder to navigate, understand, and maintai
 
 ## **Decision**
 
-We will adopt **Clean Architecture package structure standards** across all modules. All services, applications, and libraries must follow these standards.
+We will adopt **Clean Architecture package structure standards** across all modules. All services,
+applications, and libraries must follow these standards.
 
 ### **Core Principles**
 

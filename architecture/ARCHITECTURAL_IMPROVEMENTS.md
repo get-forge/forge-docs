@@ -6,7 +6,9 @@
 
 ## Executive Summary
 
-This document identifies high-impact architectural improvements aligned with enterprise best practices, 12-factor app principles, and production-grade system requirements. Recommendations are prioritized by impact and effort, focusing on boilerplate and productionization rather than feature development.
+This document identifies high-impact architectural improvements aligned with enterprise best practices,
+12-factor app principles, and production-grade system requirements. Recommendations are prioritized by
+impact and effort, focusing on boilerplate and productionization rather than feature development.
 
 ## Current State Assessment
 
@@ -61,7 +63,9 @@ This document identifies high-impact architectural improvements aligned with ent
 - ✅️ Circuit breaker state transition metrics captured and displayed
 - ⏸️ CloudWatch integration deferred to production infrastructure work
 
-**Impact:** Metrics infrastructure is production-ready with comprehensive coverage of application operations, external APIs, database operations, and connection pools. All necessary application-level metrics are implemented and operational.
+**Impact:** Metrics infrastructure is production-ready with comprehensive coverage of application operations,
+external APIs, database operations, and connection pools. All necessary application-level metrics are
+implemented and operational.
 
 **Completed:**
 
@@ -90,7 +94,10 @@ This document identifies high-impact architectural improvements aligned with ent
    - Circuit breaker state transitions implemented with `@CircuitBreakerMetrics` for automatic state change recording
 
 **Decision - Business Event Metrics:**
-Additional business event metrics beyond the current implementation are **not required**. The existing metrics (HTTP, authentication, rate limiting, external API calls, database operations, and connection pools) provide sufficient operational visibility. Business events are adequately captured through HTTP request metrics and application logs.
+Additional business event metrics beyond the current implementation are **not required**. The existing
+metrics (HTTP, authentication, rate limiting, external API calls, database operations, and connection
+pools) provide sufficient operational visibility. Business events are adequately captured through HTTP
+request metrics and application logs.
 
 **Decision - AWS Service Metrics (Cognito, S3, DynamoDB):**
 Metrics for AWS-managed services are **not recommended** because:
@@ -100,7 +107,8 @@ Metrics for AWS-managed services are **not recommended** because:
 - AWS outages are well-publicized and affect all customers
 - Adds code complexity with limited operational value
 
-Health checks are sufficient for AWS services - they provide the necessary dependency status for load balancers and operators without the overhead of custom metrics.
+Health checks are sufficient for AWS services - they provide the necessary dependency status for load
+balancers and operators without the overhead of custom metrics.
 
 **Deferred Work:**
 
@@ -114,12 +122,15 @@ Health checks are sufficient for AWS services - they provide the necessary depen
 
 Application-level authentication for `/q/metrics` and `/q/health` endpoints is **not required** given the AWS infrastructure security layers:
 
-- **AWS WAF**: Programmatically configured to block `/q/metrics` and `/q/health` from external/public IPs, allowing only known monitoring system IPs (Prometheus, CloudWatch, etc.)
+- **AWS WAF**: Programmatically configured to block `/q/metrics` and `/q/health` from external/public IPs,
+  allowing only known monitoring system IPs (Prometheus, CloudWatch, etc.)
 - **Security Groups**: ECS tasks restricted to allow traffic only from ALB security groups and monitoring system security groups
 - **VPC Isolation**: Containers deployed in private subnets with no public IPs, NAT Gateway for outbound-only internet access
 - **ALB**: SSL termination and path-based routing with internal ALB for metrics/health endpoints if needed
 
-This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provides sufficient protection without requiring application-level authentication, simplifying Prometheus scraping and reducing operational complexity.
+This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provides sufficient protection without
+requiring application-level authentication, simplifying Prometheus scraping and reducing operational
+complexity.
 
 **See:** `docs/architecture/METRICS_IMPLEMENTATION_STATUS.md` for detailed status  
 **See:** `docs/architecture/METRICS_SECURITY.md` for security analysis (superseded by infrastructure-based approach)
@@ -134,9 +145,12 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 **Status:** ~90% Complete  
 **Last Updated:** 2025-01-27
 
-**Current State:** Custom readiness checks are implemented via a shared health library and per service registration classes. All critical backend dependencies (PostgreSQL, DynamoDB, S3, Cognito) now have explicit readiness checks where they are actually used.
+**Current State:** Custom readiness checks are implemented via a shared health library and per service
+registration classes. All critical backend dependencies (PostgreSQL, DynamoDB, S3, Cognito) now have
+explicit readiness checks where they are actually used.
 
-**Impact:** Services can now fail fast when dependencies are unavailable, and `/q/health/ready` exposes a clear view of dependency status for load balancers and operators.
+**Impact:** Services can now fail fast when dependencies are unavailable, and `/q/health/ready` exposes a
+clear view of dependency status for load balancers and operators.
 
 **Completed:**
 
@@ -149,7 +163,8 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
    - Base classes are dependency agnostic and accept fully configured clients and identifiers.
 
 2. **Per service health check registration pattern**
-   - Each service uses a single `*ServiceHealthChecks` class with `@Produces @Readiness @ApplicationScoped` methods that return anonymous subclasses of the shared base checks.
+   - Each service uses a single `*ServiceHealthChecks` class with `@Produces @Readiness @ApplicationScoped`
+     methods that return anonymous subclasses of the shared base checks.
    - `candidate-service`
      - Custom Postgres readiness check using `PostgresHealthCheck` for `bravo` and the `candidates` table.
    - `document-service`
@@ -189,9 +204,13 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 **Status:** ~95% Complete  
 **Last Updated:** 2025-01-27
 
-**Current State:** Application-level rate limiting is fully implemented using Bucket4j with per-user, per-service, and per-IP limits. The system includes comprehensive metrics collection and Grafana dashboards for monitoring. Rate limiting runs before authentication to protect all endpoints, including public authentication endpoints.
+**Current State:** Application-level rate limiting is fully implemented using Bucket4j with per-user,
+per-service, and per-IP limits. The system includes comprehensive metrics collection and Grafana
+dashboards for monitoring. Rate limiting runs before authentication to protect all endpoints, including
+public authentication endpoints.
 
-**Impact:** Services are now protected against abuse, DDoS, and accidental traffic spikes. Rate limit violations and utilization are tracked with detailed metrics for operational visibility.
+**Impact:** Services are now protected against abuse, DDoS, and accidental traffic spikes. Rate limit
+violations and utilization are tracked with detailed metrics for operational visibility.
 
 **Completed:**
 
@@ -270,7 +289,9 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 **Status:** ~85% Complete  
 **Last Updated:** 2025-01-27
 
-**Current State:** Five dashboards operational: HTTP metrics, User metrics, JVM metrics, Rate Limiting metrics, and Infrastructure metrics (see 1.1). Production alerting and CloudWatch integration deferred to production infrastructure work.
+**Current State:** Five dashboards operational: HTTP metrics, User metrics, JVM metrics, Rate Limiting
+metrics, and Infrastructure metrics (see 1.1). Production alerting and CloudWatch integration deferred
+to production infrastructure work.
 
 **Completed:**
 - ✅ Prometheus + Grafana infrastructure in `compose.yml`
@@ -355,7 +376,9 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 **Status:** ~100% Complete  
 **Last Updated:** 2025-01-27
 
-**Current State:** Cyclomatic and cognitive complexity thresholds are implemented using Maven PMD plugin with configured rules that fail the build on violations. The complexity analysis runs automatically during the Maven verify phase as part of the static analysis workflow.
+**Current State:** Cyclomatic and cognitive complexity thresholds are implemented using Maven PMD plugin
+with configured rules that fail the build on violations. The complexity analysis runs automatically during
+the Maven verify phase as part of the static analysis workflow.
 
 **Impact:** Overly complex code is now automatically identified during builds, preventing maintainability issues from entering the codebase.
 
@@ -432,7 +455,9 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 **Status:** ~90% Complete  
 **Last Updated:** 2025-01-27
 
-**Current State:** OpenAPI/Swagger UI enabled. All DTOs documented with `@Schema` annotations. Controllers and Resources use minimal JAX-RS annotations only - documentation is pushed down to DTOs for maintainability.
+**Current State:** OpenAPI/Swagger UI enabled. All DTOs documented with `@Schema` annotations. Controllers
+and Resources use minimal JAX-RS annotations only - documentation is pushed down to DTOs for
+maintainability.
 
 **Completed:**
 
@@ -477,9 +502,12 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 **Status:** ~95% Complete  
 **Last Updated:** 2025-12-28
 
-**Current State:** k6 performance testing framework fully implemented with baseline scenario covering registration, login, candidate fetch, and resume upload flows. System validated up to 50 VUs with zero failures and linear throughput scaling.
+**Current State:** k6 performance testing framework fully implemented with baseline scenario covering
+registration, login, candidate fetch, and resume upload flows. System validated up to 50 VUs with zero
+failures and linear throughput scaling.
 
-**Impact:** Architecture validated under load. System demonstrates clean scaling behavior with circuit breakers functioning correctly. Performance characteristics documented for 10, 20, and 50 VU scenarios.
+**Impact:** Architecture validated under load. System demonstrates clean scaling behavior with circuit
+breakers functioning correctly. Performance characteristics documented for 10, 20, and 50 VU scenarios.
 
 **Completed:**
 
@@ -552,9 +580,11 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 **Status:** ~100% Complete  
 **Last Updated:** 2025-12-28
 
-**Current State:** PostgreSQL connection pool configured with optimized settings. Connection pool metrics enabled and visualized in Grafana. DynamoDB HTTP client timeouts configured for LocalStack performance.
+**Current State:** PostgreSQL connection pool configured with optimized settings. Connection pool metrics
+enabled and visualized in Grafana. DynamoDB HTTP client timeouts configured for LocalStack performance.
 
-**Impact:** Improved database connection management under load. Connection pool metrics provide visibility into pool utilization and potential exhaustion issues.
+**Impact:** Improved database connection management under load. Connection pool metrics provide visibility
+into pool utilization and potential exhaustion issues.
 
 **Completed:**
 
@@ -744,7 +774,8 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 ## Implementation Roadmap
 
 ### Phase 1: Critical Production Blockers (Week 1-2)
-1. ✅ Metrics implementation (1.1) - ~95% complete (all application-level metrics implemented; CloudWatch integration deferred to production infrastructure work)
+1. ✅ Metrics implementation (1.1) - ~95% complete (all application-level metrics implemented;
+   CloudWatch integration deferred to production infrastructure work)
 2. ✅ Enhanced health checks (1.2) - ~90% complete
 3. ✅ Rate limiting (1.3) - ~95% complete (distributed rate limiting deferred)
 

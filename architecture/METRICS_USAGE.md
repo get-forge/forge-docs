@@ -4,7 +4,8 @@ This guide explains how to use the metrics infrastructure in the Bravo applicati
 
 ## Overview
 
-The application uses **Micrometer** for metrics collection, exposing metrics in **Prometheus** format at the `/q/metrics` endpoint. Metrics are automatically scraped by Prometheus and can be visualized in Grafana.
+The application uses **Micrometer** for metrics collection, exposing metrics in **Prometheus** format at the
+`/q/metrics` endpoint. Metrics are automatically scraped by Prometheus and can be visualized in Grafana.
 
 ## Available Metrics
 
@@ -70,7 +71,8 @@ sum(rate(rate_limit_failures_total[5m])) by (exception_type)
 
 ### HTTP Error Rate Visualization
 
-Error rates by endpoint are **derived** from HTTP status code metrics rather than being a separate explicit metric. This approach is standard practice and provides the same operational value.
+Error rates by endpoint are **derived** from HTTP status code metrics rather than being a separate explicit
+metric. This approach is standard practice and provides the same operational value.
 
 **Available in Grafana Dashboard:**
 
@@ -111,11 +113,15 @@ sum(rate(http_server_requests_seconds_count[5m])) * 100
 - **Standard practice**: Most observability stacks derive error rates from HTTP status codes
 - **Same operational value**: Provides identical insights to an explicit metric
 
-If you need more granular error categorization (e.g., "validation errors" vs "database errors"), you could add explicit metrics, but for general "is this endpoint failing?" visibility, derived metrics are sufficient.
+If you need more granular error categorization (e.g., "validation errors" vs "database errors"), you could
+add explicit metrics, but for general "is this endpoint failing?" visibility, derived metrics are
+sufficient.
 
 ### Database Connection Pool Metrics
 
-Quarkus automatically provides **Agroal connection pool metrics** when enabled. Quarkus uses Agroal as its default connection pool (not HikariCP). These metrics are essential for monitoring database connection health and identifying connection pool exhaustion issues.
+Quarkus automatically provides **Agroal connection pool metrics** when enabled. Quarkus uses Agroal as its
+default connection pool (not HikariCP). These metrics are essential for monitoring database connection
+health and identifying connection pool exhaustion issues.
 
 **Configuration:**
 

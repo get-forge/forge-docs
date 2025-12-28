@@ -6,7 +6,8 @@
 
 ## Executive Summary
 
-This document outlines the implementation steps for Enhanced Health Checks across all services. The implementation is **straightforward** (~1-2 days) and follows Quarkus SmallRye Health best practices.
+This document outlines the implementation steps for Enhanced Health Checks across all services. The
+implementation is **straightforward** (~1-2 days) and follows Quarkus SmallRye Health best practices.
 
 ## Health Check Strategy
 
@@ -86,8 +87,10 @@ Each service now has a single registration class that wires dependencies and exp
 Pattern details:
 
 - Each health check is produced by a `@Produces @Readiness @ApplicationScoped` method  
-- Dependencies such as `EntityManager`, `S3Client`, `DynamoDbClient`, and `CognitoIdentityProviderClient` are injected as method parameters or fields  
-- Producer methods return anonymous subclasses of the base health check types, centralising all registrations in a single `*ServiceHealthChecks` class per service  
+- Dependencies such as `EntityManager`, `S3Client`, `DynamoDbClient`, and `CognitoIdentityProviderClient`
+  are injected as method parameters or fields  
+- Producer methods return anonymous subclasses of the base health check types, centralising all
+  registrations in a single `*ServiceHealthChecks` class per service  
 - Quarkus built in datasource health check is disabled and replaced with the custom Postgres check  
 
 ### Step 6: Configure Health Check Endpoints
@@ -224,12 +227,14 @@ After implementation:
 
 ### Future: Bravo application status page
 
-We want a Bravo-wide status page (similar to the Quarkus health UI or AWS service status pages) that shows the status and uptime of all application services.
+We want a Bravo-wide status page (similar to the Quarkus health UI or AWS service status pages) that
+shows the status and uptime of all application services.
 
 Potential approaches:
 
 - **External status-page SaaS**
-  - Use a managed status-page provider (for example, Atlassian Statuspage, Better Uptime, UptimeRobot) and configure each component to poll the services' `/q/health/ready` (or a thin wrapper endpoint).
+  - Use a managed status-page provider (for example, Atlassian Statuspage, Better Uptime, UptimeRobot)
+    and configure each component to poll the services' `/q/health/ready` (or a thin wrapper endpoint).
   - Pros: No extra code to maintain, built-in incident history and notifications.
   - Cons: Additional external dependency and cost, limited customization.
 
@@ -241,7 +246,8 @@ Potential approaches:
   - Cons: We own availability and maintenance of this extra service.
 
 - **Observability driven internal dashboard**
-  - Use Prometheus and Grafana to build an internal “ops status” view that treats health endpoints as blackbox checks and shows service availability and uptime graphs.
+  - Use Prometheus and Grafana to build an internal "ops status" view that treats health endpoints as
+    blackbox checks and shows service availability and uptime graphs.
   - Pros: Rich metrics and history, no extra application code.
   - Cons: More suitable for internal SRE/engineering than a polished, user facing status page.
 

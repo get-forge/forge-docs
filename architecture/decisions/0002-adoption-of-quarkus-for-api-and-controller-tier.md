@@ -18,7 +18,9 @@ We require a performant, scalable, and cloud-native framework for building our a
 * Scale efficiently and cost-effectively in production, ideally using containerized workloads (ECS/Fargate).
 * Offer a modern developer experience while allowing Java-based reliability and ecosystem maturity.
 
-Previous experience with **NestJS/Node.js** highlighted challenges with dependency management, runtime performance, and long-term maintainability. The team also has prior expertise in **Java and Dropwizard**, prompting an evaluation of modern JVM-based microservice frameworks.
+Previous experience with **NestJS/Node.js** highlighted challenges with dependency management, runtime
+performance, and long-term maintainability. The team also has prior expertise in **Java and Dropwizard**,
+prompting an evaluation of modern JVM-based microservice frameworks.
 
 ---
 
@@ -28,9 +30,11 @@ We will adopt **Quarkus** as the primary framework for implementing both the **A
 
 Quarkus is selected for the following reasons:
 
-* **Performance:** Native-image support via **GraalVM** enables sub-second startup and low memory use — ideal for containerized, on-demand environments like AWS Fargate.
+* **Performance:** Native-image support via **GraalVM** enables sub-second startup and low memory use
+  — ideal for containerized, on-demand environments like AWS Fargate.
 * **Developer Experience:** “Dev mode” offers hot reload and fast feedback during development, while container builds maintain production parity.
-* **Cloud-Native Alignment:** Quarkus is designed as *Kubernetes-native* and integrates smoothly with container orchestration and observability tooling.
+* **Cloud-Native Alignment:** Quarkus is designed as *Kubernetes-native* and integrates smoothly with
+  container orchestration and observability tooling.
 * **Flexibility:** Supports both RESTEasy (JAX-RS) and templated MVC endpoints (Qute), covering both API and lightweight web controller needs.
 * **Ecosystem:** Excellent support for Jakarta EE, MicroProfile, Hibernate ORM, and reactive extensions.
 
@@ -102,7 +106,8 @@ Quarkus supports any JDBC-compatible database. PostgreSQL is the default in most
 
 * GraalVM native-image builds increase build complexity and duration.
 * Smaller developer community than Spring Boot, particularly for advanced enterprise integrations.
-* Some enterprise features (e.g. full Spring ecosystem integrations, legacy connectors) may require additional libraries or manual configuration later.
+* Some enterprise features (e.g. full Spring ecosystem integrations, legacy connectors) may require
+  additional libraries or manual configuration later.
 
 ---
 

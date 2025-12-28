@@ -5,24 +5,31 @@
 
 **Status:** Accepted
 
-**Context:** Continuation of ADR-0004 (Auth Environment) — refines approach for service-to-service authentication using AWS Cognito across all environments
+**Context:** Continuation of ADR-0004 (Auth Environment) — refines approach for service-to-service
+authentication using AWS Cognito across all environments
 
 ---
 
 ## **Context**
 
-Our authentication design established AWS Cognito as the identity provider across all environments (production, staging, and development). Both environments use Cognito **User Pools** for username/password login and social identity integration via **Identity Pools**.
+Our authentication design established AWS Cognito as the identity provider across all environments
+(production, staging, and development). Both environments use Cognito **User Pools** for username/password
+login and social identity integration via **Identity Pools**.
 
-As we move toward full integration, it became clear that our backend services will require **direct access to AWS resources** such as **DynamoDB, S3, and SQS**.
-This introduces an additional requirement beyond simple service-to-service authentication: **services must be able to obtain AWS IAM credentials securely**.
+As we move toward full integration, it became clear that our backend services will require **direct
+access to AWS resources** such as **DynamoDB, S3, and SQS**.
+This introduces an additional requirement beyond simple service-to-service authentication: **services must
+be able to obtain AWS IAM credentials securely**.
 
-The previous approach using **User Pool JWTs** suffices for service-to-service identity verification, but does not allow AWS API access since JWTs are not IAM credentials.
+The previous approach using **User Pool JWTs** suffices for service-to-service identity verification, but
+does not allow AWS API access since JWTs are not IAM credentials.
 
 ---
 
 ## **Decision**
 
-We will implement **service-to-service authentication and AWS access** using **Cognito User Pool tokens** combined with **AWS STS AssumeRoleWithWebIdentity**.
+We will implement **service-to-service authentication and AWS access** using **Cognito User Pool tokens**
+combined with **AWS STS AssumeRoleWithWebIdentity**.
 
 ### **Implementation Overview**
 
@@ -81,7 +88,8 @@ A new component, `StsWebIdentityAdapter`, will:
 * Services would need static AWS credentials or other workarounds for AWS API access.
 
 **Verdict:**
-Rejected for now — insufficient for AWS service access but could be revisited if architecture moves away from AWS-hosted workloads or if IAM access becomes unnecessary.
+Rejected for now — insufficient for AWS service access but could be revisited if architecture moves
+away from AWS-hosted workloads or if IAM access becomes unnecessary.
 
 ---
 
