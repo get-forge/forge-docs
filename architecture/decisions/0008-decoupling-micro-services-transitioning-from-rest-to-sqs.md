@@ -7,21 +7,27 @@
 
 ## **Context**
 
-The system is composed of multiple Quarkus microservices (authentication, resume parsing, job spec parsing, scoring, etc.). The long-term architecture may benefit from asynchronous decoupling (e.g., via AWS SQS) to support scaling, retries, and distributed workflows.
+The system is composed of multiple Quarkus microservices (authentication, resume parsing, job spec
+parsing, scoring, etc.). The long-term architecture may benefit from asynchronous decoupling (e.g., via
+AWS SQS) to support scaling, retries, and distributed workflows.
 
-However, the platform is currently in a prototype/demo phase. Although the backend code is production quality, domain boundaries and service interactions are still evolving. Introducing asynchronous messaging now would add complexity without delivering clear value.
+However, the platform is currently in a prototype/demo phase. Although the backend code is production
+quality, domain boundaries and service interactions are still evolving. Introducing asynchronous messaging
+now would add complexity without delivering clear value.
 
 ## **Decision**
 
 We will implement **synchronous REST calls between microservices** for the initial prototype.
-We will **intentionally keep service boundaries and internal APIs message-oriented**, so the system can switch to SQS (or another queue) with minimal refactoring later.
+We will **intentionally keep service boundaries and internal APIs message-oriented**, so the system can
+switch to SQS (or another queue) with minimal refactoring later.
 
 ## **Rationale**
 
 * **Accelerated delivery:** REST is faster to implement and easier to develop/debug locally.
 * **Avoid premature complexity:** SQS introduces DLQs, retries, idempotency concerns, IAM config, and monitoring overhead.
 * **Domain is still forming:** Boundaries and workflows are not yet stable enough to justify asynchronous orchestration.
-* **Low switching cost:** By isolating business logic from transport concerns, later replacement of REST with SQS producers/consumers is a mechanical change, not a redesign.
+* **Low switching cost:** By isolating business logic from transport concerns, later replacement of REST
+  with SQS producers/consumers is a mechanical change, not a redesign.
 * **Current workloads** are small, real-time, and do not require asynchronous processing.
 
 ## **Consequences**
