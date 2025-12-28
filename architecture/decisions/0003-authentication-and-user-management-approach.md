@@ -37,13 +37,14 @@ Quarkus will integrate via the **`quarkus-oidc`** extension, treating Cognito as
 
 | Consideration          | Cognito (Chosen)                                                         | Quarkus Security JPA (Not Chosen for now)                                 |
 | ---------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
-| **Operations**         | Fully managed service, handles signup, password reset, MFA, social login | Requires us to store and hash passwords, build account flows              |
+| **Operations**         | Fully managed service, handles signup, password reset, MFA, social login | Requires us to store and hash passwords, build account flows |
 | **Security posture**   | Offloads credential handling and compliance to AWS                       | Higher risk surface; must implement secure storage and policies ourselves |
-| **Scalability**        | Auto-scales with user base; integrates with AWS IAM                      | Scales with our Aurora DB; more tuning required                           |
-| **Integration**        | Works natively with Quarkus OIDC and ALB OIDC auth                       | Tight coupling to DB schema; limited federation options                   |
-| **Future flexibility** | Supports enterprise federation (SAML, OIDC, AD)                          | Limited to in-app users unless refactored later                           |
+| **Scalability**        | Auto-scales with user base; integrates with AWS IAM                      | Scales with our Aurora DB; more tuning required |
+| **Integration**        | Works natively with Quarkus OIDC and ALB OIDC auth                       | Tight coupling to DB schema; limited federation options |
+| **Future flexibility** | Supports enterprise federation (SAML, OIDC, AD)                          | Limited to in-app users unless refactored later |
 
-Given limited operational capacity at this stage, Cognito provides a secure, standards-compliant baseline while allowing later customization if business needs demand internal user management.
+Given limited operational capacity at this stage, Cognito provides a secure, standards-compliant baseline
+while allowing later customization if business needs demand internal user management.
 
 ---
 

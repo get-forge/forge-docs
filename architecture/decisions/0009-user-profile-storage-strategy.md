@@ -2,17 +2,22 @@
 
 **Status:** Accepted
 **Date:** 2025-11-25
-**Context:** The platform currently uses AWS Cognito for user authentication. We need to store additional user profile attributes beyond basic identity (e.g., date of birth, mobile number, LinkedIn handle, profile photo, preferences, etc.).
+**Context:** The platform currently uses AWS Cognito for user authentication. We need to store additional
+user profile attributes beyond basic identity (e.g., date of birth, mobile number, LinkedIn handle,
+profile photo, preferences, etc.).
 
 ## **Context**
 
-The platform currently uses AWS Cognito for user authentication. We need to store additional user profile attributes beyond basic identity (e.g., date of birth, mobile number, LinkedIn handle, profile photo, preferences, etc.).
+The platform currently uses AWS Cognito for user authentication. We need to store additional user
+profile attributes beyond basic identity (e.g., date of birth, mobile number, LinkedIn handle, profile
+photo, preferences, etc.).
 We must choose between:
 
 1. Storing extended attributes directly in **AWS Cognito** user attributes, or
 2. Using **Cognito only for authentication** and storing extended attributes in our **own application database** (e.g., RDS).
 
-Enterprise requirements include: scalability, schema evolution, auditability, portability, integration with domain models, and avoiding vendor lock-in.
+Enterprise requirements include: scalability, schema evolution, auditability, portability,
+integration with domain models, and avoiding vendor lock-in.
 
 ---
 
