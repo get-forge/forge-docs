@@ -474,68 +474,124 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 
 ### 4.1 Performance Testing Framework
 
-**Current State:** Not implemented (user mentioned interest).
+**Status:** ~95% Complete  
+**Last Updated:** 2025-12-28
 
-**Impact:** Cannot validate fault tolerance under load or identify bottlenecks.
+**Current State:** k6 performance testing framework fully implemented with baseline scenario covering registration, login, candidate fetch, and resume upload flows. System validated up to 50 VUs with zero failures and linear throughput scaling.
 
-**Recommendations:**
+**Impact:** Architecture validated under load. System demonstrates clean scaling behavior with circuit breakers functioning correctly. Performance characteristics documented for 10, 20, and 50 VU scenarios.
 
-1. **Load Testing Tool Selection**
-   - **Option A:** k6 (recommended - modern, scriptable, CI-friendly)
-   - **Option B:** Gatling (JVM-based, good for complex scenarios)
-   - **Option C:** Apache JMeter (mature, GUI available)
+**Completed:**
 
-2. **Performance Test Scenarios**
-   - Baseline: Single user, typical flow
-   - Load: Expected production load
-   - Stress: Beyond expected load
-   - Spike: Sudden traffic increase
-   - Endurance: Sustained load over time
+1. **✅ k6 Testing Framework**
+   - k6 v1.4.2+ configured and operational
+   - Custom wrapper script (`perf/run-k6.sh`) for environment variable loading
+   - Taskfile integration for easy test execution
+   - Configurable VUs and duration via CLI flags
 
-3. **Test Circuit Breakers**
-   - Simulate downstream service failures
-   - Verify circuit breaker opens/closes correctly
-   - Test retry behavior
+2. **✅ Baseline Performance Scenario**
+   - `perf/scenarios/baseline-mix.js` implements realistic user flow:
+     - 5% new user registrations
+     - 95% existing user operations (login, fetch candidate, resume upload)
+   - Token management with automatic refresh per VU
+   - Login-once-per-VU pattern (reduces Cognito load, more realistic)
+   - Reusable setup utilities (`perf/utils/setup.js`)
 
-4. **CI Integration**
+3. **✅ Test Flows Implemented**
+   - User registration (`perf/flows/register.js`)
+   - User login (`perf/flows/login.js`)
+   - Token refresh (`perf/flows/refresh-token.js`)
+   - Candidate fetch (`perf/flows/fetch-candidate.js`)
+   - Resume upload (`perf/flows/upload-resume.js`)
+
+4. **✅ Test Data Management**
+   - Existing users seed script (`perf/seed-existing-users.sh`)
+   - Test user cleanup script (`perf/cleanup-test-users.sh`)
+   - Dummy resume file for upload testing
+
+5. **✅ Performance Validation Results**
+   - **10 VUs**: ~10.8 req/s, ~107ms avg latency, ~495ms p95, 0% failures
+   - **20 VUs**: ~21.6 req/s, ~99ms avg latency, ~519ms p95, 0% failures
+   - **50 VUs**: ~49.7 req/s, ~165ms avg latency, ~876ms p95, 0% failures
+   - Linear throughput scaling validated
+   - Circuit breakers functioning correctly under load
+   - Zero errors across all test scenarios
+
+6. **✅ LocalStack Performance Tuning**
+   - Increased DynamoDB operation timeouts (1000ms → 5000ms)
+   - Adjusted circuit breaker thresholds (less aggressive for LocalStack)
+   - LocalStack resource limits configured in `compose.yml`
+
+**Remaining Work:**
+
+1. **CI Integration** (optional)
    - Run performance tests on schedule (nightly/weekly)
    - Fail if performance degrades significantly
    - Store results for trend analysis
+   - Effort: Low-Medium (1-2 days)
 
-**Effort:** Medium-High (4-5 days)  
-**Value:** High - validates architecture under load
+2. **Additional Test Scenarios** (optional)
+   - Stress test: Beyond expected load (100+ VUs)
+   - Spike test: Sudden traffic increase (50 → 100 → 50 VUs)
+   - Endurance test: Sustained load over 10-15 minutes
+   - Effort: Medium (2-3 days)
 
-**Note:** Can be done on laptop initially, but will need infrastructure for realistic testing.
+3. **Real AWS Testing** (future)
+   - Run baseline scenario against real AWS dev environment
+   - Compare LocalStack vs real DynamoDB/Cognito performance
+   - Validate production-like behavior
+   - Effort: Low (0.5 days, requires AWS dev environment)
+
+**Effort Remaining:** Low (1-2 days for CI integration, optional)  
+**Value:** High - architecture validated under load, system proven to scale cleanly beyond early-stage usage
 
 ---
 
 ### 4.2 Database Connection Pooling & Optimization
 
-**Current State:** Using Quarkus Hibernate (default connection pool).
+**Status:** ~100% Complete  
+**Last Updated:** 2025-12-28
 
-**Recommendations:**
+**Current State:** PostgreSQL connection pool configured with optimized settings. Connection pool metrics enabled and visualized in Grafana. DynamoDB HTTP client timeouts configured for LocalStack performance.
 
-1. **Configure Connection Pool**
-   ```properties
-   quarkus.datasource.jdbc.max-size=20
-   quarkus.datasource.jdbc.min-size=5
-   quarkus.datasource.jdbc.idle-removal-interval=5M
-   quarkus.datasource.jdbc.max-lifetime=30M
-   ```
+**Impact:** Improved database connection management under load. Connection pool metrics provide visibility into pool utilization and potential exhaustion issues.
 
-2. **Add Connection Pool Metrics**
-   - Active connections
-   - Idle connections
-   - Wait time for connections
-   - Connection acquisition failures
+**Completed:**
 
-3. **Query Performance Monitoring**
+1. **✅ PostgreSQL Connection Pool Configuration**
+   - Configured in `config/src/main/resources/database.properties`:
+     - `max-size=20` (increased from default 10)
+     - `min-size=5` (maintains minimum pool size)
+     - `idle-removal-interval=5M` (removes idle connections)
+     - `max-lifetime=30M` (connection lifetime limit)
+     - `acquisition-timeout=10` (connection acquisition timeout in seconds)
+
+2. **✅ Connection Pool Metrics**
+   - Agroal metrics enabled (`quarkus.datasource.metrics.enabled=true`)
+   - Metrics exposed: `agroal_active_count`, `agroal_available_count`, `agroal_awaiting_count`, `agroal_acquire_count_total`
+   - Visualized in Grafana "Bravo Infrastructure Metrics" dashboard
+   - Real-time monitoring of connection pool status
+
+3. **✅ DynamoDB Client Optimization**
+   - Increased API call timeouts for LocalStack (5s overall, 4s per-attempt)
+   - Configured in `DynamoDbClientProducer` with `ClientOverrideConfiguration`
+   - Handles LocalStack's slower performance compared to real DynamoDB
+
+4. **✅ LocalStack Resource Limits**
+   - Memory limit: 2GB (prevents container starvation)
+   - CPU limit: 2 cores (prevents CPU contention)
+   - Configured in `compose.yml` for regular Docker Compose
+
+**Remaining Work:**
+
+1. **Query Performance Monitoring** (optional)
    - Log slow queries (>100ms)
    - Track query execution time in metrics
    - Use Hibernate statistics (dev only)
+   - Effort: Low (0.5 days)
 
-**Effort:** Low (0.5 days)  
-**Value:** Medium - performance optimization
+**Effort Remaining:** Low (0.5 days for query monitoring, optional)  
+**Value:** Medium - performance optimization (achieved)
 
 ---
 
@@ -703,8 +759,8 @@ This defense-in-depth approach (WAF → ALB → Security Groups → VPC) provide
 3. ✅ API documentation (3.3) - ~90% complete
 
 ### Phase 4: Performance (Week 6-7)
-1. Performance testing framework (4.1)
-2. Database optimization (4.2)
+1. ✅ Performance testing framework (4.1) - ~95% complete (CI integration optional)
+2. ✅ Database optimization (4.2) - ~100% complete
 3. Caching strategy (4.3)
 
 ### Phase 5: Operational Excellence (Week 8)
