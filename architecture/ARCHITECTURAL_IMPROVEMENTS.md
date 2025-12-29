@@ -627,21 +627,65 @@ into pool utilization and potential exhaustion issues.
 
 ### 4.3 Caching Strategy
 
-**Current State:** No caching layer identified.
+**Status:** Analysis Complete, Implementation Pending  
+**Last Updated:** 2025-01-27
 
-**Recommendations:**
+**Current State:** No caching layer implemented. Use cases validated and implementation strategy defined.
 
-1. **Application-Level Caching**
-   - Cache Cognito token validation results (short TTL)
-   - Cache user profile data
-   - Cache parsed document results (if idempotent)
+**Impact:** Performance optimization and cost reduction through application-level caching. Reduces database load, external API calls, and improves response times for frequently accessed data.
 
-2. **Distributed Caching (Future)**
-   - Redis/ElastiCache for multi-instance deployments
-   - Cache invalidation strategy
+**Use Cases Validated:**
 
-**Effort:** Medium (2-3 days)  
-**Value:** Medium - performance and cost reduction
+1. **✅ Cognito Token Validation** (High Priority)
+   - Cache token validation results with TTL matching token expiration
+   - Reduces JWT parsing and JWKS lookups on every request
+   - High frequency, high impact
+
+2. **✅ User Profile Data** (Medium Priority)
+   - Cache candidate profiles from PostgreSQL
+   - TTL: 10 minutes, invalidate on profile updates
+   - Reduces database queries for frequently accessed profiles
+
+3. **✅ Parsed Document Results** (Medium Priority)
+   - Cache parsed resumes and job specs from DynamoDB
+   - TTL: 1 hour (documents are idempotent)
+   - Reduces DynamoDB read capacity units (RCU)
+
+**Additional Use Cases Identified:**
+
+4. **Cognito JWKS Keys** (Low Priority - verify library caching first)
+5. **Service Token Caching** (Low Priority - already implemented, can migrate to Quarkus cache)
+6. **Transaction ID Lookups** (Low Priority - incremental enhancement)
+
+**Implementation Approach:**
+
+1. **Phase 1: Local Caching (Caffeine)**
+   - Use Quarkus Cache with default Caffeine backend
+   - Implement `@CacheResult` and `@CacheInvalidate` annotations
+   - Configure cache names and TTLs per use case
+   - Add cache metrics for monitoring
+
+2. **Phase 2: Metrics and Monitoring**
+    - Leverage Micrometer cache metrics
+    - Add cache hit/miss rates to Grafana dashboards
+    - Monitor cache performance and eviction rates
+
+3. **Phase 3: Redis Backend (Production)**
+    - Migrate to `quarkus-cache-redis` for distributed caching
+    - Deploy AWS ElastiCache Redis cluster
+    - Shared infrastructure with distributed rate limiting (see section 1.3)
+    - Unified Redis usage: caching + rate limiting
+
+**Synergy with Rate Limiting:**
+Redis backend planned for distributed rate limiting (section 1.3) can serve dual purpose:
+- Caching: Application data caching
+- Rate Limiting: Distributed rate limiting buckets
+- Single ElastiCache cluster reduces infrastructure complexity
+
+**See:** `docs/architecture/CACHING_STRATEGY.md` for detailed analysis, implementation plan, and cache key strategies
+
+**Effort:** Medium (2-3 weeks for full implementation)  
+**Value:** High - performance optimization, cost reduction, and production readiness
 
 ---
 
