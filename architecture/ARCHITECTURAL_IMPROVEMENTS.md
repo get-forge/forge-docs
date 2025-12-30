@@ -627,54 +627,75 @@ into pool utilization and potential exhaustion issues.
 
 ### 4.3 Caching Strategy
 
-**Status:** Analysis Complete, Implementation Pending  
+**Status:** ~75% Complete  
 **Last Updated:** 2025-01-27
 
-**Current State:** No caching layer implemented. Use cases validated and implementation strategy defined.
+**Current State:** Phase 1 (Local Caching) and Phase 2 (Metrics) are complete. Application-level caching is operational using Quarkus Cache with Caffeine backend. Cache metrics are integrated into Grafana dashboards. Phase 3 (Redis backend) is deferred to production infrastructure work.
 
-**Impact:** Performance optimization and cost reduction through application-level caching. Reduces database load, external API calls, and improves response times for frequently accessed data.
+**Impact:** Performance optimization and cost reduction through application-level caching. Reduces database load, external API calls, and improves response times for frequently accessed data. Cache metrics provide operational visibility into cache effectiveness.
 
-**Use Cases Validated:**
+**Completed:**
 
-1. **✅ Cognito Token Validation** (High Priority)
-   - Cache token validation results with TTL matching token expiration
+1. **✅ Phase 1: Local Caching (Caffeine)**
+   - `quarkus-cache` dependency added in `libs/cache` module
+   - Four caches configured in `cache.properties`:
+     - `token-validation`: 1 hour TTL, 10k max size (Cognito token validation results)
+     - `candidate-profiles`: 10 minutes TTL, 5k max size (PostgreSQL candidate profiles)
+     - `resume-data`: 1 hour TTL, 10k max size (candidate resume data from document-service)
+     - `parsed-resumes`: 1 hour TTL, 10k max size (parsed resume results from DynamoDB)
+   - Cache key generators implemented:
+     - `TokenCacheKeyGenerator`: Uses token hash + expiration time for security and TTL alignment
+     - `CandidateCacheKeyGenerator`: Uses candidate ID with namespace prefix
+   - Cache annotations implemented:
+     - `CompositeTokenValidator`: `@CacheResult` for token validation caching
+     - `CandidateService`: `@CacheResult` for profile and resume data, `@CacheInvalidate` for profile updates
+     - `DocumentService`: `@CacheResult` for parsed resume caching
+
+2. **✅ Phase 2: Metrics and Monitoring**
+   - Cache metrics enabled for all caches (`metrics-enabled=true`)
+   - Grafana dashboard panel added to "Bravo Infrastructure Metrics" dashboard
+   - Metrics tracked:
+     - Cache hit rate percentage (target: >80% for token validation)
+     - Total operations per second
+     - Cache size (current entries in memory)
+   - Micrometer integration automatically exposes `cache_gets_total`, `cache_puts_total`, `cache_evictions_total`, `cache_size`
+
+**Remaining Work:**
+
+1. **Phase 3: Redis Backend (Production)** (deferred to production infrastructure work)
+   - Migrate to `quarkus-cache-redis` for distributed caching
+   - Deploy AWS ElastiCache Redis cluster
+   - Shared infrastructure with distributed rate limiting (see section 1.3)
+   - Unified Redis usage: caching + rate limiting
+   - Effort: Medium (2-3 days for Redis migration)
+
+**Use Cases Implemented:**
+
+1. **✅ Cognito Token Validation** (High Priority - Complete)
+   - Token validation results cached with TTL matching token expiration
    - Reduces JWT parsing and JWKS lookups on every request
-   - High frequency, high impact
+   - Cache key uses token hash + expiration for security
 
-2. **✅ User Profile Data** (Medium Priority)
-   - Cache candidate profiles from PostgreSQL
-   - TTL: 10 minutes, invalidate on profile updates
+2. **✅ User Profile Data** (Medium Priority - Complete)
+   - Candidate profiles cached from PostgreSQL
+   - TTL: 10 minutes, invalidated on profile updates via `@CacheInvalidate`
    - Reduces database queries for frequently accessed profiles
 
-3. **✅ Parsed Document Results** (Medium Priority)
-   - Cache parsed resumes and job specs from DynamoDB
+3. **✅ Parsed Document Results** (Medium Priority - Complete)
+   - Parsed resumes cached from DynamoDB
    - TTL: 1 hour (documents are idempotent)
    - Reduces DynamoDB read capacity units (RCU)
 
-**Additional Use Cases Identified:**
+4. **✅ Resume Data Caching** (Medium Priority - Complete)
+   - Resume data cached separately from profile data
+   - Allows independent cache invalidation when resumes are uploaded/replaced
+   - TTL: 1 hour
 
-4. **Cognito JWKS Keys** (Low Priority - verify library caching first)
-5. **Service Token Caching** (Low Priority - already implemented, can migrate to Quarkus cache)
-6. **Transaction ID Lookups** (Low Priority - incremental enhancement)
+**Additional Use Cases (Not Implemented):**
 
-**Implementation Approach:**
-
-1. **Phase 1: Local Caching (Caffeine)**
-   - Use Quarkus Cache with default Caffeine backend
-   - Implement `@CacheResult` and `@CacheInvalidate` annotations
-   - Configure cache names and TTLs per use case
-   - Add cache metrics for monitoring
-
-2. **Phase 2: Metrics and Monitoring**
-    - Leverage Micrometer cache metrics
-    - Add cache hit/miss rates to Grafana dashboards
-    - Monitor cache performance and eviction rates
-
-3. **Phase 3: Redis Backend (Production)**
-    - Migrate to `quarkus-cache-redis` for distributed caching
-    - Deploy AWS ElastiCache Redis cluster
-    - Shared infrastructure with distributed rate limiting (see section 1.3)
-    - Unified Redis usage: caching + rate limiting
+5. **Cognito JWKS Keys** (Low Priority - verify library caching first)
+6. **Service Token Caching** (Low Priority - already implemented separately, can migrate to Quarkus cache)
+7. **Transaction ID Lookups** (Low Priority - incremental enhancement)
 
 **Synergy with Rate Limiting:**
 Redis backend planned for distributed rate limiting (section 1.3) can serve dual purpose:
@@ -682,10 +703,11 @@ Redis backend planned for distributed rate limiting (section 1.3) can serve dual
 - Rate Limiting: Distributed rate limiting buckets
 - Single ElastiCache cluster reduces infrastructure complexity
 
-**See:** `docs/architecture/CACHING_STRATEGY.md` for detailed analysis, implementation plan, and cache key strategies
+**See:** `docs/architecture/CACHING_STRATEGY.md` for detailed analysis, implementation plan, and cache key strategies  
+**See:** `docs/architecture/decisions/0014-application-caching-strategy.md` for architectural decision record
 
-**Effort:** Medium (2-3 weeks for full implementation)  
-**Value:** High - performance optimization, cost reduction, and production readiness
+**Effort Remaining:** Medium (2-3 days for Redis migration, deferred to production infrastructure work)  
+**Value:** High - performance optimization, cost reduction, and production readiness (Phases 1 and 2 complete and operational)
 
 ---
 
