@@ -183,7 +183,6 @@ Frontend applications handle authentication client-side:
 - **`LinkedInOidcLoginResource`**: Initiates LinkedIn OAuth2 flow
 - **`LinkedInOidcCallbackResource`**: Handles LinkedIn OAuth2 callback, generates temporary token
 - **`CognitoSecurityIdentityAugmentor`**: Maps OIDC claims to `AuthUser` domain model
-- **`OidcTenantResolver`**: Resolves OIDC tenant (Cognito vs LinkedIn)
 - **`TokenStore`**: Generates temporary tokens for OIDC flows
 - **`CognitoServiceAuthenticationProvider`**: Authenticates services with Cognito using service account credentials
 
@@ -243,10 +242,7 @@ quarkus.oidc.linkedin.credentials.secret=${OAUTH2_LINKEDIN_SECRET:}
 
 ### Multi-Tenant Resolution
 
-The `OidcTenantResolver` determines which OIDC tenant configuration to use:
-- Paths starting with `/auth/linkedin` → LinkedIn tenant
-- State parameter starting with `linkedin:` → LinkedIn tenant
-- All other paths → Default tenant (Cognito)
+Cognito is configured as the default tenant (`quarkus.oidc.tenant-enabled=true`). LinkedIn tenant is disabled (`quarkus.oidc.linkedin.tenant-enabled=false`) because LinkedIn OAuth2 is handled manually via custom callback resources, not using Quarkus OIDC's automatic flow.
 
 ## Endpoints
 
