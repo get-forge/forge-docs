@@ -638,18 +638,21 @@ into pool utilization and potential exhaustion issues.
 
 1. **✅ Phase 1: Local Caching (Caffeine)**
    - `quarkus-cache` dependency added in `libs/cache` module
-   - Four caches configured in `cache.properties`:
+   - Five caches configured in `cache.properties`:
      - `token-validation`: 1 hour TTL, 10k max size (Cognito token validation results)
      - `candidate-profiles`: 10 minutes TTL, 5k max size (PostgreSQL candidate profiles)
      - `resume-data`: 1 hour TTL, 10k max size (candidate resume data from document-service)
      - `parsed-resumes`: 1 hour TTL, 10k max size (parsed resume results from DynamoDB)
+     - `service-tokens`: 5 minutes TTL, 10k max size (OIDC callback tokens, single-use)
    - Cache key generators implemented:
      - `TokenCacheKeyGenerator`: Uses token hash + expiration time for security and TTL alignment
      - `CandidateCacheKeyGenerator`: Uses candidate ID with namespace prefix
+     - `ServiceTokenCacheKeyGenerator`: Uses token string with namespace prefix
    - Cache annotations implemented:
      - `CompositeTokenValidator`: `@CacheResult` for token validation caching
      - `CandidateService`: `@CacheResult` for profile and resume data, `@CacheInvalidate` for profile updates
      - `DocumentService`: `@CacheResult` for parsed resume caching
+     - `TokenStore`: Quarkus Cache API for service token storage and retrieval (replaced ConcurrentHashMap)
 
 2. **✅ Phase 2: Metrics and Monitoring**
    - Cache metrics enabled for all caches (`metrics-enabled=true`)
@@ -691,10 +694,19 @@ into pool utilization and potential exhaustion issues.
    - Allows independent cache invalidation when resumes are uploaded/replaced
    - TTL: 1 hour
 
+**Additional Use Cases:**
+
+5. **✅ Service Token Caching** (Complete - migrated from in-memory TokenStore to Quarkus Cache)
+   - Service tokens (OIDC callback tokens) now cached using Quarkus Cache
+   - TTL: 5 minutes (matches token expiration)
+   - Single-use tokens: invalidated from cache on exchange
+   - Cache key generator: `ServiceTokenCacheKeyGenerator` (uses token string with namespace prefix)
+   - Metrics enabled for monitoring
+   - Replaced `TokenStore` ConcurrentHashMap implementation with Quarkus Cache
+
 **Additional Use Cases (Not Implemented):**
 
-5. **Cognito JWKS Keys** (Low Priority - verify library caching first)
-6. **Service Token Caching** (Low Priority - already implemented separately, can migrate to Quarkus cache)
+6. **Cognito JWKS Keys** (Low Priority - verify library caching first)
 7. **Transaction ID Lookups** (Low Priority - incremental enhancement)
 
 **Synergy with Rate Limiting:**
