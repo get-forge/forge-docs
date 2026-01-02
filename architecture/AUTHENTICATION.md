@@ -59,6 +59,8 @@ Frontend → POST /auth/login (backend-candidate)
 10. UI module exchanges temporary token for JWT tokens via `POST /auth/tokens/exchange`
 11. Frontend stores JWT tokens in localStorage
 
+**Security Note**: Temporary tokens are **single-use** and automatically invalidated after exchange. See [Temporary Token Security](#temporary-token-security) section below.
+
 ### Registration
 
 ```
@@ -92,6 +94,39 @@ Services can make calls to other services using service JWTs:
 - Background jobs / scheduled tasks (with service JWT, no user context)
 
 ## Security Model
+
+### Temporary Token Security
+
+OAuth2/OIDC flows use temporary tokens as an intermediate step between OAuth callback and JWT token generation. These tokens provide an additional security layer:
+
+**How It Works**:
+1. After OAuth callback, `TokenStore.generateToken()` creates a cryptographically secure random token (32-byte UUID)
+2. Token is stored in cache with `AuthIdentity` (TTL: 5 minutes)
+3. User is redirected to frontend callback page with token in URL query parameter
+4. Frontend calls `POST /auth/tokens/exchange` with token in request body (not URL)
+5. `TokenStore.exchangeToken()` retrieves `AuthIdentity` from cache
+6. **Token is immediately invalidated** (removed from cache) - single-use only
+7. Cognito JWT tokens are generated and returned to frontend
+
+**Security Benefits**:
+- ✅ **Single-Use**: Tokens cannot be replayed after exchange
+- ✅ **Short-Lived**: Tokens expire after 5 minutes (cache TTL)
+- ✅ **Secure Random**: Tokens are cryptographically secure (32 bytes of entropy)
+- ✅ **Not in URL**: Token exchange uses POST with token in request body (prevents logging/exposure)
+- ✅ **Immediate Invalidation**: Token removed from cache on successful exchange
+- ✅ **Prevents Token Replay**: Even if token is intercepted, it can only be used once
+
+**Cache Implementation**:
+- Uses Quarkus Cache API with `ServiceTokenCacheKeyGenerator`
+- Cache key format: `service-token:${token}`
+- Cache operations: `put` (store), `get` (retrieve), `invalidate` (remove)
+- All operations logged at DEBUG level for audit trail
+
+**Why Not Direct JWT Generation?**:
+- OAuth callbacks happen server-side (auth-service), but JWTs need to be delivered to frontend
+- Temporary tokens allow secure handoff between server-side OAuth flow and client-side token storage
+- Prevents exposing long-lived JWTs in redirect URLs
+- Enables proper error handling and validation before issuing JWTs
 
 ### Backend REST Endpoints
 
