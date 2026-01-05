@@ -411,42 +411,71 @@ the Maven verify phase as part of the static analysis workflow.
 
 ### 3.2 Test Coverage Metrics
 
-**Current State:** Tests exist but coverage not measured.
+**Status:** ~100% Complete  
+**Last Updated:** 2025-01-27
 
-**Recommendations:**
+**Current State:** Test coverage is fully implemented using Clover Maven plugin with Codecov integration.
+Coverage reports are generated automatically in CI and uploaded to Codecov for trend tracking. The system
+targets 80% coverage with component-based tracking (applications, libs, services).
 
-1. **Add JaCoCo Maven Plugin**
-   ```xml
-   <plugin>
-       <groupId>org.jacoco</groupId>
-       <artifactId>jacoco-maven-plugin</artifactId>
-       <executions>
-           <execution>
-               <goals>
-                   <goal>prepare-agent</goal>
-               </goals>
-           </execution>
-           <execution>
-               <id>report</id>
-               <goals>
-                   <goal>report</goal>
-               </goals>
-           </execution>
-       </executions>
-   </plugin>
-   ```
+**Impact:** Test coverage is now measured and tracked across all modules. Coverage reports provide visibility
+into code quality and help identify untested code paths. Codecov integration enables trend analysis and
+PR-level coverage reporting.
 
-2. **Set Coverage Thresholds**
-   - Minimum 80% line coverage
-   - Minimum 70% branch coverage
-   - Fail build if below threshold
+**Completed:**
 
-3. **Coverage Reports in CI**
-   - Upload coverage reports to GitHub Actions artifacts
-   - Consider Codecov or similar for trend tracking
+1. **✅ Clover Maven Plugin Configuration**
+   - `clover-maven-plugin` configured in root `pom.xml`
+   - Plugin version: 4.5.2
+   - Single Clover database for multi-module project (`singleCloverDatabase=true`)
+   - Coverage database stored in `.clover/clover.db`
+   - Integrated with Maven Surefire (unit tests) and Failsafe (integration tests)
 
-**Effort:** Low (0.5 days)  
-**Value:** Medium - quality assurance
+2. **✅ Coverage Thresholds and Configuration**
+   - Target coverage: 80% (configured in Codecov)
+   - Coverage threshold: 1% decrease allowed (prevents significant regressions)
+   - Coverage range: 70-100% (acceptable range)
+   - Base comparison: auto (compares against previous commit)
+
+3. **✅ CI Integration**
+   - GitHub Actions workflow: `51-code-coverage.yml`
+   - Runs nightly (03:00 UTC) and on-demand via `workflow_dispatch`
+   - Generates coverage reports for unit and integration tests
+   - Uploads HTML coverage reports as GitHub Actions artifacts (30-day retention)
+   - Coverage summary script generates job summary with metrics
+
+4. **✅ Codecov Integration**
+   - Codecov action integrated in CI workflow
+   - Configuration file: `.github/.codecov.yml`
+   - Component-based coverage tracking:
+     - Applications module
+     - Libraries module
+     - Services module
+   - PR comments enabled with coverage diff and tree view
+   - Coverage reports uploaded to Codecov for trend tracking
+
+5. **✅ Coverage Report Generation**
+   - Taskfile tasks for coverage operations:
+     - `clover-unit`: Run unit tests with coverage
+     - `clover-int`: Run integration tests with coverage
+     - `clover-report`: Generate merged coverage report
+   - HTML reports generated in `target/site/clover/`
+   - Coverage summary extracted from Clover XML for CI job summaries
+
+**Remaining Work:**
+
+1. **Build Failure on Coverage Threshold** (optional enhancement)
+   - Currently Codecov tracks coverage but doesn't fail builds
+   - Consider adding Maven plugin configuration to fail build if coverage drops below threshold
+   - Effort: Low (0.5 days)
+
+2. **Coverage Badge** (optional enhancement)
+   - Add coverage badge to README.md
+   - Display current coverage percentage
+   - Effort: Low (0.25 days)
+
+**Effort Remaining:** Low (0.5-0.75 days for optional enhancements)  
+**Value:** High - quality assurance and code quality visibility (achieved)
 
 ---
 
@@ -762,27 +791,56 @@ Redis backend planned for distributed rate limiting (section 1.3) can serve dual
 
 ### 5.2 Graceful Shutdown
 
-**Current State:** Not explicitly configured.
+**Status:** ~100% Complete  
+**Last Updated:** 2025-01-27
 
-**Recommendations:**
+**Current State:** Graceful shutdown is fully implemented with Quarkus shutdown lifecycle handlers.
+Configuration includes shutdown delay and timeout, health check integration (503 during shutdown),
+and comprehensive resource cleanup. The system supports zero-downtime deployments.
 
-1. **Configure Graceful Shutdown**
-   ```properties
-   quarkus.shutdown.timeout=30
-   quarkus.shutdown.wait-for-shutdown-hook=true
-   ```
+**Impact:** Services can now shut down gracefully, allowing in-flight requests to complete while
+preventing new traffic. Load balancers automatically stop routing traffic when health checks return 503
+during shutdown delay. Resource cleanup ensures proper release of database connections, AWS SDK clients,
+and metrics.
 
-2. **Health Check Integration**
-   - Return 503 during shutdown
-   - ALB will stop sending traffic
+**Completed:**
 
-3. **Resource Cleanup**
-   - Close database connections
-   - Flush metrics
-   - Complete in-flight requests
+1. **✅ Graceful Shutdown Configuration**
+   - Configuration in `config/src/main/resources/quarkus.properties`:
+     - `quarkus.shutdown.timeout=30` (maximum time to wait for requests to complete)
+     - `quarkus.shutdown.delay-enabled=true` (enables shutdown delay)
+     - `quarkus.shutdown.delay=10` (delay duration before shutdown begins)
+   - Quarkus automatically handles JVM shutdown hooks (SIGTERM/SIGINT)
 
-**Effort:** Low (0.5 days)  
-**Value:** Medium - zero-downtime deployments
+2. **✅ Shutdown Lifecycle Handler**
+   - Custom `ShutdownLifecycleEventHandler` in `libs/common` module
+   - Three-phase shutdown sequence:
+     - `@ShutdownDelayInitiated`: Health checks return 503, load balancers stop routing
+     - `ShutdownEvent`: Existing requests complete, no new requests accepted
+     - `@Shutdown`: Final cleanup phase after all requests complete or timeout
+   - Comprehensive logging at each phase for operational visibility
+
+3. **✅ Health Check Integration**
+   - SmallRye Health automatically returns 503 during shutdown delay
+   - Load balancers (ALB) detect unhealthy status and stop sending traffic
+   - Existing requests continue processing during shutdown delay
+
+4. **✅ Resource Cleanup**
+   - Database connection pool cleanup (handled automatically by Quarkus/Hibernate)
+   - AWS SDK client cleanup (AutoCloseable beans explicitly closed)
+   - Metrics flushing (handled automatically by Micrometer)
+   - CDI bean cleanup with proper error handling
+
+**Remaining Work:**
+
+1. **Production Validation** (operational)
+   - Verify graceful shutdown behavior in production environment
+   - Monitor shutdown duration and resource cleanup in production
+   - Confirm ALB health check behavior during deployments
+   - Effort: Low (operational validation)
+
+**Effort Remaining:** Low (operational validation only)  
+**Value:** High - zero-downtime deployments (achieved)
 
 ---
 
@@ -790,22 +848,53 @@ Redis backend planned for distributed rate limiting (section 1.3) can serve dual
 
 ### 6.1 Database Migration Strategy
 
-**Current State:** Not clear if migrations are automated.
+**Status:** ~100% Complete  
+**Last Updated:** 2025-01-27
 
-**Recommendations:**
+**Current State:** Flyway is fully integrated for database migrations. Migrations are version-controlled
+and automatically applied on application startup. Three migration files are in place for the
+candidates table schema evolution.
 
-1. **Use Flyway or Liquibase**
-   - Flyway recommended (simpler, Quarkus native support)
-   - Version-controlled migrations
-   - Automatic migration on startup (dev) or manual (prod)
+**Impact:** Database schema changes are now version-controlled and automatically applied. Migrations
+run on startup, ensuring database schema consistency across environments. Version numbering prevents
+conflicts and enables rollback tracking.
 
-2. **Migration Best Practices**
-   - Backward-compatible migrations
-   - Rollback scripts
-   - Test migrations in staging first
+**Completed:**
 
-**Effort:** Medium (2-3 days)  
-**Value:** High - database schema management
+1. **✅ Flyway Integration**
+   - `quarkus-flyway` dependency added to `candidate-service` module
+   - Configuration in `config/src/main/resources/database.properties`:
+     - `quarkus.flyway.migrate-at-start=true` (automatic migration on startup)
+   - Flyway migrations located in `services/candidate-service/src/main/resources/db/migration/`
+
+2. **✅ Migration Files**
+   - `V1__create_candidates_table.sql` - Initial schema creation
+   - `V2__add_linked_in_sub.sql` - LinkedIn OAuth integration column
+   - `V3__add_refresh_token.sql` - Refresh token support
+   - Version numbering follows Flyway naming convention (`V{version}__{description}.sql`)
+
+3. **✅ Migration Execution**
+   - Migrations automatically run on application startup
+   - Flyway tracks applied migrations in `flyway_schema_history` table
+   - Prevents duplicate migration execution
+   - Supports both development (auto-migrate) and production (controlled migration) workflows
+
+**Remaining Work:**
+
+1. **Migration Best Practices Documentation** (optional enhancement)
+   - Document migration workflow for production deployments
+   - Create rollback procedure documentation
+   - Establish migration testing process in staging
+   - Effort: Low (0.5 days)
+
+2. **Production Migration Strategy** (operational)
+   - Define production migration process (manual vs automatic)
+   - Establish migration approval workflow
+   - Create migration rollback procedures
+   - Effort: Low-Medium (1-2 days, operational planning)
+
+**Effort Remaining:** Low-Medium (1-2.5 days for documentation and operational planning)  
+**Value:** High - database schema management (core implementation achieved)
 
 ---
 
@@ -831,51 +920,233 @@ Redis backend planned for distributed rate limiting (section 1.3) can serve dual
 
 ### 6.3 API Request/Response Validation
 
-**Current State:** Not explicitly configured.
+**Status:** ~100% Complete  
+**Last Updated:** 2025-01-27
 
-**Recommendations:**
+**Current State:** Jakarta Bean Validation is fully implemented for all request DTOs. Validation annotations
+are applied to DTOs, and REST endpoints use `@Valid` to trigger automatic validation. A custom exception
+mapper returns all validation errors in a structured 400 Bad Request response.
 
-1. **Bean Validation**
-   - Use Jakarta Bean Validation (`@NotNull`, `@Size`, `@Email`, etc.)
-   - Validate DTOs at REST endpoints
-   - Return 400 with validation errors
+**Impact:** Invalid requests are now rejected before reaching business logic, improving data quality and
+providing clear error messages to clients. All validation errors are returned at once, allowing clients
+to fix multiple issues in a single request cycle.
 
-2. **Custom Validators**
-   - Business rule validation
-   - Cross-field validation
+**Completed:**
 
-**Effort:** Low (1 day)  
-**Value:** Medium - data quality
+1. **✅ Jakarta Bean Validation Integration**
+   - Jakarta Bean Validation API dependency added to `libs/domain-dtos` module
+   - Validation annotations applied to all request DTOs:
+     - `LoginRequest`: `@NotBlank` for username and password
+     - `RegisterRequest`: `@NotBlank`, `@Email`, `@Size` constraints for all fields
+     - `RefreshRequest`: `@NotBlank` for refreshToken, `@Size` for optional fields
+     - `MatchRequest`: `@NotBlank` for candidateId, `@Size` for UUIDs, `@Min` for limit
+     - `RegisterRequestPartialAuth`: `@NotNull` and `@Valid` for nested object validation
+
+2. **✅ REST Endpoint Validation**
+   - `@Valid` annotation added to all DTO parameters in REST endpoints:
+     - `AuthController` (backend-candidate)
+     - `AuthResource` (auth-service)
+     - `CandidateResource` (candidate-service)
+     - `MatchResource` (match-service)
+   - Validation automatically triggered before method execution
+   - Invalid requests return 400 Bad Request before business logic runs
+
+3. **✅ Validation Exception Mapper**
+   - `ValidationExceptionMapper` in `libs/common/validation/rest` module
+   - Returns all validation errors in structured format: `{"errors": ["error1", "error2", ...]}`
+   - Returns 400 Bad Request status code
+   - Comprehensive unit test coverage
+
+4. **✅ Validation Constraints Applied**
+   - Required field validation (`@NotBlank`, `@NotNull`)
+   - Email format validation (`@Email`)
+   - String length constraints (`@Size` with max lengths)
+   - Integer range validation (`@Min` for positive values)
+   - Nested object validation (`@Valid` for cascading validation)
+
+**Remaining Work:**
+
+1. **Custom Validators** (optional enhancement)
+   - Business rule validation (e.g., password complexity beyond length)
+   - Cross-field validation (e.g., date ranges, conditional requirements)
+   - Effort: Low-Medium (1-2 days)
+
+2. **Query Parameter Validation** (optional enhancement)
+   - Add validation for `@QueryParam` and `@PathParam` values
+   - Currently handled manually with `StringUtils` checks
+   - Effort: Low (0.5 days)
+
+**Effort Remaining:** Low-Medium (1.5-2.5 days for optional enhancements)  
+**Value:** High - data quality and improved client experience (core implementation achieved)
 
 ---
 
 ## Implementation Roadmap
 
-### Phase 1: Critical Production Blockers (Week 1-2)
-1. ✅ Metrics implementation (1.1) - ~95% complete (all application-level metrics implemented;
-   CloudWatch integration deferred to production infrastructure work)
-2. ✅ Enhanced health checks (1.2) - ~90% complete
-3. ✅ Rate limiting (1.3) - ~95% complete (distributed rate limiting deferred)
+### Phase 1: Critical Production Blockers
 
-### Phase 2: Observability (Week 3-4)
-1. ✅ Metrics dashboard (2.1) - ~85% complete (production alerting deferred to production infrastructure work)
-2. Structured logging enhancement (2.2)
-3. Distributed tracing enhancement (2.3)
+<table style="width: 100%;">
+<thead>
+<tr>
+<th style="width: 30%;">Item</th>
+<th style="width: 12%;">Status</th>
+<th style="width: 10%;">Progress</th>
+<th style="width: 48%;">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.1 Metrics implementation</td>
+<td style="white-space: nowrap;">✅ Complete</td>
+<td>~95%</td>
+<td>All application-level metrics implemented; CloudWatch integration deferred to production infrastructure work</td>
+</tr>
+<tr>
+<td>1.2 Enhanced health checks</td>
+<td style="white-space: nowrap;">✅ Complete</td>
+<td>~90%</td>
+<td>Core implementation complete; operational integration pending</td>
+</tr>
+<tr>
+<td>1.3 Rate limiting</td>
+<td style="white-space: nowrap;">✅ Complete</td>
+<td>~95%</td>
+<td>Application-level complete; distributed rate limiting deferred</td>
+</tr>
+</tbody>
+</table>
 
-### Phase 3: Code Quality (Week 5)
-1. ✅ Complexity metrics (3.1) - ~100% complete
-2. Test coverage (3.2)
-3. ✅ API documentation (3.3) - ~90% complete
+### Phase 2: Observability
 
-### Phase 4: Performance (Week 6-7)
-1. ✅ Performance testing framework (4.1) - ~95% complete (CI integration optional)
-2. ✅ Database optimization (4.2) - ~100% complete
-3. Caching strategy (4.3)
+<table style="width: 100%;">
+<thead>
+<tr>
+<th style="width: 30%;">Item</th>
+<th style="width: 12%;">Status</th>
+<th style="width: 10%;">Progress</th>
+<th style="width: 48%;">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2.1 Metrics dashboard</td>
+<td style="white-space: nowrap;">✅ Complete</td>
+<td>~85%</td>
+<td>Five dashboards operational; production alerting deferred to production infrastructure work</td>
+</tr>
+<tr>
+<td>2.2 Structured logging enhancement</td>
+<td style="white-space: nowrap;">⏸️ Pending</td>
+<td>0%</td>
+<td>Not started</td>
+</tr>
+<tr>
+<td>2.3 Distributed tracing enhancement</td>
+<td style="white-space: nowrap;">⏸️ Pending</td>
+<td>0%</td>
+<td>Not started</td>
+</tr>
+</tbody>
+</table>
 
-### Phase 5: Operational Excellence (Week 8)
-1. Database migrations (6.1)
-2. Graceful shutdown (5.2)
-3. Request validation (6.3)
+### Phase 3: Code Quality
+
+<table style="width: 100%;">
+<thead>
+<tr>
+<th style="width: 30%;">Item</th>
+<th style="width: 12%;">Status</th>
+<th style="width: 10%;">Progress</th>
+<th style="width: 48%;">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3.1 Complexity metrics</td>
+<td style="white-space: nowrap;">✅ Complete</td>
+<td>~100%</td>
+<td>PMD plugin configured with complexity thresholds</td>
+</tr>
+<tr>
+<td>3.2 Test coverage</td>
+<td style="white-space: nowrap;">✅ Complete</td>
+<td>~100%</td>
+<td>Clover + Codecov integration complete</td>
+</tr>
+<tr>
+<td>3.3 API documentation</td>
+<td style="white-space: nowrap;">✅ Complete</td>
+<td>~90%</td>
+<td>DTOs documented; API versioning optional</td>
+</tr>
+</tbody>
+</table>
+
+### Phase 4: Performance
+
+<table style="width: 100%;">
+<thead>
+<tr>
+<th style="width: 30%;">Item</th>
+<th style="width: 12%;">Status</th>
+<th style="width: 10%;">Progress</th>
+<th style="width: 48%;">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4.1 Performance testing framework</td>
+<td style="white-space: nowrap;">✅ Complete</td>
+<td>~95%</td>
+<td>k6 framework operational; CI integration optional</td>
+</tr>
+<tr>
+<td>4.2 Database optimization</td>
+<td style="white-space: nowrap;">✅ Complete</td>
+<td>~100%</td>
+<td>Connection pool optimized; metrics enabled</td>
+</tr>
+<tr>
+<td>4.3 Caching strategy</td>
+<td style="white-space: nowrap;">✅ Complete</td>
+<td>~75%</td>
+<td>Local caching complete; Redis backend deferred to production infrastructure work</td>
+</tr>
+</tbody>
+</table>
+
+### Phase 5: Operational Excellence
+
+<table style="width: 100%;">
+<thead>
+<tr>
+<th style="width: 30%;">Item</th>
+<th style="width: 12%;">Status</th>
+<th style="width: 10%;">Progress</th>
+<th style="width: 48%;">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6.1 Database migrations</td>
+<td style="white-space: nowrap;">✅ Complete</td>
+<td>~100%</td>
+<td>Flyway integrated; migration files in place</td>
+</tr>
+<tr>
+<td>5.2 Graceful shutdown</td>
+<td style="white-space: nowrap;">✅ Complete</td>
+<td>~100%</td>
+<td>Shutdown lifecycle handlers implemented</td>
+</tr>
+<tr>
+<td>6.3 Request validation</td>
+<td style="white-space: nowrap;">✅ Complete</td>
+<td>~100%</td>
+<td>Bean validation implemented; custom validators optional</td>
+</tr>
+</tbody>
+</table>
 
 ---
 
