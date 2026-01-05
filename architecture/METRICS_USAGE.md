@@ -128,7 +128,6 @@ health and identifying connection pool exhaustion issues.
 Enable in `database.properties`:
 ```properties
 quarkus.datasource.metrics.enabled=true
-quarkus.datasource.jdbc.enable-metrics=true
 ```
 
 **Available Metrics:**
