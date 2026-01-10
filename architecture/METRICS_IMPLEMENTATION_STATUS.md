@@ -51,7 +51,7 @@
 #### 1. Custom Business Metrics Usage
 
 **External API Call Metrics:**
-- ✅ TextKernel API calls instrumented in document-service and match-service
+- ✅ TextKernel API calls instrumented in document-service
   - Location: `TextkernelTxParserService.parseResume()`, `parseJobSpec()`
   - Records: duration, success/failure
 - ⚠️ Cognito API calls - intentionally excluded (see decision below)
@@ -103,7 +103,7 @@ Metrics for AWS-managed services (Cognito, S3, DynamoDB) are **intentionally exc
 ### Priority 1: Complete Custom Metrics Implementation
 
 1. **Add External API Metrics** (✅ Complete)
-   - ✅ TextKernel API metrics implemented in document-service and match-service
+   - ✅ TextKernel API metrics implemented in document-service
    - ⚠️ Cognito metrics intentionally excluded (see AWS Service Metrics Decision above)
 
 2. **Add Database Operation Metrics** (2-3 hours)

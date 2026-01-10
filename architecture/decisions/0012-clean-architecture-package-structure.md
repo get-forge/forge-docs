@@ -199,7 +199,7 @@ All shared DTOs must be defined in `libs/domain-dtos`:
 ### **Service-Specific DTOs**
 
 Service-specific DTOs can be defined in `services/{service}/domain/dto/`:
-- Example: `services/match-service/domain/dto/MatchRequest.java`
+- Example: `services/candidate-service/domain/dto/MatchRequest.java`
 
 **Rule**: If a DTO is used by multiple services or the frontend, it must be in `libs/domain-dtos`.
 

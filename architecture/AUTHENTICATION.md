@@ -89,8 +89,8 @@ All frontend requests route through `backend-candidate` (port 8500), which proxi
 
 Services can make calls to other services using service JWTs:
 
-- `document-service` → `match-service` (with service JWT)
 - `auth-service` → `candidate-service` (with service JWT)
+- `candidate-service` → `x-service` (with service JWT)
 - Background jobs / scheduled tasks (with service JWT, no user context)
 
 ## Security Model

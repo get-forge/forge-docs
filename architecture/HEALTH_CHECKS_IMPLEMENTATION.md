@@ -15,7 +15,7 @@ implementation is **straightforward** (~1-2 days) and follows Quarkus SmallRye H
 
 **✅ CRITICAL - Implement Readiness Checks:**
 - **PostgreSQL** (candidate-service) - Primary database, must be available
-- **DynamoDB** (document-service, match-service) - Primary data store
+- **DynamoDB** (document-service) - Primary data store
 - **Cognito** (auth-service) - Authentication required for all operations, all Cognito usage is via auth-service
 - **S3** (document-service) - Required for document uploads
 
@@ -209,7 +209,6 @@ The health check implementation is environment-agnostic - it uses the same clien
 - [x] Custom S3 health check implemented in document-service (checks resume and job buckets)
 - [x] Custom DynamoDB health check implemented in document-service (checks `RESUMES` and `JOBS` tables)
 - [x] Custom Cognito health checks implemented in auth-service (candidate and service user pools)
-- [x] Custom DynamoDB health check implemented in match-service
 - [x] All health checks return `UP` when dependencies are available
 - [x] All health checks return `DOWN` when dependencies are unavailable
 - [x] `/q/health/ready` endpoint returns aggregated status
