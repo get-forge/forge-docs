@@ -209,7 +209,7 @@ rate(agroal_leak_detection_count_total{datasource="default"}[5m])
 Use `ApplicationMetrics` from the `common` library to record custom business metrics:
 
 ```java
-import tech.eagledrive.metrics.ApplicationMetrics;
+import io.forge.metrics.ApplicationMetrics;
 import jakarta.inject.Inject;
 
 @ApplicationScoped
@@ -220,22 +220,22 @@ public class MyService {
     public void doSomething() {
         // Record authentication success
         metrics.recordAuthenticationSuccess("user");
-        
+
         // Record authentication failure
         metrics.recordAuthenticationFailure("user", "invalid_credentials");
-        
+
         // Record external API call duration
         long startTime = System.currentTimeMillis();
         // ... make API call ...
         long duration = System.currentTimeMillis() - startTime;
         metrics.recordExternalApiCall("textkernel", "parse-resume", duration);
-        
+
         // Record database operation
         long dbStart = System.currentTimeMillis();
         // ... database operation ...
         long dbDuration = System.currentTimeMillis() - dbStart;
         metrics.recordDatabaseOperation("find", "candidate", dbDuration);
-        
+
         // Record business event
         metrics.recordBusinessEvent("document.uploaded", "success");
     }

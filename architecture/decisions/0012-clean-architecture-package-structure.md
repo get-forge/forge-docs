@@ -38,7 +38,7 @@ applications, and libraries must follow these standards.
 ### **Services** (`services/{service-name}`)
 
 ```
-tech.eagledrive.services.{service}/
+io.forge.services.{service}/
 ├── domain/                               # Business logic
 │   ├── dto/                              # Domain DTOs (if service-specific)
 │   ├── exception/                        # Domain exceptions
@@ -60,7 +60,7 @@ tech.eagledrive.services.{service}/
 
 **Example**: `services/candidate-service`
 ```
-tech.eagledrive.services.candidate/
+io.forge.services.candidate/
 ├── domain/
 │   └── CandidateService.java
 ├── infrastructure/
@@ -74,7 +74,7 @@ tech.eagledrive.services.candidate/
 ### **Applications** (`application/{app-name}`)
 
 ```
-tech.eagledrive.application.{app}/
+io.forge.application.{app}/
 ├── presentation/                         # HTTP/REST layer
 │   └── rest/                             # JAX-RS controllers
 │       └── [REST controllers]
@@ -84,7 +84,7 @@ tech.eagledrive.application.{app}/
 
 **Example**: `application/backend-candidate`
 ```
-tech.eagledrive.application.backend/
+io.forge.application.backend/
 └── presentation/
     └── rest/
         ├── AuthController.java
@@ -97,7 +97,7 @@ tech.eagledrive.application.backend/
 For libraries that provide infrastructure concerns (aws-api, textkernel-api):
 
 ```
-tech.eagledrive.{library}/
+io.forge.{library}/
 ├── infrastructure/
 │   ├── config/                           # Client producers
 │   ├── client/                           # Client implementations
@@ -108,7 +108,7 @@ tech.eagledrive.{library}/
 
 **Example**: `libs/aws-api`
 ```
-tech.eagledrive.aws/
+io.forge.aws/
 └── infrastructure/
     ├── config/
     │   └── S3ClientProducer.java
@@ -122,16 +122,16 @@ tech.eagledrive.aws/
 For REST client interfaces:
 
 ```
-tech.eagledrive.client.{service}/
+io.forge.client.{service}/
 └── {Service}Client.java
 ```
 
 **Example**: `libs/domain-clients`
 ```
-tech.eagledrive.client.auth/
+io.forge.client.auth/
 └── AuthServiceClient.java
 
-tech.eagledrive.client.document/
+io.forge.client.document/
 └── ParseServiceClient.java
 ```
 
@@ -140,13 +140,13 @@ tech.eagledrive.client.document/
 For shared domain concerns:
 
 ```
-tech.eagledrive.domain.{concern}/
+io.forge.domain.{concern}/
 └── [Domain types, DTOs, interfaces]
 ```
 
 **Example**: `libs/domain-dtos`
 ```
-tech.eagledrive.domain.dto.auth/
+io.forge.domain.dto.auth/
 ├── LoginRequest.java
 ├── RegisterRequest.java
 └── AuthResponse.java
@@ -191,10 +191,10 @@ tech.eagledrive.domain.dto.auth/
 ### **Shared DTOs**
 
 All shared DTOs must be defined in `libs/domain-dtos`:
-- `tech.eagledrive.domain.dto.auth.*` - Authentication DTOs
-- `tech.eagledrive.domain.dto.user.*` - User DTOs
-- `tech.eagledrive.domain.dto.textkernel.*` - Textkernel DTOs
-- `tech.eagledrive.domain.dto.document.*` - Document DTOs
+- `io.forge.domain.dto.auth.*` - Authentication DTOs
+- `io.forge.domain.dto.user.*` - User DTOs
+- `io.forge.domain.dto.textkernel.*` - Textkernel DTOs
+- `io.forge.domain.dto.document.*` - Document DTOs
 
 ### **Service-Specific DTOs**
 
@@ -210,7 +210,7 @@ Service-specific DTOs can be defined in `services/{service}/domain/dto/`:
 ### **Good Structure: candidate-service**
 
 ```
-tech.eagledrive.services.candidate/
+io.forge.services.candidate/
 ├── domain/
 │   └── CandidateService.java
 ├── infrastructure/
@@ -224,7 +224,7 @@ tech.eagledrive.services.candidate/
 ### **Good Structure: security library**
 
 ```
-tech.eagledrive.security/
+io.forge.security/
 ├── domain/
 │   ├── dto/
 │   ├── exception/
@@ -246,7 +246,7 @@ tech.eagledrive.security/
 ### **Good Structure: backend-candidate**
 
 ```
-tech.eagledrive.application.backend/
+io.forge.application.backend/
 └── presentation/
     └── rest/
         ├── AuthController.java
