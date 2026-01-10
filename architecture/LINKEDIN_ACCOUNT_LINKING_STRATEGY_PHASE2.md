@@ -71,7 +71,7 @@ Phase 1 already added:
 
 ### New Repository Method
 
-**File**: `services/candidate-service/src/main/java/tech/eagledrive/services/candidate/infrastructure/persistence/CandidateRepository.java`
+**File**: `services/candidate-service/src/main/java/io/eagledrive/services/candidate/infrastructure/persistence/CandidateRepository.java`
 
 Add method:
 ```java
@@ -103,13 +103,13 @@ public Optional<CandidateRecord> findByLinkedInSub(final String linkedInSub)
 
 #### Add Repository Method
 
-**File**: `services/candidate-service/src/main/java/tech/eagledrive/services/candidate/infrastructure/persistence/CandidateRepository.java`
+**File**: `services/candidate-service/src/main/java/io/eagledrive/services/candidate/infrastructure/persistence/CandidateRepository.java`
 
 Add `findByLinkedInSub` method (see Database Changes section above).
 
 #### Add Service Method
 
-**File**: `services/candidate-service/src/main/java/tech/eagledrive/services/candidate/domain/CandidateService.java`
+**File**: `services/candidate-service/src/main/java/io/eagledrive/services/candidate/domain/CandidateService.java`
 
 Add method:
 ```java
@@ -126,7 +126,7 @@ public Optional<CandidateResponse> getCandidateByLinkedInSub(final String linked
 
 #### Add REST Endpoint
 
-**File**: `services/candidate-service/src/main/java/tech/eagledrive/services/candidate/presentation/rest/CandidateResource.java`
+**File**: `services/candidate-service/src/main/java/io/eagledrive/services/candidate/presentation/rest/CandidateResource.java`
 
 Add endpoint:
 ```java
@@ -168,7 +168,7 @@ public Response getCandidateByLinkedInSub(@PathParam("linkedInSub") final String
 
 #### Update REST Client
 
-**File**: `libs/domain-clients/src/main/java/tech/eagledrive/client/candidate/CandidateServiceClient.java`
+**File**: `libs/domain-clients/src/main/java/io/eagledrive/client/candidate/CandidateServiceClient.java`
 
 Add method:
 ```java
@@ -189,7 +189,7 @@ Response getCandidateByLinkedInSub(@PathParam("linkedInSub") final String linked
 
 ### 2. Update LinkedIn OAuth Callback
 
-**File**: `services/auth-service/src/main/java/tech/eagledrive/services/auth/oidc/linkedin/LinkedInOidcCallbackResource.java`
+**File**: `services/auth-service/src/main/java/io/eagledrive/services/auth/oidc/linkedin/LinkedInOidcCallbackResource.java`
 
 **Changes**:
 1. After fetching LinkedIn user info, extract `linked_in_sub` from `AuthIdentity`
@@ -255,7 +255,7 @@ public Response callback(@QueryParam("code") final String code, @QueryParam("sta
 
 ### 3. Update Token Exchange Resource
 
-**File**: `services/auth-service/src/main/java/tech/eagledrive/services/auth/rest/TokenExchangeResource.java`
+**File**: `services/auth-service/src/main/java/io/eagledrive/services/auth/rest/TokenExchangeResource.java`
 
 **Changes**:
 1. After exchanging token for `AuthIdentity`, generate Cognito JWT tokens using stored refresh token
@@ -315,7 +315,7 @@ private AuthResponse generateCognitoTokens(final AuthIdentity identity)
 
 ### 4. Create Cognito Token Generator Service
 
-**File**: `services/auth-service/src/main/java/tech/eagledrive/services/auth/infrastructure/cognito/CognitoTokenGenerator.java`
+**File**: `services/auth-service/src/main/java/io/eagledrive/services/auth/infrastructure/cognito/CognitoTokenGenerator.java`
 
 **Purpose**: Generate Cognito JWT tokens using stored refresh tokens for OAuth flows.
 
@@ -790,7 +790,7 @@ Phase 2 is complete when:
 - [AWS Cognito Refresh Token Auth Flow](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-refreshing.html)
 - [OAuth 2.0 Security Best Practices](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics)
 - Phase 1 Documentation: `docs/architecture/LINKEDIN_ACCOUNT_LINKING_STRATEGY.md`
-- Current LinkedIn OAuth implementation: `services/auth-service/src/main/java/tech/eagledrive/services/auth/oidc/linkedin/`
+- Current LinkedIn OAuth implementation: `services/auth-service/src/main/java/io/eagledrive/services/auth/oidc/linkedin/`
 
 ---
 

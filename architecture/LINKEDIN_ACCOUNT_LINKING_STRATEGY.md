@@ -78,7 +78,7 @@ COMMENT ON COLUMN candidates.linked_in_sub IS 'LinkedIn OAuth sub (unique identi
 
 ### Entity Updates
 
-**File**: `services/candidate-service/src/main/java/tech/eagledrive/services/candidate/infrastructure/persistence/CandidateRecord.java`
+**File**: `services/candidate-service/src/main/java/io/eagledrive/services/candidate/infrastructure/persistence/CandidateRecord.java`
 
 Add field:
 ```java
@@ -94,7 +94,7 @@ private String linkedInSub;
 
 **Endpoint**: `GET /auth/linkedin/link`  
 **Authentication**: Required (`@Secured`)  
-**Location**: `services/auth-service/src/main/java/tech/eagledrive/services/auth/oidc/linkedin/LinkedInLinkResource.java`
+**Location**: `services/auth-service/src/main/java/io/eagledrive/services/auth/oidc/linkedin/LinkedInLinkResource.java`
 
 **Purpose**: Initiates LinkedIn OAuth flow for account linking (different from login flow)
 
@@ -122,7 +122,7 @@ Authorization: Bearer <cognito-jwt-token>
 
 **Endpoint**: `GET /auth/linkedin/link/callback`  
 **Authentication**: Public (called by LinkedIn)  
-**Location**: `services/auth-service/src/main/java/tech/eagledrive/services/auth/oidc/linkedin/LinkedInLinkCallbackResource.java`
+**Location**: `services/auth-service/src/main/java/io/eagledrive/services/auth/oidc/linkedin/LinkedInLinkCallbackResource.java`
 
 **Purpose**: Handles LinkedIn OAuth callback for account linking
 
@@ -386,7 +386,7 @@ After Phase 1, Phase 2 will:
 
 - [AWS Cognito Account Linking Best Practices](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-identity-federation.html)
 - [OAuth 2.0 Security Best Practices](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics)
-- Current LinkedIn OAuth implementation: `services/auth-service/src/main/java/tech/eagledrive/services/auth/oidc/linkedin/`
+- Current LinkedIn OAuth implementation: `services/auth-service/src/main/java/io/eagledrive/services/auth/oidc/linkedin/`
 
 ---
 
