@@ -164,8 +164,8 @@ Metrics for AWS-managed services (Cognito, S3, DynamoDB) are **intentionally exc
 - `scripts/docker/grafana-dashboard-generator.sh` - Dashboard generator (refactored)
 
 ### Code
-- `libs/common/src/main/java/io/eagledrive/common/metrics/ApplicationMetrics.java` - Metrics API
-- `services/auth-service/src/main/java/io/eagledrive/services/auth/domain/AuthService.java` - Auth metrics
+- `libs/common/src/main/java/io/forge/common/metrics/ApplicationMetrics.java` - Metrics API
+- `services/auth-service/src/main/java/io/forge/services/auth/domain/AuthService.java` - Auth metrics
 
 ### Documentation
 - `docs/architecture/METRICS_USAGE.md` - Usage guide
