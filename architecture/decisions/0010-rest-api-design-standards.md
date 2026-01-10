@@ -10,7 +10,7 @@
 
 The codebase had inconsistent REST API endpoint patterns across services:
 
-* **Action-based URLs** (e.g., `/match/candidate/matches`, `/parse/resume`) instead of resource-based
+* **Action-based URLs** (e.g., `/parse/resume`) instead of resource-based
 * **Inconsistent naming** (singular vs plural, verbs vs nouns)
 * **Inconsistent ID usage** (email vs UUID, path params vs query params)
 * **Security issues** (sensitive data in GET query parameters)
@@ -29,12 +29,12 @@ industry best practices. All endpoints across all services must follow these sta
 ### **Core Principles**
 
 1. **Resource-Based URLs**: Use nouns, not verbs. Resources represent entities, not actions.
-   - ✅ `/candidates`, `/matches`, `/resumes`, `/job-specs`
-   - ❌ `/match/candidate/matches`, `/parse/resume`, `/admin/toggle`
+   - ✅ `/candidates`, `/resumes`, `/job-specs`
+   - ❌ `/parse/resume`, `/admin/toggle`
 
 2. **Plural Nouns**: Use plural nouns for resource collections.
-   - ✅ `/candidates`, `/matches`, `/resumes`
-   - ❌ `/candidate`, `/match`, `/resume`
+   - ✅ `/candidates`, `/resumes`
+   - ❌ `/candidate`, `/resume`
 
 3. **HTTP Methods**: Use HTTP methods to indicate actions.
    - **GET**: Retrieve resources (idempotent, safe)
@@ -44,16 +44,16 @@ industry best practices. All endpoints across all services must follow these sta
    - **DELETE**: Remove resource (idempotent)
 
 4. **Query Parameters for Filtering**: Use query parameters for filtering, searching, and pagination.
-   - ✅ `GET /matches?candidateId={id}&jobId={id}`
-   - ❌ `GET /match/candidate/{email}/matches`
+   - ✅ `GET /candidates?candidateId={id}`
+   - ❌ `GET /candidate/{email}/candidates`
 
 5. **Path Parameters for Identification**: Use path parameters for resource identification.
    - ✅ `GET /candidates/{candidateId}`
    - ❌ `GET /candidates?candidateId={id}` (for single resource)
 
 6. **Consistent ID Usage**: Use UUIDs consistently in path parameters. Use query parameters for filtering by other attributes.
-   - ✅ `GET /matches?candidateId={uuid}`
-   - ❌ `GET /match/candidate/{email}/matches`
+   - ✅ `GET /candidates?candidateId={uuid}`
+   - ❌ `GET /candidate/{email}/candidates`
 
 7. **Proper Status Codes**:
    - `200 OK` - Success
@@ -87,12 +87,11 @@ public Response createResume(@RestForm String candidateId, @RestForm FileUpload 
 #### **Resource Retrieval with Filtering**
 ```java
 @GET
-@Path("/matches")
-public Response getMatches(
-    @QueryParam("candidateId") String candidateId,
-    @QueryParam("jobId") String jobId) {
+@Path("/candidate")
+public Response getCandidate(
+    @QueryParam("candidateId") String candidateId) {
     // ... query logic
-    return Response.ok(matches).build();
+    return Response.ok(candidates).build();
 }
 ```
 

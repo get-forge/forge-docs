@@ -57,7 +57,7 @@ impact and effort, focusing on boilerplate and productionization rather than fea
 - ✅ Five dashboards created (HTTP, User, JVM, Rate Limiting, Infrastructure metrics)
 - ✅ Authentication metrics implemented in AuthService
 - ✅ Rate limiting metrics fully implemented with comprehensive dashboard
-- ✅ External API call metrics (TextKernel) implemented in document-service and match-service
+- ✅ External API call metrics (TextKernel) implemented in document-service
 - ✅ Database operation metrics implemented via `@DatabaseMetrics` interceptor pattern
 - ✅ Database connection pool metrics (Agroal) enabled and visualized
 - ✅️ Circuit breaker state transition metrics captured and displayed
@@ -87,7 +87,7 @@ implemented and operational.
 3. **✅ Metrics Infrastructure**
    - Authentication metrics implemented in `AuthService`
    - Rate limiting metrics fully implemented via `ThrottleMetricsHandler` with comprehensive tracking
-   - External API call metrics (TextKernel) implemented in `document-service` and `match-service`, tested in Grafana
+   - External API call metrics (TextKernel) implemented in `document-service`, tested in Grafana
    - Database operation metrics implemented via `@DatabaseMetrics` annotation and `DatabaseMetricsInterceptor` for automatic timing collection
    - Database connection pool metrics (Agroal) automatically exposed and visualized in Infrastructure dashboard
    - Error rate by endpoint visualized via heatmap and table panels (derived from HTTP status codes)
@@ -170,8 +170,6 @@ clear view of dependency status for load balancers and operators.
    - `document-service`
      - Custom S3 readiness check using `S3HealthCheck` for `bravo-candidate-resumes` and `bravo-client-jobs`.
      - Custom DynamoDB readiness check using `DynamoDbHealthCheck` for `RESUMES` and `JOBS`.
-   - `match-service`
-     - Custom DynamoDB readiness check using `DynamoDbHealthCheck` for match related tables.
    - `auth-service`
      - Two custom Cognito readiness checks using `CognitoHealthCheck` for the candidate and service user pools.
    - Quarkus built-in datasource health check is disabled in favor of the custom Postgres health check.
@@ -947,7 +945,6 @@ to fix multiple issues in a single request cycle.
      - `AuthController` (backend-candidate)
      - `AuthResource` (auth-service)
      - `CandidateResource` (candidate-service)
-     - `MatchResource` (match-service)
    - Validation automatically triggered before method execution
    - Invalid requests return 400 Bad Request before business logic runs
 
