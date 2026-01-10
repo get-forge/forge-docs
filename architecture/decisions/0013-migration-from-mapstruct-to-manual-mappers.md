@@ -117,11 +117,7 @@ We will migrate from MapStruct to **manual mapper classes** that explicitly hand
 - `ResumeMapper` (most complex, has JSON processing)
 - `JobSpecMapper`
 
-### Phase 3: Migrate Match Service Mappers
-- `MatchMapper`
-- `TextkernelMapper`
-
-### Phase 4: Cleanup
+### Phase 3: Cleanup
 - Remove MapStruct dependencies
 - Remove annotation processor configuration
 - Clean up generated sources
