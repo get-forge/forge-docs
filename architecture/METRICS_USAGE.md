@@ -334,7 +334,7 @@ Custom metrics can add additional tags:
 - `status`: Operation status (`success`, `failure`)
 - `api`: External API name (`textkernel`, `cognito`)
 - `operation`: Database operation (`find`, `save`, `delete`)
-- `entity`: Entity type (`candidate`, `match`)
+- `entity`: Entity type (`candidate`)
 - `key_type`: Rate limit key type (`user`, `service`, `ip`, `auth`)
 - `identifier`: Rate limit identifier (username, serviceId, IP address)
 

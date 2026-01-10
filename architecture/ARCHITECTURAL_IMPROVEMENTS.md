@@ -352,7 +352,7 @@ to production infrastructure work.
 1. **Add Custom Spans**
    - Database query spans
    - External API call spans (TextKernel, Cognito)
-   - Business operation spans (document parsing, matching)
+   - Business operation spans (document parsing)
 
 2. **Trace Sampling Strategy**
    - 100% sampling in development
@@ -497,7 +497,6 @@ maintainability.
      - `LoginRequest`, `RegisterRequest`, `RefreshRequest`
      - `AuthResponse`, `RegistrationResponse`, `AuthUser`
      - `CandidateResponse`, `RegisterRequestPartialAuth`
-     - `MatchRequest`, `Match`
      - `ResumeResponse`, `JobSpecResponse`
      - `ErrorResponse`
    - Added `microprofile-openapi-api` dependency to `libs/domain-dtos`
@@ -937,7 +936,6 @@ to fix multiple issues in a single request cycle.
      - `LoginRequest`: `@NotBlank` for username and password
      - `RegisterRequest`: `@NotBlank`, `@Email`, `@Size` constraints for all fields
      - `RefreshRequest`: `@NotBlank` for refreshToken, `@Size` for optional fields
-     - `MatchRequest`: `@NotBlank` for candidateId, `@Size` for UUIDs, `@Min` for limit
      - `RegisterRequestPartialAuth`: `@NotNull` and `@Valid` for nested object validation
 
 2. **✅ REST Endpoint Validation**
