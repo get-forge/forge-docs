@@ -159,7 +159,7 @@ tech.eagledrive.domain.dto.auth/
 ### **REST Resources/Controllers**
 
 - **Services**: Use `{Service}Resource.java` suffix, place in `presentation/rest/`
-  - Example: `MatchResource`, `CandidateResource`, `ResumeResource`
+  - Example: `CandidateResource`, `ResumeResource`
 - **Applications**: Use `{Feature}Controller.java` suffix, place in `presentation/rest/`
   - Example: `AuthController`, `CandidateController`, `ResumeController`
 - **Exception**: Protocol-specific resources (OIDC) can stay in protocol packages (`oidc/`)
@@ -167,12 +167,12 @@ tech.eagledrive.domain.dto.auth/
 ### **Domain Services**
 
 - Use descriptive names: `{Purpose}Service.java`
-- Example: `CandidateService`, `DocumentService`, `MatchService`
+- Example: `CandidateService`, `DocumentService`
 
 ### **Repositories**
 
 - Use `{Entity}Repository.java`
-- Example: `CandidateRepository`, `ResumeRepository`, `MatchRepository`
+- Example: `CandidateRepository`, `ResumeRepository`
 
 ### **Client Producers**
 
@@ -182,7 +182,7 @@ tech.eagledrive.domain.dto.auth/
 ### **Mappers**
 
 - Use `{Entity}Mapper.java`
-- Example: `CandidateMapper`, `ResumeMapper`, `MatchMapper`
+- Example: `CandidateMapper`, `ResumeMapper`
 
 ---
 
@@ -199,7 +199,7 @@ All shared DTOs must be defined in `libs/domain-dtos`:
 ### **Service-Specific DTOs**
 
 Service-specific DTOs can be defined in `services/{service}/domain/dto/`:
-- Example: `services/candidate-service/domain/dto/MatchRequest.java`
+- Example: `services/document-service/domain/dto/ParseJobResponseWrapper.java`
 
 **Rule**: If a DTO is used by multiple services or the frontend, it must be in `libs/domain-dtos`.
 
