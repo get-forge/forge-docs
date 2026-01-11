@@ -58,9 +58,9 @@ io.forge.services.{service}/
     └── StartupBanner.java
 ```
 
-**Example**: `services/candidate-service`
+**Example**: `services/actor-service`
 ```
-io.forge.services.candidate/
+io.forge.services.actor/
 ├── domain/
 │   └── CandidateService.java
 ├── infrastructure/
@@ -207,18 +207,18 @@ Service-specific DTOs can be defined in `services/{service}/domain/dto/`:
 
 ## **Examples**
 
-### **Good Structure: candidate-service**
+### **Good Structure: actor-service**
 
 ```
-io.forge.services.candidate/
+io.forge.services.actor/
 ├── domain/
-│   └── CandidateService.java
+│   └── ActorService.java
 ├── infrastructure/
 │   └── persistence/
-│       └── CandidateRepository.java
+│       └── ActorRepository.java
 └── presentation/
     └── rest/
-        └── CandidateResource.java
+        └── ActorResource.java
 ```
 
 ### **Good Structure: security library**

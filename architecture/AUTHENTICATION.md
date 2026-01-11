@@ -67,7 +67,7 @@ Frontend → POST /auth/login (backend-candidate)
 Frontend → POST /auth/register (backend-candidate)
          → POST /auth/register (auth-service)
          → Cognito User Pool (create user)
-         → POST /candidates/register (candidate-service, directly from auth-service)
+         → POST /actors/register (actor-service, directly from auth-service)
          → PostgreSQL (save user profile)
          → JWT tokens returned to frontend
 ```
@@ -82,15 +82,15 @@ All frontend requests route through `backend-candidate` (port 8500), which proxi
 - `POST /auth/register` → `backend-candidate` → `auth-service`
 - `POST /auth/refresh-user-token` → `backend-candidate` → `auth-service`
 - `GET /auth/linkedin/login` → `backend-candidate` → `auth-service` (redirect)
-- `GET /candidates/{id}` → `backend-candidate` → `candidate-service`
+- `GET /actors/{id}` → `backend-candidate` → `actor-service`
 - `POST /resumes` → `backend-candidate` → `document-service`
 
 ### Service-to-Service Requests
 
 Services can make calls to other services using service JWTs:
 
-- `auth-service` → `candidate-service` (with service JWT)
-- `candidate-service` → `x-service` (with service JWT)
+- `auth-service` → `actor-service` (with service JWT)
+- `actor-service` → `x-service` (with service JWT)
 - Background jobs / scheduled tasks (with service JWT, no user context)
 
 ## Security Model
@@ -231,19 +231,19 @@ Frontend applications handle authentication client-side:
 
 ### Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `COGNITO_CANDIDATE_POOL_ID` | AWS Cognito candidate pool ID (for job seekers) | - |
-| `COGNITO_CANDIDATE_CLIENT_ID` | AWS Cognito candidate client ID | - |
-| `COGNITO_CANDIDATE_CLIENT_SECRET` | AWS Cognito candidate client secret | - |
-| `COGNITO_SERVICE_POOL_ID` | AWS Cognito service pool ID (for service accounts) | - |
-| `COGNITO_SERVICE_CLIENT_ID` | AWS Cognito service client ID | - |
-| `COGNITO_SERVICE_CLIENT_SECRET` | AWS Cognito service client secret | - |
+| Variable                           | Description                                                 | Default |
+|------------------------------------|-------------------------------------------------------------|---------|
+| `COGNITO_ACTOR_POOL_ID`            | AWS Cognito actor pool ID (for job seekers)                 | - |
+| `COGNITO_ACTOR_CLIENT_ID`          | AWS Cognito actor client ID                                 | - |
+| `COGNITO_ACTOR_CLIENT_SECRET`      | AWS Cognito actor client secret                             | - |
+| `COGNITO_SERVICE_POOL_ID`          | AWS Cognito service pool ID (for service accounts)          | - |
+| `COGNITO_SERVICE_CLIENT_ID`        | AWS Cognito service client ID                               | - |
+| `COGNITO_SERVICE_CLIENT_SECRET`    | AWS Cognito service client secret                           | - |
 | `COGNITO_SERVICE_ACCOUNT_USERNAME` | Service account username (e.g., `service-document-service`) | - |
-| `COGNITO_SERVICE_ACCOUNT_PASSWORD` | Service account password | - |
-| `AWS_REGION` | AWS region | `us-west-2` |
-| `OAUTH2_LINKEDIN_CLIENT_ID` | LinkedIn OAuth2 client ID | - |
-| `OAUTH2_LINKEDIN_SECRET` | LinkedIn OAuth2 secret | - |
+| `COGNITO_SERVICE_ACCOUNT_PASSWORD` | Service account password                                    | - |
+| `AWS_REGION`                       | AWS region                                                  | `us-west-2` |
+| `OAUTH2_LINKEDIN_CLIENT_ID`        | LinkedIn OAuth2 client ID                                   | - |
+| `OAUTH2_LINKEDIN_SECRET`           | LinkedIn OAuth2 secret                                      | - |
 
 ### OIDC Configuration
 
@@ -253,9 +253,9 @@ The system uses Quarkus OIDC multi-tenant configuration for OAuth2 flows.
 
 ```properties
 quarkus.oidc.tenant-enabled=true
-quarkus.oidc.auth-server-url=https://cognito-idp.${aws.region}.amazonaws.com/${cognito.candidate.user-pool-id}
-quarkus.oidc.client-id=${cognito.candidate.client-id}
-quarkus.oidc.credentials.secret=${cognito.candidate.client-secret}
+quarkus.oidc.auth-server-url=https://cognito-idp.${aws.region}.amazonaws.com/${cognito.actor.user-pool-id}
+quarkus.oidc.client-id=${cognito.actor.client-id}
+quarkus.oidc.credentials.secret=${cognito.actor.client-secret}
 quarkus.oidc.application-type=web-app
 quarkus.oidc.authentication.scopes=openid,profile,email
 quarkus.oidc.authentication.redirect-path=/auth/cognito/success

@@ -14,7 +14,7 @@ implementation is **straightforward** (~1-2 days) and follows Quarkus SmallRye H
 ### Which Services Need Health Checks?
 
 **✅ CRITICAL - Implement Readiness Checks:**
-- **PostgreSQL** (candidate-service) - Primary database, must be available
+- **PostgreSQL** (actor-service) - Primary database, must be available
 - **DynamoDB** (document-service) - Primary data store
 - **Cognito** (auth-service) - Authentication required for all operations, all Cognito usage is via auth-service
 - **S3** (document-service) - Required for document uploads
@@ -205,7 +205,7 @@ The health check implementation is environment-agnostic - it uses the same clien
 
 ## Verification Checklist
 
-- [x] Custom Postgres health check implemented in candidate-service (checks `bravo` and `candidates` table)
+- [x] Custom Postgres health check implemented in actor-service (checks `bravo` and `actors` table)
 - [x] Custom S3 health check implemented in document-service (checks resume and job buckets)
 - [x] Custom DynamoDB health check implemented in document-service (checks `RESUMES` and `JOBS` tables)
 - [x] Custom Cognito health checks implemented in auth-service (candidate and service user pools)

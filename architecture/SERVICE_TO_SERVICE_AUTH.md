@@ -6,9 +6,9 @@
 ```
 Frontend User → Gets JWT token (user identity)
      ↓
-backend-candidate → Forwards user JWT to candidate-service
+backend-candidate → Forwards user JWT to actor-service
      ↓
-candidate-service → Validates user JWT (knows it's from a user)
+actor-service → Validates user JWT (knows it's from a user)
 ```
 
 **What the receiving service knows:**
