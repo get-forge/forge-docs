@@ -120,9 +120,9 @@ Authorization: Bearer <cognito-jwt-token>
 
 ### 2. LinkedIn Linking Callback
 
-**Endpoint**: `GET /auth/linkedin/link/callback`  
+**Endpoint**: `GET /auth/linkedin/registration/callback`  
 **Authentication**: Public (called by LinkedIn)  
-**Location**: `services/auth-service/src/main/java/io/eagledrive/services/auth/oidc/linkedin/LinkedInLinkCallbackResource.java`
+**Location**: `services/auth-service/src/main/java/io/forge/services/auth/oidc/linkedin/LinkedInRegistrationCallbackResource.java`
 
 **Purpose**: Handles LinkedIn OAuth callback for account linking
 
@@ -266,7 +266,7 @@ Step 3: Resume Upload (existing)
 └──────┬──────────────────┘
        │
        │ 4. Redirect with code
-       │    GET /auth/linkedin/link/callback?code=...&state=...
+       │    GET /auth/linkedin/registration/callback?code=...&state=...
        ▼
 ┌─────────────────────────┐
 │  LinkedInLinkCallback   │
@@ -296,7 +296,7 @@ Step 3: Resume Upload (existing)
 - [ ] Update `CandidateRecord` entity to include `linkedInSub` field
 - [ ] Update `CandidateMapper` to map `linkedInSub` field
 - [ ] Create `LinkedInLinkResource` class (`GET /auth/linkedin/link`)
-- [ ] Create `LinkedInLinkCallbackResource` class (`GET /auth/linkedin/link/callback`)
+- [ ] Create `LinkedInRegistrationCallbackResource` class (`GET /auth/linkedin/registration/callback`)
 - [ ] Implement email verification logic
 - [ ] Add service method to update candidate with `linked_in_sub`
 - [ ] Add error handling and logging

@@ -14,7 +14,7 @@ This document outlines the approach for implementing LinkedIn login flow that us
 
 Currently, the LinkedIn login flow is broken because:
 
-1. `LinkedInOidcCallbackResource` creates `AuthIdentity` with LinkedIn's `sub` (which doesn't match Cognito `sub`)
+1. `LinkedInLoginCallbackResource` creates `AuthIdentity` with LinkedIn's `sub` (which doesn't match Cognito `sub`)
 2. `TokenExchangeResource` returns user info but not Cognito JWT tokens
 3. No mechanism exists to lookup candidates by `linked_in_sub` during login
 4. Users with linked LinkedIn accounts cannot use LinkedIn to log in
@@ -43,7 +43,7 @@ User (authenticated) → Link LinkedIn → Store linked_in_sub in database
 
 ```
 Login Flow (Current - Broken):
-User → LinkedIn OAuth → LinkedInOidcCallbackResource → 
+User → LinkedIn OAuth → LinkedInLoginCallbackResource → 
   → AuthIdentity with LinkedIn sub → TokenStore → 
   → TokenExchangeResource → Returns user info (no JWT tokens)
 ```
@@ -52,7 +52,7 @@ User → LinkedIn OAuth → LinkedInOidcCallbackResource →
 
 ```
 Login Flow (Phase 2):
-User → LinkedIn OAuth → LinkedInOidcCallbackResource → 
+User → LinkedIn OAuth → LinkedInLoginCallbackResource → 
   → Lookup candidate by linked_in_sub → Get candidate_id (Cognito sub) → 
   → Create AuthIdentity with Cognito sub → TokenStore → 
   → TokenExchangeResource → Generate Cognito JWT tokens → 
@@ -189,7 +189,7 @@ Response getCandidateByLinkedInSub(@PathParam("linkedInSub") final String linked
 
 ### 2. Update LinkedIn OAuth Callback
 
-**File**: `services/auth-service/src/main/java/io/eagledrive/services/auth/oidc/linkedin/LinkedInOidcCallbackResource.java`
+**File**: `services/auth-service/src/main/java/io/forge/services/auth/oidc/linkedin/LinkedInLoginCallbackResource.java`
 
 **Changes**:
 1. After fetching LinkedIn user info, extract `linked_in_sub` from `AuthIdentity`
@@ -492,7 +492,7 @@ public class CognitoTokenGenerator
 **Why**: Users must link their LinkedIn account before using LinkedIn login.
 
 **Implementation**:
-- `LinkedInOidcCallbackResource` checks if candidate exists for `linked_in_sub`
+- `LinkedInLoginCallbackResource` checks if candidate exists for `linked_in_sub`
 - If not found, returns error: "LinkedIn account not linked. Please link your account first."
 - Users must complete Phase 1 (account linking) before Phase 2 (login) works
 
@@ -525,7 +525,7 @@ public class CognitoTokenGenerator
 **Why**: State parameter prevents CSRF attacks in OAuth flows.
 
 **Implementation**:
-- State parameter validated in `LinkedInOidcCallbackResource`
+- State parameter validated in `LinkedInLoginCallbackResource`
 - State includes redirect path for post-authentication redirect
 - State is single-use (validated once, then discarded)
 
@@ -563,7 +563,7 @@ public class CognitoTokenGenerator
 └──────┬──────────────────┘
        │
        │ 4. Redirect with code
-       │    GET /auth/linkedin/callback?code=...&state=...
+       │    GET /auth/linkedin/login/callback?code=...&state=...
        ▼
 ┌─────────────────────────┐
 │  LinkedInOidcCallback   │
@@ -649,19 +649,19 @@ public class CognitoTokenGenerator
 
 ### Backend (auth-service)
 
-- [ ] Update `LinkedInOidcCallbackResource` to lookup candidate by `linked_in_sub`
-- [ ] Update `LinkedInOidcCallbackResource` to create `AuthIdentity` with Cognito sub
+- [ ] Update `LinkedInLoginCallbackResource` to lookup candidate by `linked_in_sub`
+- [ ] Update `LinkedInLoginCallbackResource` to create `AuthIdentity` with Cognito sub
 - [ ] Create `RefreshTokenEncryption` service for encrypting/decrypting refresh tokens
 - [ ] Create `CognitoTokenGenerator` service using refresh token flow
 - [ ] Update `TokenExchangeResource` to generate Cognito JWT tokens
 - [ ] Update `TokenExchangeResource` to return `AuthResponse` instead of user info
 - [ ] Add `POST /auth/linkedin/link/complete` endpoint to store refresh tokens after linking
-- [ ] Update `LinkedInLinkCallbackResource` to include completion endpoint
+- [ ] Update `LinkedInRegistrationCallbackResource` to include completion endpoint
 - [ ] Add error handling for unlinked accounts and missing refresh tokens
 - [ ] Add logging for LinkedIn login flow
 - [ ] Write unit tests for `RefreshTokenEncryption`
 - [ ] Write unit tests for `CognitoTokenGenerator`
-- [ ] Write unit tests for updated `LinkedInOidcCallbackResource`
+- [ ] Write unit tests for updated `LinkedInLoginCallbackResource`
 - [ ] Write unit tests for updated `TokenExchangeResource`
 - [ ] Write integration tests for LinkedIn login flow
 
