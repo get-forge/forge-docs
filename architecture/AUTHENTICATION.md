@@ -51,8 +51,8 @@ Frontend → POST /auth/login (backend-candidate)
 2. Frontend redirects to `GET /auth/linkedin/login` (auth-service)
 3. `LinkedInOidcLoginResource` constructs OAuth2 authorization URL and redirects to LinkedIn
 4. User authenticates with LinkedIn
-5. LinkedIn redirects back to `/auth/linkedin/callback` with authorization code
-6. `LinkedInOidcCallbackResource` manually exchanges code for access token (LinkedIn doesn't support Quarkus OIDC's default flow)
+5. LinkedIn redirects back to `/auth/linkedin/login/callback` with authorization code
+6. `LinkedInLoginCallbackResource` manually exchanges code for access token (LinkedIn doesn't support Quarkus OIDC's default flow)
 7. Callback resource calls LinkedIn user info endpoint
 8. User info mapped to `AuthUser` domain model
 9. Temporary token generated via `TokenStore`, user redirected to UI with token
@@ -216,7 +216,7 @@ Frontend applications handle authentication client-side:
 - **`CognitoOidcLoginResource`**: Initiates Cognito OAuth2 flow
 - **`CognitoOidcCallbackResource`**: Handles Cognito OAuth2 callback, generates temporary token
 - **`LinkedInOidcLoginResource`**: Initiates LinkedIn OAuth2 flow
-- **`LinkedInOidcCallbackResource`**: Handles LinkedIn OAuth2 callback, generates temporary token
+- **`LinkedInLoginCallbackResource`**: Handles LinkedIn OAuth2 login callback, generates temporary token
 - **`CognitoSecurityIdentityAugmentor`**: Maps OIDC claims to `AuthUser` domain model
 - **`TokenStore`**: Generates temporary tokens for OIDC flows
 - **`CognitoServiceAuthenticationProvider`**: Authenticates services with Cognito using service account credentials
