@@ -131,11 +131,11 @@ All manual mappers will follow this pattern:
 @ApplicationScoped
 public class CandidateMapper {
     
-    public CandidateRecord toRecord(RegisterRequestPartialAuth source) {
+    public ActorRecord toRecord(RegisterRequestPartialAuth source) {
         // Explicit field mapping
     }
     
-    public CandidateResponse toCandidateResponse(CandidateRecord source) {
+    public ActorResponse toActorResponse(ActorRecord source) {
         // Explicit field mapping
     }
 }
@@ -153,7 +153,7 @@ public class CandidateMapper {
 
 - [ ] Create manual `CandidateMapper` implementation
 - [ ] Update `CandidateService` to use new mapper
-- [ ] Test candidate-service end-to-end
+- [ ] Test actor-service end-to-end
 - [ ] Create manual `ResumeMapper` implementation
 - [ ] Create manual `JobSpecMapper` implementation
 - [ ] Update `DocumentService` to use new mappers
