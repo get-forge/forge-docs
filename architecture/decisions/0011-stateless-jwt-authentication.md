@@ -100,7 +100,7 @@ JavaScript handles authentication:
 All frontend requests route through `backend-candidate` (port 8500):
 - `POST /auth/login` → `backend-candidate` → `auth-service`
 - `POST /auth/register` → `backend-candidate` → `auth-service`
-- `GET /candidates/{id}` → `backend-candidate` → `candidate-service`
+- `GET /actors/{id}` → `backend-candidate` → `actor-service`
 - `POST /resumes` → `backend-candidate` → `document-service`
 
 ---

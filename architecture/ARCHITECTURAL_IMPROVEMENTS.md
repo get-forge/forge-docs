@@ -165,8 +165,8 @@ clear view of dependency status for load balancers and operators.
 2. **Per service health check registration pattern**
    - Each service uses a single `*ServiceHealthChecks` class with `@Produces @Readiness @ApplicationScoped`
      methods that return anonymous subclasses of the shared base checks.
-   - `candidate-service`
-     - Custom Postgres readiness check using `PostgresHealthCheck` for `bravo` and the `candidates` table.
+   - `actor-service`
+     - Custom Postgres readiness check using `PostgresHealthCheck` for `bravo` and the `actors` table.
    - `document-service`
      - Custom S3 readiness check using `S3HealthCheck` for `bravo-candidate-resumes` and `bravo-client-jobs`.
      - Custom DynamoDB readiness check using `DynamoDbHealthCheck` for `RESUMES` and `JOBS`.
@@ -859,10 +859,10 @@ conflicts and enables rollback tracking.
 **Completed:**
 
 1. **✅ Flyway Integration**
-   - `quarkus-flyway` dependency added to `candidate-service` module
+   - `quarkus-flyway` dependency added to `actor-service` module
    - Configuration in `config/src/main/resources/database.properties`:
      - `quarkus.flyway.migrate-at-start=true` (automatic migration on startup)
-   - Flyway migrations located in `services/candidate-service/src/main/resources/db/migration/`
+   - Flyway migrations located in `services/actor-service/src/main/resources/db/migration/`
 
 2. **✅ Migration Files**
    - `V1__create_candidates_table.sql` - Initial schema creation
@@ -942,7 +942,7 @@ to fix multiple issues in a single request cycle.
    - `@Valid` annotation added to all DTO parameters in REST endpoints:
      - `AuthController` (backend-candidate)
      - `AuthResource` (auth-service)
-     - `CandidateResource` (candidate-service)
+     - `CandidateResource` (actor-service)
    - Validation automatically triggered before method execution
    - Invalid requests return 400 Bad Request before business logic runs
 

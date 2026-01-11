@@ -87,11 +87,11 @@ public Response createResume(@RestForm String candidateId, @RestForm FileUpload 
 #### **Resource Retrieval with Filtering**
 ```java
 @GET
-@Path("/candidate")
-public Response getCandidate(
-    @QueryParam("candidateId") String candidateId) {
+@Path("/actor")
+public Response getActor(
+    @QueryParam("actorId") String actorId) {
     // ... query logic
-    return Response.ok(candidates).build();
+    return Response.ok(actors).build();
 }
 ```
 
