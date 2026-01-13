@@ -1,88 +1,256 @@
-# Public Repository Strategy: What to Expose
+# Public Repository Strategy
 
-This document outlines what can be safely exposed in your public repository to demonstrate value without giving away the core implementation.
-
-> **📦 Dependency Strategy**: See [PUBLIC_REPO_DEPENDENCY_STRATEGY.md](PUBLIC_REPO_DEPENDENCY_STRATEGY.md) for details on whether to use real Maven dependencies or reference-only copies.
-
-## Strategy Overview
-
-**Goal**: Showcase technical architecture and patterns while protecting:
-- Complete implementations
-- Domain-specific business logic
-- Configuration secrets
-- Full service implementations
-
-**Approach**: Expose **interfaces, contracts, examples, and architectural patterns** that demonstrate sophistication without revealing implementation details.
+Complete strategy for what to expose in the public repository, component analysis, dependency approach, and implementation guidance.
 
 ---
 
-## ✅ Safe to Expose (High Value, Low Risk)
+## 🎯 Strategy Overview
 
-### 1. **Annotation Interfaces** (Already Identified)
+**Goal**: Demonstrate technical architecture and operational maturity while protecting core business logic and implementations.
 
-These are pure contracts with no implementation:
+**Approach**: Expose **contracts, examples, reference material, and quality indicators** that showcase sophistication without revealing implementation details.
 
-- **`@Secured`** - Authentication annotation
-- **`@AllowedServices`** - Service-level authorization annotation
-- **`@ServiceMetrics`** - Metrics collection annotation
+---
+
+## 📊 Component Analysis (20 Tiers)
+
+### **Tier 1: Health Checks** ⭐⭐⭐⭐⭐ ✅ **COMPLETE**
+- **Status**: STRONGLY RECOMMEND
+- **Value**: Very High | **Complexity**: Low | **Risk**: Zero
+- **What**: PostgresHealthCheck, DynamoDbHealthCheck, S3HealthCheck, CognitoHealthCheck
+- **Why**: Production-ready, generic, zero risk, high value
+
+### **Tier 2: Generic Utilities** ⭐⭐⭐
+- **Status**: Optional
+- **Value**: Medium | **Complexity**: Low | **Risk**: Low
+- **What**: JsonNodeUtils, ValidationUtils, Base64Utils, ClassUtils
+- **Why**: Useful but not critical
+
+### **Tier 3: Demo Implementations** ⭐⭐
+- **Status**: Skip (or do later)
+- **Value**: Low | **Complexity**: Medium | **Risk**: Low
+- **What**: Simplified examples showing patterns
+- **Why**: Documentation might be sufficient
+
+### **Tier 4: Config Templates** ⭐
+- **Status**: Include
+- **Value**: Low | **Complexity**: Very Low | **Risk**: Zero
+- **What**: application.properties.template, docker-compose.example.yml
+- **Why**: Very low effort, helpful for documentation
+
+### **Tier 5: Rate Limiting Core** ⭐⭐⭐⭐
+- **Status**: STRONGLY CONSIDER
+- **Value**: High | **Complexity**: Medium | **Risk**: Low
+- **What**: RateLimiter interface, RateLimitStatus, Bucket4jRateLimiter
+- **Why**: High value but requires careful extraction
+
+### **Tier 6: Method Entry Logging** ⭐⭐⭐
+- **Status**: RECOMMEND
+- **Value**: Medium | **Complexity**: Low | **Risk**: Zero
+- **What**: @LogMethodEntry annotation, interceptor, utilities
+- **Why**: Easy win, zero risk, useful utility
+
+### **Tier 7: Caching Key Generators** ⭐⭐
+- **Status**: SKIP
+- **Value**: Low | **Complexity**: High | **Risk**: Medium
+- **What**: Cache key generation utilities
+- **Why**: Too domain-specific, lower value
+
+### **Tier 8: Validation Exception Mapper** ⭐⭐⭐
+- **Status**: RECOMMEND
+- **Value**: Medium | **Complexity**: Very Low | **Risk**: Zero
+- **What**: ValidationExceptionMapper for Jakarta Bean Validation
+- **Why**: Very easy, zero risk, useful utility
+
+### **Tier 9: Startup Info Panel** ⭐⭐⭐
+- **Status**: CONSIDER
+- **Value**: Medium | **Complexity**: Medium | **Risk**: Low
+- **What**: Feature detection framework, startup info display
+- **Why**: Good DX but Quarkus-specific
+
+### **Tier 10: Graceful Shutdown Handler** ⭐⭐⭐
+- **Status**: CONSIDER
+- **Value**: Medium | **Complexity**: Low | **Risk**: Low
+- **What**: Shutdown lifecycle management
+- **Why**: Good pattern but Quarkus-specific
+
+### **Tier 11: Test Utilities** ⭐⭐
+- **Status**: Optional
+- **Value**: Low | **Complexity**: Very Low | **Risk**: Zero
+- **What**: QuarkusPortsEnvTestResource, test helpers
+- **Why**: Low value but also low effort
+
+### **Tier 12: Taskfiles (Build/Deploy Control Plane)** ⭐⭐⭐⭐
+- **Status**: STRONGLY RECOMMEND
+- **Value**: Very High | **Complexity**: Low-Medium | **Risk**: Low
+- **What**: All Taskfile.yml files (sanitized as reference)
+- **Why**: Excellent operational maturity demonstration
+
+### **Tier 13: Code Quality & Test Coverage Metrics** ⭐⭐⭐⭐⭐
+- **Status**: STRONGLY RECOMMEND
+- **Value**: Very High | **Complexity**: Very Low | **Risk**: Zero
+- **What**: CI/CD badges, Codecov integration, coverage reports
+- **Why**: Zero effort, very high value, builds trust immediately
+
+### **Tier 14: Additional Exception Mappers** ⭐⭐⭐
+- **Status**: RECOMMEND
+- **Value**: Medium | **Complexity**: Very Low | **Risk**: Zero
+- **What**: CircuitBreakerOpenExceptionMapper
+- **Why**: Very easy, zero risk, useful utility
+
+### **Tier 15: Static Analysis Configurations** ⭐⭐⭐
+- **Status**: RECOMMEND
+- **Value**: Medium | **Complexity**: Very Low | **Risk**: Zero
+- **What**: PMD rules, Checkstyle config, SpotBugs configs
+- **Why**: Very low effort, zero risk, useful reference
+
+### **Tier 16: Code Formatting Configurations** ⭐⭐
+- **Status**: Optional
+- **Value**: Low | **Complexity**: Very Low | **Risk**: Zero
+- **What**: Spotless config, Eclipse formatter, linting configs
+- **Why**: Low value but also zero effort
+
+### **Tier 17: Git Hooks & Dev Tooling** ⭐⭐⭐
+- **Status**: RECOMMEND
+- **Value**: Medium | **Complexity**: Very Low | **Risk**: Zero
+- **What**: Lefthook config, Renovate config
+- **Why**: Very low effort, zero risk, shows DX focus
+
+### **Tier 18: Docker Compose & Local Development** ⭐⭐⭐
+- **Status**: CONSIDER
+- **Value**: Medium | **Complexity**: Low | **Risk**: Low
+- **What**: compose.yml, Docker service scripts
+- **Why**: Good reference but requires sanitization
+
+### **Tier 19: Maven Build Configuration Patterns** ⭐⭐
+- **Status**: Optional
+- **Value**: Low | **Complexity**: Medium | **Risk**: Low
+- **What**: Build profiles, plugin configurations (sanitized)
+- **Why**: Lower value, requires sanitization
+
+### **Tier 20: Performance Testing Framework (k6)** ⭐⭐
+- **Status**: SKIP
+- **Value**: Low | **Complexity**: High | **Risk**: Medium
+- **What**: k6 test scenarios and flows
+- **Why**: Too domain-specific, would need generic examples
+
+---
+
+## 🎯 Recommended Implementation Order
+
+### **Phase 1: Immediate Wins (Do First)**
+1. ✅ **Code Quality Badges** (Tier 13) - Set up immediately, zero effort
+2. ✅ **Health Checks** (Tier 1) - **COMPLETE** - Highest value code component
+3. ✅ **Validation Exception Mapper** (Tier 8) - Very easy, zero risk
+4. ✅ **Circuit Breaker Exception Mapper** (Tier 14) - Very easy, zero risk
+5. ✅ **Method Entry Logging** (Tier 6) - Easy win, zero risk
+6. ✅ **Static Analysis Configs** (Tier 15) - Very easy, zero risk
+7. ✅ **Git Hooks Config** (Tier 17) - Very easy, zero risk
+8. ✅ **Taskfiles** (Tier 12) - Excellent reference material
+
+### **Phase 2: High-Value Components**
+9. ✅ **Rate Limiting Core** (Tier 5) - High value but requires careful extraction
+
+### **Phase 3: Developer Experience (Optional)**
+10. 🤔 **Docker Compose** (Tier 18) - Good reference, requires sanitization
+11. 🤔 **Startup Info Panel** (Tier 9) - Good DX but Quarkus-specific
+12. 🤔 **Graceful Shutdown** (Tier 10) - Good pattern but Quarkus-specific
+
+### **Phase 4: Nice to Have**
+13. 🤔 **Code Formatting Configs** (Tier 16) - Optional, zero effort
+14. 🤔 **Generic Utilities** (Tier 2) - Optional, lower priority
+15. 🤔 **Maven Build Patterns** (Tier 19) - Optional, requires sanitization
+16. 🤔 **Test Utilities** (Tier 11) - Optional, low value
+17. ✅ **Config Templates** (Tier 4) - Include as documentation
+
+---
+
+## 📦 Dependency Strategy
+
+### **Real Maven Dependencies** (Publish as Artifacts)
+
+**What**: Annotations and pure interfaces that define contracts
+
+**Why**:
+- Maximum value demonstration - people can actually use them
+- Shows you're serious about the platform
+- Creates a "try before you buy" experience
+- Builds trust through usable code
+- Can be published to Maven Central or GitHub Packages
+
+**Examples**:
+- `@Secured`, `@AllowedServices`, `@ServiceMetrics` annotations
+- `TokenValidator`, `MetricsRecorder`, `RateLimiter` interfaces
+- Health check base classes (already published)
+
+**Structure**:
+```
+public-repo/
+├── contracts/
+│   ├── security-contracts/
+│   │   ├── pom.xml
+│   │   └── src/main/java/tech/eagledrive/security/contracts/
+│   └── metrics-contracts/
+│       ├── pom.xml
+│       └── src/main/java/tech/eagledrive/metrics/contracts/
+```
+
+**Key Points**:
+- **No implementation dependencies** - these are pure contracts
+- **Minimal dependencies** - only what's needed for annotations (Jakarta EE)
+- **Separate package names** - `tech.eagledrive.security.contracts` vs `tech.eagledrive.security` (private)
+- **Can be published** to Maven Central or GitHub Packages
+- **Version independently** from private repo
+
+### **Reference Only** (Documentation/Examples)
+
+**What**: Example code, documentation, ADRs, architecture docs
+
+**Why**:
+- No maintenance burden
+- No versioning complexity
+- Clear demonstration without commitment
+- Can evolve independently
+
+**Examples**:
+- Example resources showing usage
+- Architecture documentation
+- ADRs
+- Configuration templates
+- CI/CD workflow examples
+- Taskfiles (as reference material)
+
+---
+
+## ✅ Safe to Expose
+
+### **1. Annotation Interfaces**
+- `@Secured` - Authentication annotation
+- `@AllowedServices` - Service-level authorization annotation
+- `@ServiceMetrics` - Metrics collection annotation
 
 **Why safe**: Annotations are just metadata. The value is in the implementation, which stays private.
 
-**Location**: `libs/security/src/main/java/tech/eagledrive/security/presentation/rest/`
-
-### 2. **Domain Interfaces** (Architectural Contracts)
-
-These define the architecture without revealing implementation:
-
-- **`TokenValidator`** - JWT token validation contract
-- **`MetricsRecorder`** - Metrics recording contract
-- **`RateLimiter`** - Rate limiting contract
-- **`ServiceAuthenticationProvider`** - Service auth contract
-- **`ServiceTokenProvider`** - Service token management contract
-- **`MetricsResultIndicator`** - Metrics result marker interface
+### **2. Domain Interfaces** (Architectural Contracts)
+- `TokenValidator` - JWT token validation contract
+- `MetricsRecorder` - Metrics recording contract
+- `RateLimiter` - Rate limiting contract
+- `ServiceAuthenticationProvider` - Service auth contract
+- `ServiceTokenProvider` - Service token management contract
+- `MetricsResultIndicator` - Metrics result marker interface
 
 **Why safe**: Interfaces define contracts, not implementations. Shows architectural sophistication.
 
-**Location**: `libs/*/src/main/java/tech/eagledrive/*/domain/`
-
-### 3. **Example/Demo Resources** (Sanitized)
-
+### **3. Example/Demo Resources** (Sanitized)
 Minimal examples that demonstrate usage patterns:
-
-- **`TestResource`** - Shows `@Secured` usage (already test-only)
-- Create sanitized demo resources showing:
-  - How to use `@Secured`
-  - How to use `@AllowedServices`
-  - How to use `@ServiceMetrics`
-  - Service-to-service communication patterns
+- How to use `@Secured`
+- How to use `@AllowedServices`
+- How to use `@ServiceMetrics`
+- Service-to-service communication patterns
 
 **Why safe**: Examples show patterns, not business logic. Can be generic.
 
-**Example structure**:
-```java
-// Public example - generic domain
-@Path("/api/examples")
-public class ExampleResource {
-    
-    @GET
-    @Secured
-    public Response getExample() {
-        return Response.ok("Example data").build();
-    }
-    
-    @POST
-    @Secured
-    @AllowedServices({"example-service"})
-    public Response processExample(ExampleRequest request) {
-        return Response.ok().build();
-    }
-}
-```
-
-### 4. **Architecture Decision Records (ADRs)** (Sanitized)
-
-Your ADRs are gold for demonstrating thought process, but remove domain-specific details:
-
+### **4. Architecture Decision Records (ADRs)** (Sanitized)
 **Safe to expose**:
 - ADR-0012: Clean Architecture Package Structure
 - ADR-0011: Stateless JWT Authentication (remove Cognito-specific details)
@@ -90,237 +258,107 @@ Your ADRs are gold for demonstrating thought process, but remove domain-specific
 - ADR-0014: Application Caching Strategy
 - ADR-0010: REST API Design Standards
 
-**Sanitize**:
-- Remove references to "recruitment", "candidate", "job", "resume"
-- Replace with generic terms: "entity", "resource", "document"
-- Remove service-specific names (keep generic patterns)
+**Sanitize**: Remove references to "recruitment", "candidate", "job", "resume". Replace with generic terms: "entity", "resource", "document".
 
-**Location**: `docs/architecture/decisions/`
-
-### 5. **Clean Architecture Package Structure Standards**
-
-The package structure ADR is perfect for public exposure - it shows architectural maturity.
-
-**Location**: `docs/architecture/decisions/0012-clean-architecture-package-structure.md`
-
-### 6. **Library READMEs** (Sanitized)
-
-Your library READMEs are excellent marketing material:
-
-- **`libs/security/README.md`** - Shows security architecture
-- Create sanitized versions that:
-  - Remove domain-specific examples
-  - Use generic examples
-  - Keep all technical details
-
-**Example sanitization**:
-```markdown
-# Before (domain-specific)
-@Path("/api/resume")
-public class ResumeResource {
-    @POST
-    @Secured
-    public Response uploadResume(ResumeRequest request) {
-        // ...
-    }
-}
-
-# After (generic)
-@Path("/api/documents")
-public class DocumentResource {
-    @POST
-    @Secured
-    public Response uploadDocument(DocumentRequest request) {
-        // ...
-    }
-}
-```
-
-### 7. **Architecture Documentation** (Sanitized)
-
-High-level architecture docs that show sophistication:
-
+### **5. Architecture Documentation** (Sanitized)
 **Safe to expose** (with sanitization):
-- **`AUTHENTICATION.md`** - Remove Cognito-specific details, keep patterns
-- **`SERVICE_TO_SERVICE_AUTH.md`** - Excellent for showing security architecture
-- **`HEALTH_CHECKS_IMPLEMENTATION.md`** - Shows operational maturity
-- **`CACHING_STRATEGY.md`** - Shows performance thinking
-- **`METRICS_IMPLEMENTATION_STATUS.md`** - Shows observability maturity
+- `AUTHENTICATION.md` - Remove Cognito-specific details, keep patterns
+- `SERVICE_TO_SERVICE_AUTH.md` - Excellent for showing security architecture
+- `HEALTH_CHECKS_IMPLEMENTATION.md` - Shows operational maturity
+- `CACHING_STRATEGY.md` - Shows performance thinking
+- `METRICS_IMPLEMENTATION_STATUS.md` - Shows observability maturity
 
-**Sanitize by**:
-- Replacing domain terms with generics
-- Removing service-specific names
-- Keeping all technical patterns and decisions
-
-### 8. **CI/CD Workflow Examples** (Generic Patterns)
-
-Show operational maturity with generic workflow examples:
-
-**Create sanitized versions**:
-- Build/test workflow (remove domain-specific steps)
-- Static analysis workflow
-- Deployment patterns (generic, no secrets)
-
-**What to show**:
-- Workflow structure
-- Quality gates
-- Testing strategies
-- Deployment patterns (without actual configs)
-
-### 9. **Configuration Examples** (Sanitized Templates)
-
-Show configuration patterns without real values:
-
+### **6. Configuration Examples** (Sanitized Templates)
 - Quarkus `application.properties` templates
 - Docker Compose examples (generic services)
 - Environment variable templates
 
-**Template example**:
-```properties
-# application.properties.template
-# Authentication
-quarkus.security.jwt.issuer=${JWT_ISSUER}
-quarkus.security.jwt.audience=${JWT_AUDIENCE}
-
-# Database
-quarkus.datasource.jdbc.url=${DATABASE_URL}
-quarkus.datasource.username=${DATABASE_USERNAME}
-quarkus.datasource.password=${DATABASE_PASSWORD}
-```
-
-### 10. **Test Utilities** (Generic)
-
-Generic test utilities that show testing patterns:
-
-- Test resource examples (like `TestResource`)
-- Test configuration patterns
-- Integration test setup examples
-
----
-
-## ⚠️ Potentially Safe (With Careful Sanitization)
-
-### 1. **Domain DTOs** (Interfaces Only)
-
-If you have DTO interfaces that are pure contracts, expose those. But be careful:
-- Only expose interfaces/markers
-- Remove any domain-specific DTOs
-- Keep only generic patterns
-
-### 2. **Client Interfaces** (Service Contracts)
-
-Service client interfaces can show API design:
-- `AuthServiceClient` interface (not implementation)
-- Generic REST client patterns
-
-**Location**: `libs/domain-clients/`
-
-### 3. **Common Utilities** (Generic Only)
-
-Generic utilities that aren't domain-specific:
-- JSON utilities
-- Validation utilities
-- Logging utilities
-- Base64 utilities
-
-**Location**: `libs/common/src/main/java/tech/eagledrive/common/`
-
-**Be careful**: Review each utility to ensure it's truly generic.
+### **7. CI/CD Workflow Examples** (Generic Patterns)
+- Build/test workflow (remove domain-specific steps)
+- Static analysis workflow
+- Deployment patterns (generic, no secrets)
 
 ---
 
 ## ❌ Do NOT Expose
 
-### 1. **Full Service Implementations**
+### **1. Full Service Implementations**
 - All code in `services/` directory
 - All code in `applications/` directory
 - Repository implementations
 - Service implementations
 - Business logic
 
-### 2. **Infrastructure Implementations**
+### **2. Infrastructure Implementations**
 - Actual interceptor implementations
 - Filter implementations
 - Token validator implementations
 - Metrics recorder implementations
 - Rate limiter implementations
 
-### 3. **Domain-Specific Code**
+### **3. Domain-Specific Code**
 - Any code referencing "candidate", "resume", "job", "match"
 - Business domain models
 - Domain services
 - Domain repositories
 
-### 4. **Configuration Files**
+### **4. Configuration Files**
 - Real `application.properties` files
 - Real environment configurations
 - Secrets or credentials (even templates with real structure)
 - AWS resource names
 - Database schemas
 
-### 5. **Complete Library Implementations**
+### **5. Complete Library Implementations**
 - Keep library implementations private
 - Only expose interfaces and annotations
 
-### 6. **Deployment Scripts**
+### **6. Deployment Scripts**
 - Actual deployment scripts with real resource names
 - AWS setup scripts with real configurations
 - Database migration scripts
 
 ---
 
-## Recommended Public Repository Structure
+## 📦 What You're Offering
 
-```
-public-repo/
-├── README.md                          # Marketing-focused, technical overview
-├── docs/
-│   ├── architecture/
-│   │   ├── decisions/
-│   │   │   ├── 0012-clean-architecture-package-structure.md
-│   │   │   ├── 0011-stateless-jwt-authentication.md (sanitized)
-│   │   │   └── ... (other sanitized ADRs)
-│   │   ├── AUTHENTICATION.md (sanitized)
-│   │   ├── SERVICE_TO_SERVICE_AUTH.md (sanitized)
-│   │   └── ... (other sanitized docs)
-│   └── examples/
-│       ├── security/
-│       │   ├── SecuredExample.java
-│       │   └── AllowedServicesExample.java
-│       ├── metrics/
-│       │   └── ServiceMetricsExample.java
-│       └── architecture/
-│           └── clean-architecture-example/
-├── examples/
-│   └── minimal-service/
-│       ├── pom.xml
-│       └── src/main/java/
-│           └── ExampleResource.java
-├── contracts/
-│   ├── security/
-│   │   ├── Secured.java
-│   │   ├── AllowedServices.java
-│   │   ├── TokenValidator.java
-│   │   └── RateLimiter.java
-│   └── metrics/
-│       ├── ServiceMetrics.java
-│       ├── MetricsRecorder.java
-│       └── MetricsResultIndicator.java
-├── templates/
-│   ├── application.properties
-│   └── docker-compose.example.yml
-└── .github/
-    └── workflows/
-        └── examples/
-            ├── build-test-example.yml
-            └── static-analysis-example.yml
-```
+### **Real, Usable Code** (Maven Artifacts)
+- ✅ Health Checks (production-ready) - **COMPLETE**
+- Validation Exception Mapper
+- Circuit Breaker Exception Mapper
+- Method Entry Logging
+- Rate Limiting Core (if extracted)
+
+### **Contracts & Interfaces** (Maven Artifacts)
+- @Secured, @AllowedServices, @ServiceMetrics annotations
+- TokenValidator, MetricsRecorder, RateLimiter interfaces
+- Domain contracts
+
+### **Reference Material** (Examples/Templates)
+- Taskfiles (build/deploy control plane)
+- Static analysis configurations
+- Git hooks configurations
+- Docker Compose setup
+- Code formatting configurations
+- Maven build patterns
+
+### **Quality Indicators** (Badges/Metrics)
+- CI/CD workflow badges
+- Code coverage badges and reports
+- Static analysis results
+- Code quality metrics
+
+### **Documentation** (Sanitized)
+- Architecture Decision Records (ADRs)
+- Architecture documentation
+- Library READMEs
+- Development guides
 
 ---
 
-## Value Proposition Summary
+## 💰 Value Proposition
 
-What you're demonstrating:
+Your public repository demonstrates:
 
 1. **Architectural Maturity**
    - Clean Architecture implementation
@@ -336,39 +374,84 @@ What you're demonstrating:
    - Comprehensive observability
    - Health check patterns
    - Metrics and monitoring
+   - Build/deploy control plane
 
 4. **Developer Experience**
    - Simple annotations for complex features
    - Clear contracts and interfaces
    - Well-documented patterns
+   - Developer tooling
 
 5. **Production Readiness**
    - Fault tolerance patterns
    - Caching strategies
    - CI/CD workflows
+   - Code quality gates
+   - Test coverage tracking
+
+6. **Code Quality**
+   - 80%+ test coverage
+   - All static analysis passing
+   - Complexity metrics
+   - Automated quality gates
 
 ---
 
-## Next Steps
+## 📋 Implementation Checklist
 
-1. **Create sanitized versions** of ADRs and architecture docs
-2. **Extract interfaces** from libraries into `contracts/` directory
-3. **Create example resources** showing usage patterns
-4. **Write marketing-focused README** highlighting technical achievements
-5. **Set up public repo structure** as outlined above
-6. **Add license** (consider a commercial license or dual licensing)
+### Phase 1: Preparation
+- [x] Health Checks (Tier 1) - **COMPLETE**
+- [ ] Code Quality Badges (Tier 13)
+- [ ] Validation Exception Mapper (Tier 8)
+- [ ] Circuit Breaker Exception Mapper (Tier 14)
+- [ ] Method Entry Logging (Tier 6)
+- [ ] Static Analysis Configs (Tier 15)
+- [ ] Git Hooks Config (Tier 17)
+- [ ] Taskfiles (Tier 12)
+
+### Phase 2: High-Value Components
+- [ ] Rate Limiting Core (Tier 5)
+
+### Phase 3: Contracts & Interfaces
+- [ ] Extract `@Secured` annotation to `contracts/security/`
+- [ ] Extract `@AllowedServices` annotation to `contracts/security/`
+- [ ] Extract `TokenValidator` interface to `contracts/security/`
+- [ ] Extract `RateLimiter` interface to `contracts/security/`
+- [ ] Extract `@ServiceMetrics` annotation to `contracts/metrics/`
+- [ ] Extract `MetricsRecorder` interface to `contracts/metrics/`
+
+### Phase 4: Documentation
+- [ ] Sanitize ADRs (remove domain references)
+- [ ] Sanitize architecture documentation
+- [ ] Create example resources
+- [ ] Create configuration templates
+
+### Phase 5: Publishing
+- [ ] Set up Maven publishing (Maven Central or GitHub Packages)
+- [ ] Publish health checks (already done)
+- [ ] Publish contracts when ready
+- [ ] Set up CI/CD for public repo
+- [ ] Set up Codecov for public repo
 
 ---
 
-## Licensing Considerations
+## 📚 Related Documents
 
-Since you want to monetize:
+- **[SANITIZATION_REPORT.md](SANITIZATION_REPORT.md)** - Domain-specific references that need sanitization
+- **[COMMERCIAL_PLATFORM_SERVICES.md](COMMERCIAL_PLATFORM_SERVICES.md)** - Recommendations for commercial platform services
+- **[FREE_COMPONENTS_SANITIZATION_CHECKLIST.md](FREE_COMPONENTS_SANITIZATION_CHECKLIST.md)** - Detailed sanitization checklist for components
 
-- **Private repo**: Keep proprietary, no license needed
-- **Public repo**: Consider:
-  - **Commercial license** (no free use)
-  - **Dual licensing** (AGPL for open source, commercial for proprietary)
-  - **Source-available** (view but not use without license)
-  - **Fair use license** (view for evaluation, commercial use requires license)
+---
 
-Consult with a lawyer for the best licensing strategy for your monetization goals.
+## 🎉 Summary
+
+You have **20 tiers of components** analyzed, with clear recommendations for each:
+
+- **6 STRONGLY RECOMMEND** (do these first)
+- **4 RECOMMEND** (easy wins)
+- **3 CONSIDER** (good but optional)
+- **7 Optional/Skip** (lower priority or too domain-specific)
+
+**Status**: Health Checks (Tier 1) is **COMPLETE**. Continue with Phase 1 components.
+
+The strategy balances **demonstrating value** with **protecting your core platform**, giving you a clear path to monetization while building trust through transparency.
