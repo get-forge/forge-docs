@@ -250,7 +250,7 @@ Migrate `document-service` from domain-specific resume/job spec parsing (using T
 ### Phase 8: Integration Updates
 
 #### 8.1 Update Backend Applications
-- [ ] Update `backend-candidate` application:
+- [ ] Update `backend-actor` application:
   - Update `ResumeController` → `DocumentController`
   - Update path: `/resumes` → `/documents`
   - Delete `ParseServiceClient` and add a #create POST method to the `DocumentServiceClient` 

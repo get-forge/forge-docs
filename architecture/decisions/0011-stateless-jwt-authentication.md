@@ -97,11 +97,11 @@ JavaScript handles authentication:
 
 ### **Request Flow**
 
-All frontend requests route through `backend-candidate` (port 8500):
-- `POST /auth/login` → `backend-candidate` → `auth-service`
-- `POST /auth/register` → `backend-candidate` → `auth-service`
-- `GET /actors/{id}` → `backend-candidate` → `actor-service`
-- `POST /resumes` → `backend-candidate` → `document-service`
+All frontend requests route through `backend-actor` (port 8500):
+- `POST /auth/login` → `backend-actor` → `auth-service`
+- `POST /auth/register` → `backend-actor` → `auth-service`
+- `GET /actors/{id}` → `backend-actor` → `actor-service`
+- `POST /resumes` → `backend-actor` → `document-service`
 
 ---
 
