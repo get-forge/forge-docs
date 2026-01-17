@@ -26,7 +26,7 @@
 - ✅ Grafana configured with Prometheus datasource
 - ✅ Three dashboards generated:
   - **Quarkus HTTP Metrics**: Request rate, duration, status codes
-  - **Bravo User Metrics**: Authentication attempts
+  - **Forge User Metrics**: Authentication attempts
   - **Quarkus JVM Metrics**: Per-service JVM metrics (memory, GC, threads)
 
 #### 4. Custom Metrics Infrastructure

@@ -67,17 +67,15 @@ Key characteristics:
 
 Each service now has a single registration class that wires dependencies and exposes health checks via producer methods:
 
-- `CandidateServiceHealthChecks`
+- `ActorServiceHealthChecks`
   - Produces a Postgres readiness check using an anonymous subclass of `PostgresHealthCheck`
-  - Checks the `bravo` database and the `candidates` table
+  - Checks the `forge` database and the `actors` table
 
 - `DocumentServiceHealthChecks`
   - Produces an S3 readiness check using `S3HealthCheck` for:
-    - `bravo-candidate-resumes`
-    - `bravo-client-jobs`
+    - `forge-documents`
   - Produces a DynamoDB readiness check using `DynamoDbHealthCheck` for:
-    - `RESUMES`
-    - `JOBS`
+    - `DOCUMENTS`
 
 - `AuthServiceHealthChecks`
   - Produces two Cognito readiness checks using `CognitoHealthCheck` for:
@@ -125,7 +123,7 @@ Access at: `http://localhost:PORT/q/health-ui`
          "name": "PostgreSQL",
          "status": "UP",
          "data": {
-           "database": "bravo"
+           "database": "forge"
          }
        },
        {
@@ -205,10 +203,10 @@ The health check implementation is environment-agnostic - it uses the same clien
 
 ## Verification Checklist
 
-- [x] Custom Postgres health check implemented in actor-service (checks `bravo` and `actors` table)
+- [x] Custom Postgres health check implemented in actor-service (checks `actors` table)
 - [x] Custom S3 health check implemented in document-service (checks resume and job buckets)
-- [x] Custom DynamoDB health check implemented in document-service (checks `RESUMES` and `JOBS` tables)
-- [x] Custom Cognito health checks implemented in auth-service (candidate and service user pools)
+- [x] Custom DynamoDB health check implemented in document-service (checks `DOCUMENTS` table)
+- [x] Custom Cognito health checks implemented in auth-service (actor and service user pools)
 - [x] All health checks return `UP` when dependencies are available
 - [x] All health checks return `DOWN` when dependencies are unavailable
 - [x] `/q/health/ready` endpoint returns aggregated status
@@ -224,9 +222,9 @@ After implementation:
 3. Document health check endpoints in API documentation
 4. Consider adding health check metrics (track health check duration, failures)
 
-### Future: Bravo application status page
+### Future: Forge platform status page
 
-We want a Bravo-wide status page (similar to the Quarkus health UI or AWS service status pages) that
+We want a Forge-wide status page (similar to the Quarkus health UI or AWS service status pages) that
 shows the status and uptime of all application services.
 
 Potential approaches:
@@ -240,7 +238,7 @@ Potential approaches:
 - **Quarkus “status gateway” service**
   - Add a small Quarkus service that periodically calls each service’s `/q/health/ready` and exposes:
     - An aggregated JSON endpoint (for example, `/status/api`) summarising all services.
-    - A simple HTML/Qute based UI (for example, `/status`) that looks like an internal Bravo status dashboard.
+    - A simple HTML/Qute based UI (for example, `/status`) that looks like an internal Forge status dashboard.
   - Pros: Fully under our control, reuses existing health endpoints and Quarkus stack.
   - Cons: We own availability and maintenance of this extra service.
 

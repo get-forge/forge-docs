@@ -43,7 +43,7 @@ scrape_configs:
       - targets: ['host.docker.internal:8100']
         labels:
           service: 'auth-service'
-          application: 'bravo'
+          application: 'forge'
     # Add authentication for scraping
     bearer_token: '${SERVICE_TOKEN}'  # Or use basic_auth
 ```

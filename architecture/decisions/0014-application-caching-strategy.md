@@ -6,11 +6,11 @@
 
 ## **Context**
 
-The Bravo platform performs several expensive operations on every request or frequently accessed data:
+The Forge platform performs several expensive operations on every request or frequently accessed data:
 
 1. **Cognito Token Validation** - JWT parsing and signature validation via Cognito JWKS on every authenticated request
 2. **User Profile Lookups** - PostgreSQL queries for candidate profiles on profile page loads and header username display
-3. **Document Retrieval** - DynamoDB reads for parsed resumes and job specifications
+3. **Document Retrieval** - DynamoDB reads for parsed documents
 
 Current state shows no caching layer, resulting in:
 - High database query volume (PostgreSQL and DynamoDB)

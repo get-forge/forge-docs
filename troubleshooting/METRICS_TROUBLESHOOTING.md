@@ -63,7 +63,7 @@ curl http://localhost:8100/q/metrics
 ## Step 6: View the Dashboard
 
 1. In Grafana, go to **Dashboards → Browse**
-2. Look for **"Bravo Application Metrics"**
+2. Look for **"Forge Platform Metrics"**
 3. If you don't see it, wait a few seconds (dashboards auto-load every 10 seconds)
 4. Or manually refresh: **Configuration → Provisioning → Dashboards → Reload**
 
@@ -132,7 +132,7 @@ To test if metrics are working:
    - Should show request rate data
 
 4. **Check Grafana dashboard**:
-   - Open "Bravo Application Metrics" dashboard
+   - Open "Forge Platform Metrics" dashboard
    - Should see HTTP request rate graph updating
 
 ## Next Steps

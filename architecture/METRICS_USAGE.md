@@ -1,6 +1,6 @@
 # Metrics Usage Guide
 
-This guide explains how to use the metrics infrastructure in the Bravo application.
+This guide explains how to use the metrics infrastructure in the Forge platform.
 
 ## Overview
 
