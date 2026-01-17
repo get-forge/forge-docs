@@ -237,7 +237,7 @@ super(entityManager, "mydb", "users");
 - Line 59: `APP: backend-actor` - **DOMAIN-SPECIFIC** ❌
 - Line 77: `ui:candidate` - **DOMAIN-SPECIFIC** ❌
 - Line 78: `Run candidate web app` - **DOMAIN-SPECIFIC** ❌
-- Line 82: `APP: web-candidate` - **DOMAIN-SPECIFIC** ❌
+- Line 82: `APP: web-actor` - **DOMAIN-SPECIFIC** ❌
 
 **Sanitization Required:**
 ```yaml
@@ -261,11 +261,11 @@ app:example:
 ```yaml
 # BEFORE:
 ui:candidate:
-  desc: Run candidate web app in Quarkus dev mode
+  desc: Run actor web app in Quarkus dev mode
   cmds:
     - task: _dev:ui
       vars:
-        APP: web-candidate
+        APP: web-actor
 
 # AFTER:
 ui:example:

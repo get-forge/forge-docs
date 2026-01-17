@@ -140,7 +140,7 @@ This document identifies all domain-specific (recruitment platform) references t
 
 ### 4. UI Directory
 
-#### `web-candidate` ❌ **ENTIRELY DOMAIN-SPECIFIC**
+#### `web-actor` ❌ **ENTIRELY DOMAIN-SPECIFIC**
 **Domain-Specific Files:**
 - `resume-upload.html/js` - Resume upload UI
 - `match-active.html` - Match active UI
@@ -234,7 +234,7 @@ This document identifies all domain-specific (recruitment platform) references t
    - Review other backend applications
 
 5. **Remove domain-specific UI modules**
-   - Remove `web-candidate`
+   - Remove `web-actor`
    - Remove `mobile-candidate`
    - Remove `web-investor` (if not needed)
    - Review other UI modules
