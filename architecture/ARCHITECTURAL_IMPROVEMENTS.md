@@ -502,7 +502,7 @@ maintainability.
    - Added `microprofile-openapi-api` dependency to `libs/domain-dtos`
 
 2. **✅ Controller/Resource Cleanup**
-   - All `*Controller` classes in `backend-candidate` module cleaned (no OpenAPI annotations)
+   - All `*Controller` classes in `backend-actor` module cleaned (no OpenAPI annotations)
    - All `*Resource` classes in services cleaned (no OpenAPI annotations)
    - Controllers/Resources use only JAX-RS annotations (`@Path`, `@GET`, `@POST`, etc.)
    - OpenAPI infers schemas from DTOs and endpoints from JAX-RS annotations
@@ -940,7 +940,7 @@ to fix multiple issues in a single request cycle.
 
 2. **✅ REST Endpoint Validation**
    - `@Valid` annotation added to all DTO parameters in REST endpoints:
-     - `AuthController` (backend-candidate)
+     - `AuthController` (backend-actor)
      - `AuthResource` (auth-service)
      - `CandidateResource` (actor-service)
    - Validation automatically triggered before method execution
