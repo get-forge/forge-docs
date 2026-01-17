@@ -6,7 +6,7 @@
 ```
 Frontend User → Gets JWT token (user identity)
      ↓
-backend-candidate → Forwards user JWT to actor-service
+backend-actor → Forwards user JWT to actor-service
      ↓
 actor-service → Validates user JWT (knows it's from a user)
 ```
@@ -14,7 +14,7 @@ actor-service → Validates user JWT (knows it's from a user)
 **What the receiving service knows:**
 - ✅ The token is valid (signed by Cognito)
 - ✅ Which user is making the request
-- ❌ **Which service** is making the call (could be backend-candidate, could be an attacker with a stolen user token)
+- ❌ **Which service** is making the call (could be backend-actor, could be an attacker with a stolen user token)
 - ❌ Whether this is a legitimate service call or a direct user call
 
 ## The Problem: Missing Service Identity
@@ -25,10 +25,10 @@ actor-service → Validates user JWT (knows it's from a user)
 1. Attacker steals a user's JWT token (XSS, man-in-the-middle, etc.)
 2. Attacker directly calls `document-service` with the stolen user token
 3. `document-service` validates the token → ✅ Valid user token
-4. `document-service` processes the request → ❌ But it doesn't know this isn't coming from `backend-candidate`
+4. `document-service` processes the request → ❌ But it doesn't know this isn't coming from `backend-actor`
 
 **Current system:** Can't distinguish between:
-- Legitimate: `backend-candidate` forwarding user X's token → `document-service`
+- Legitimate: `backend-actor` forwarding user X's token → `document-service`
 - Attack: Attacker directly calling `document-service` with user X's token
 
 ### Scenario 2: Background Jobs / Scheduled Tasks
@@ -57,7 +57,7 @@ void cleanupOldResumes() {
 **Example:**
 ```
 document-service → parse-service ✅ (should work)
-backend-candidate → parse-service ❌ (should be blocked, but currently can't)
+backend-actor → parse-service ❌ (should be blocked, but currently can't)
 attacker → parse-service ❌ (should be blocked, but currently can't distinguish)
 ```
 

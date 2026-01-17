@@ -117,7 +117,7 @@ This document identifies all domain-specific (recruitment platform) references t
 
 ### 3. Applications Directory
 
-#### `backend-candidate` ❌ **ENTIRELY DOMAIN-SPECIFIC**
+#### `backend-actor` ❌ **ENTIRELY DOMAIN-SPECIFIC**
 **Domain-Specific Components:**
 - `ResumeController.java` - Resume upload endpoint
 - `LinkedInController.java` - LinkedIn integration
@@ -229,7 +229,7 @@ This document identifies all domain-specific (recruitment platform) references t
    - Keep generic DTOs
 
 4. **Remove domain-specific applications**
-   - Remove `backend-candidate`
+   - Remove `backend-actor`
    - Remove `backend-investor` (if not needed)
    - Review other backend applications
 

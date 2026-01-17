@@ -234,7 +234,7 @@ super(entityManager, "mydb", "users");
 - Line 37: `service:document` - Generic ✅
 - Line 54: `app:candidate` - **DOMAIN-SPECIFIC** ❌
 - Line 55: `Run backend candidate app` - **DOMAIN-SPECIFIC** ❌
-- Line 59: `APP: backend-candidate` - **DOMAIN-SPECIFIC** ❌
+- Line 59: `APP: backend-actor` - **DOMAIN-SPECIFIC** ❌
 - Line 77: `ui:candidate` - **DOMAIN-SPECIFIC** ❌
 - Line 78: `Run candidate web app` - **DOMAIN-SPECIFIC** ❌
 - Line 82: `APP: web-candidate` - **DOMAIN-SPECIFIC** ❌
@@ -247,7 +247,7 @@ app:candidate:
   cmds:
     - task: _dev:application
       vars:
-        APP: backend-candidate
+        APP: backend-actor
 
 # AFTER:
 app:example:

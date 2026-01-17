@@ -82,7 +82,7 @@ io.forge.application.{app}/
     └── StartupBanner.java
 ```
 
-**Example**: `application/backend-candidate`
+**Example**: `application/backend-actor`
 ```
 io.forge.application.backend/
 └── presentation/
@@ -243,7 +243,7 @@ io.forge.security/
         └── CognitoUserAuthenticationProvider.java
 ```
 
-### **Good Structure: backend-candidate**
+### **Good Structure: backend-actor**
 
 ```
 io.forge.application.backend/

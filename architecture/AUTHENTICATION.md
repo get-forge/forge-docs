@@ -21,7 +21,7 @@ See [ADR-0011: Stateless JWT Authentication](../decisions/0011-stateless-jwt-aut
 ### Form-Based Login (Primary)
 
 ```
-Frontend → POST /auth/login (backend-candidate)
+Frontend → POST /auth/login (backend-actor)
          → POST /auth/login (auth-service)
          → Cognito User Pool (authenticate)
          → JWT tokens returned (accessToken, idToken, refreshToken, expiresAt)
@@ -64,7 +64,7 @@ Frontend → POST /auth/login (backend-candidate)
 ### Registration
 
 ```
-Frontend → POST /auth/register (backend-candidate)
+Frontend → POST /auth/register (backend-actor)
          → POST /auth/register (auth-service)
          → Cognito User Pool (create user)
          → POST /actors/register (actor-service, directly from auth-service)
@@ -76,14 +76,14 @@ Frontend → POST /auth/register (backend-candidate)
 
 ### User-Initiated Requests
 
-All frontend requests route through `backend-candidate` (port 8500), which proxies to appropriate services:
+All frontend requests route through `backend-actor` (port 8500), which proxies to appropriate services:
 
-- `POST /auth/login` → `backend-candidate` → `auth-service`
-- `POST /auth/register` → `backend-candidate` → `auth-service`
-- `POST /auth/refresh-user-token` → `backend-candidate` → `auth-service`
-- `GET /auth/linkedin/login` → `backend-candidate` → `auth-service` (redirect)
-- `GET /actors/{id}` → `backend-candidate` → `actor-service`
-- `POST /resumes` → `backend-candidate` → `document-service`
+- `POST /auth/login` → `backend-actor` → `auth-service`
+- `POST /auth/register` → `backend-actor` → `auth-service`
+- `POST /auth/refresh-user-token` → `backend-actor` → `auth-service`
+- `GET /auth/linkedin/login` → `backend-actor` → `auth-service` (redirect)
+- `GET /actors/{id}` → `backend-actor` → `actor-service`
+- `POST /resumes` → `backend-actor` → `document-service`
 
 ### Service-to-Service Requests
 
@@ -221,7 +221,7 @@ Frontend applications handle authentication client-side:
 - **`TokenStore`**: Generates temporary tokens for OIDC flows
 - **`CognitoServiceAuthenticationProvider`**: Authenticates services with Cognito using service account credentials
 
-### Backend Candidate (`application/backend-candidate`)
+### Backend Candidate (`application/backend-actor`)
 
 - **`AuthController`**: Proxies authentication requests to auth-service
 - **`CandidateController`**: Protected candidate endpoints
