@@ -79,10 +79,10 @@ implemented and operational.
    - Prometheus scraping all services
    - Grafana dashboards:
      - Quarkus HTTP Metrics (request rate, duration, status codes, error rate heatmap by endpoint)
-     - Bravo User Metrics (authentication attempts)
+     - Forge User Metrics (authentication attempts)
      - Quarkus JVM Metrics (per-service memory, GC, threads)
-     - Bravo Throttle Metrics (rate limiting requests, violations, utilization)
-     - Bravo Infrastructure Metrics (TextKernel API, database operation duration, database connection pool metrics)
+     - Forge Throttle Metrics (rate limiting requests, violations, utilization)
+     - Forge Infrastructure Metrics (TextKernel API, database operation duration, database connection pool metrics)
 
 3. **✅ Metrics Infrastructure**
    - Authentication metrics implemented in `AuthService`
@@ -166,10 +166,10 @@ clear view of dependency status for load balancers and operators.
    - Each service uses a single `*ServiceHealthChecks` class with `@Produces @Readiness @ApplicationScoped`
      methods that return anonymous subclasses of the shared base checks.
    - `actor-service`
-     - Custom Postgres readiness check using `PostgresHealthCheck` for `bravo` and the `actors` table.
+     - Custom Postgres readiness check using `PostgresHealthCheck` for `forge` database and the `actors` table.
    - `document-service`
-     - Custom S3 readiness check using `S3HealthCheck` for `bravo-candidate-resumes` and `bravo-client-jobs`.
-     - Custom DynamoDB readiness check using `DynamoDbHealthCheck` for `RESUMES` and `JOBS`.
+     - Custom S3 readiness check using `S3HealthCheck` for `forge-documents`.
+     - Custom DynamoDB readiness check using `DynamoDbHealthCheck` for `DOCUMENTS`.
    - `auth-service`
      - Two custom Cognito readiness checks using `CognitoHealthCheck` for the candidate and service user pools.
    - Quarkus built-in datasource health check is disabled in favor of the custom Postgres health check.
@@ -188,8 +188,8 @@ clear view of dependency status for load balancers and operators.
    - Confirm all production ALB target groups use `/q/health/ready` for health checks.
    - Wire health check failures into alerting (CloudWatch alarms, PagerDuty/Slack, etc).
 
-3. **Future enhancement - Bravo status page**
-   - Design and implement a Bravo wide application status page that aggregates service health:
+3. **Future enhancement - Forge status page**
+   - Design and implement a Forge wide application status page that aggregates service health:
      - Option A: External status page SaaS (for example, Atlassian Statuspage, Better Uptime) polling `/q/health/ready`.
      - Option B: Small Quarkus “status gateway” service aggregating health endpoints and serving JSON + HTML/Qute dashboard.
      - Option C: Prometheus/Grafana driven internal “ops status” dashboard based on health and uptime metrics.
@@ -237,7 +237,7 @@ violations and utilization are tracked with detailed metrics for operational vis
      - `rate.limit.violations` - specific identifiers (user IDs, service IDs, IPs) that exceeded limits
      - `rate.limit.utilization` - percentage utilization (0-100%) by key type and service
      - `rate.limit.failures` - rate limiting system failures (e.g., Redis connection issues)
-   - Grafana dashboard "Bravo Throttle Metrics" with panels for:
+   - Grafana dashboard "Forge Throttle Metrics" with panels for:
      - Rate limit requests (allowed vs blocked)
      - Violations by key type and identifier
      - Utilization by key type (average and max)
@@ -625,7 +625,7 @@ into pool utilization and potential exhaustion issues.
 2. **✅ Connection Pool Metrics**
    - Agroal metrics enabled (`quarkus.datasource.metrics.enabled=true`)
    - Metrics exposed: `agroal_active_count`, `agroal_available_count`, `agroal_awaiting_count`, `agroal_acquire_count_total`
-   - Visualized in Grafana "Bravo Infrastructure Metrics" dashboard
+   - Visualized in Grafana "Forge Infrastructure Metrics" dashboard
    - Real-time monitoring of connection pool status
 
 3. **✅ DynamoDB Client Optimization**
@@ -682,7 +682,7 @@ into pool utilization and potential exhaustion issues.
 
 2. **✅ Phase 2: Metrics and Monitoring**
    - Cache metrics enabled for all caches (`metrics-enabled=true`)
-   - Grafana dashboard panel added to "Bravo Infrastructure Metrics" dashboard
+   - Grafana dashboard panel added to "Forge Infrastructure Metrics" dashboard
    - Metrics tracked:
      - Cache hit rate percentage (target: >80% for token validation)
      - Total operations per second
