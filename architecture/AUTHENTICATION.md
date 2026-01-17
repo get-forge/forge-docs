@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Bravo application uses **fully stateless JWT-based authentication** across all modules. All
+The Forge platform uses **fully stateless JWT-based authentication** across all modules. All
 authentication flows return JWT tokens that are stored client-side and included in API requests via the
 `Authorization` header.
 
