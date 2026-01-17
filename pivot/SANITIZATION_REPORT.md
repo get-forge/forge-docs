@@ -7,102 +7,114 @@ This document identifies all domain-specific (recruitment platform) references t
 ✅ **Already Completed:**
 - Deleted `match-service` (domain-specific)
 - Renamed `candidate-service` → `actor-service`
-
-⚠️ **In Progress:**
-- `document-service` - Contains resume/job spec parsing (identified for refactoring)
+- Deleted `textkernel-api` library (domain-specific resume/job parsing integration)
+- Refactored `document-service` - Migrated from resume/job spec parsing to generic document parsing using Apache Tika
+- Removed domain-specific DTOs (`ResumeResponse`, `JobSpecResponse`, `Resume`, `JobSpec`)
+- Cleaned up `domain-clients` - Removed `ParseServiceClient` and resume/job spec methods from `DocumentServiceClient`
 
 ## Critical Domain-Specific Components to Sanitize
 
 ### 1. Services Directory
 
-#### `document-service` ⚠️ **HIGH PRIORITY**
-**Status:** Identified for refactoring
+#### `document-service` ✅ **COMPLETE - GENERIC DOCUMENT SERVICE**
+**Status:** Refactored to generic document parsing service
 
-**Domain-Specific Components:**
-- `ResumeResource.java` - `/resumes` endpoint
-- `JobSpecResource.java` - `/job-specs` endpoint  
-- `ParsedResumeRepository.java` - Resume persistence
-- `ParsedJobSpecRepository.java` - Job spec persistence
-- `ResumeRecord.java` - Resume entity
-- `JobSpecRecord.java` - Job spec entity
-- `ResumeResponseMapper.java` - Resume mapping
-- `JobSpecMapper.java` - Job spec mapping
-- `TextkernelResumeMapper.java` - Resume parsing mapper
-- `ParseResumeResponseWrapper.java` - Resume DTO wrapper
-- `ParseJobResponseWrapper.java` - Job spec DTO wrapper
+**Completed Migration:**
+- ✅ Removed `ResumeResource` and `JobSpecResource` - Replaced with generic `DocumentResource` (`/documents` endpoint)
+- ✅ Removed `ParsedResumeRepository` and `ParsedJobSpecRepository` - Replaced with generic `DocumentRepository`
+- ✅ Removed `ResumeRecord` and `JobSpecRecord` - Replaced with generic `DocumentRecord`
+- ✅ Removed `ResumeResponseMapper` and `JobSpecMapper` - Replaced with generic `DocumentResponseMapper`
+- ✅ Removed `TextkernelResumeMapper` - Replaced with `TikaDocumentMapper` using Apache Tika
+- ✅ Removed `ParseResumeResponseWrapper` and `ParseJobResponseWrapper` - Replaced with generic `DocumentParseResult`
+- ✅ Migrated from Textkernel API to Apache Tika for generic document parsing
+- ✅ Now supports any Tika-supported document format (PDF, DOCX, TXT, etc.)
+
+**Current Implementation:**
+- Generic document upload and parsing using Apache Tika
+- Stores original documents in S3 (`forge-documents` bucket)
+- Stores parsed metadata and extracted text in DynamoDB (`DOCUMENTS` table)
+- Returns `DocumentResponse` with metadata and extracted text
+- Supports multiple documents per actor
 
 **Recommendation:** 
-- Remove resume/job spec specific endpoints and repositories
-- Keep generic document storage/retrieval functionality
-- Consider renaming to `storage-service` or `file-service` (but note: you mentioned this is too generic and contrary to microservices architecture)
+- ✅ Service is now generic and ready for public repository
+- No further sanitization needed for this service
 
-#### `auth-service` ⚠️ **MEDIUM PRIORITY**
-**Domain-Specific Components:**
-- `LinkedInLoginRedirectResource.java` - LinkedIn OAuth integration
-- `LinkedInLoginCallbackResource.java` - LinkedIn OAuth callback
-- `LinkedInRegistrationRedirectResource.java` - LinkedIn registration
-- `LinkedInRegistrationCallbackResource.java` - LinkedIn registration callback
-- `LinkedInUserMapper.java` - LinkedIn user mapping
-- `LinkedInEmailVerificationUtils.java` (in `libs/common`) - LinkedIn-specific email verification
-- Entire `oidc/linkedin/` package - LinkedIn OAuth implementation
+#### `auth-service` ✅ **GENERIC - NO SANITIZATION NEEDED**
+**Status:** OAuth integration patterns are generic infrastructure
+
+**OAuth Components (Keep - Generic Pattern):**
+- `LinkedInLoginRedirectResource.java` - OAuth redirect pattern (reusable for Google/Apple/Facebook)
+- `LinkedInLoginCallbackResource.java` - OAuth callback pattern (reusable for Google/Apple/Facebook)
+- `LinkedInRegistrationRedirectResource.java` - OAuth registration pattern (reusable for Google/Apple/Facebook)
+- `LinkedInRegistrationCallbackResource.java` - OAuth registration callback pattern (reusable for Google/Apple/Facebook)
+- `LinkedInUserMapper.java` - OAuth user mapping pattern (reusable for Google/Apple/Facebook)
+- `LinkedInEmailVerificationUtils.java` (in `libs/common`) - OAuth email verification pattern (reusable for Google/Apple/Facebook)
+- Entire `oidc/linkedin/` package - OAuth provider implementation pattern (reusable for Google/Apple/Facebook)
 
 **Recommendation:**
-- LinkedIn OAuth is recruitment-platform specific
-- Consider extracting to a separate module or removing if not needed for commercial product
-- If keeping OAuth, make it provider-agnostic (generic OAuth provider abstraction)
+- OAuth integration is a generic infrastructure pattern, not domain-specific
+- LinkedIn implementation demonstrates the pattern that will be repeated for other providers
+- Keep as-is - it's valuable reference material for OAuth integration
 
 ### 2. Libraries Directory
 
-#### `textkernel-api` ❌ **ENTIRELY DOMAIN-SPECIFIC**
-**Status:** Should be removed or extracted to domain-specific module
+#### `textkernel-api` ✅ **REMOVED**
+**Status:** Deleted - No longer exists in codebase
 
-**Domain-Specific Components:**
-- Entire library is for resume/job spec parsing via TextKernel API
+**What Was Removed:**
+- Entire library for resume/job spec parsing via TextKernel API
 - `TextkernelClient.java` - Resume/job parsing interface
 - `TextkernelTxClient.java` - TextKernel implementation
 - `DummyClient.java` - Mock resume/job parsing
 - `parse-dummy-resume-response.json` - Sample resume data
 - `parse-dummy-job-spec-response.json` - Sample job spec data
 
-**Recommendation:**
-- **Remove entirely** - This is a third-party resume parsing service integration
-- If document parsing is needed, create a generic document parser abstraction
+**Replacement:**
+- Generic document parsing now handled by `document-service` using Apache Tika
+- Tika supports multiple document formats and is provider-agnostic
 
-#### `domain-dtos` ⚠️ **PARTIALLY DOMAIN-SPECIFIC**
-**Domain-Specific DTOs:**
-- `ResumeResponse.java` - Resume response DTO
-- `JobSpecResponse.java` - Job spec response DTO
-- `Resume.java` (in `textkernel` package) - Resume entity
-- `JobSpec.java` (in `textkernel` package) - Job spec entity
+#### `domain-dtos` ✅ **CLEANED UP - GENERIC DTOs ONLY**
+**Status:** Domain-specific DTOs removed
 
-**Generic DTOs (Keep):**
+**Removed (Domain-Specific):**
+- ✅ `ResumeResponse.java` - Removed
+- ✅ `JobSpecResponse.java` - Removed
+- ✅ `Resume.java` (in `textkernel` package) - Removed
+- ✅ `JobSpec.java` (in `textkernel` package) - Removed
+
+**Current Generic DTOs:**
 - `ActorResponse.java` - Generic actor/user response
 - `RegisterRequest.java` - Generic registration
 - `ErrorResponse.java` - Generic error response
+- `DocumentResponse.java` - Generic document response (replaces ResumeResponse/JobSpecResponse)
 - Auth DTOs (generic)
 
 **Recommendation:**
-- Remove resume/job spec DTOs
-- Keep generic DTOs
+- ✅ All domain-specific DTOs removed
+- ✅ Service now uses generic `DocumentResponse` for all document operations
 
-#### `domain-clients` ⚠️ **PARTIALLY DOMAIN-SPECIFIC**
-**Domain-Specific Clients:**
-- `DocumentServiceClient.java` - Has `getResume()` method
-- `ParseServiceClient.java` - Has `createResume()` and `createJobSpec()` methods
+#### `domain-clients` ✅ **CLEANED UP - GENERIC CLIENTS ONLY**
+**Status:** Domain-specific client methods removed
 
-**Generic Clients (Keep):**
+**Removed (Domain-Specific):**
+- ✅ `ParseServiceClient.java` - Entire client removed (had `createResume()` and `createJobSpec()` methods)
+
+**Updated (Now Generic):**
+- ✅ `DocumentServiceClient.java` - Now has generic `createDocument()` and `getDocuments()` methods (replaced `getResume()`)
+
+**Current Generic Clients:**
 - `ActorServiceClient.java` - Generic actor service client
 - `AuthServiceClient.java` - Generic auth service client
+- `DocumentServiceClient.java` - Generic document service client
 
 **Recommendation:**
-- Remove resume/job spec methods from document clients
-- Keep generic document retrieval methods (if any)
-- Or remove document clients entirely if document-service is being refactored
+- ✅ All domain-specific client methods removed
+- ✅ Clients now use generic document operations
 
 #### `common` ⚠️ **PARTIALLY DOMAIN-SPECIFIC**
 **Domain-Specific Utilities:**
 - `AugmentMatchesToggle.java` - Match augmentation toggle (recruitment-specific)
-- `LinkedInEmailVerificationUtils.java` - LinkedIn-specific email verification
 
 **Generic Utilities (Keep):**
 - `JsonNodeUtils.java` - Generic JSON utilities
@@ -110,10 +122,12 @@ This document identifies all domain-specific (recruitment platform) references t
 - `Base64Utils.java` - Generic base64 encoding
 - `ClassUtils.java` - Generic class utilities
 - `LogMethodEntry*.java` - Generic logging utilities
+- `LinkedInEmailVerificationUtils.java` - OAuth email verification pattern (generic, reusable for other OAuth providers)
 
 **Recommendation:**
-- Remove `AugmentMatchesToggle` and `LinkedInEmailVerificationUtils`
-- Keep generic utilities
+- Remove `AugmentMatchesToggle` (domain-specific)
+- Keep `LinkedInEmailVerificationUtils` (generic OAuth pattern)
+- Keep all other generic utilities
 
 ### 3. Applications Directory
 
@@ -214,21 +228,25 @@ This document identifies all domain-specific (recruitment platform) references t
 
 ### Phase 1: High Priority (Before Public Repo Split)
 
-1. **Remove `textkernel-api` library entirely**
-   - This is a third-party resume parsing integration
-   - Not needed for generic platform
+1. ✅ **Remove `textkernel-api` library entirely** - **COMPLETE**
+   - Third-party resume parsing integration removed
+   - Replaced with generic Apache Tika document parsing
 
-2. **Refactor `document-service`**
-   - Remove `ResumeResource` and `JobSpecResource`
-   - Remove `ParsedResumeRepository` and `ParsedJobSpecRepository`
-   - Keep generic document storage functionality
-   - Decide on final service name (not "storage-service" per your note)
+2. ✅ **Refactor `document-service`** - **COMPLETE**
+   - Removed `ResumeResource` and `JobSpecResource` - Replaced with `DocumentResource`
+   - Removed `ParsedResumeRepository` and `ParsedJobSpecRepository` - Replaced with `DocumentRepository`
+   - Service now handles generic document storage and parsing
+   - Uses Apache Tika for document parsing (supports multiple formats)
 
-3. **Remove domain-specific DTOs**
-   - Remove `ResumeResponse`, `JobSpecResponse`, `Resume`, `JobSpec`
-   - Keep generic DTOs
+3. ✅ **Remove domain-specific DTOs** - **COMPLETE**
+   - Removed `ResumeResponse`, `JobSpecResponse`, `Resume`, `JobSpec`
+   - Now uses generic `DocumentResponse`
 
-4. **Remove domain-specific applications**
+4. ✅ **Clean up `domain-clients`** - **COMPLETE**
+   - Removed `ParseServiceClient` entirely
+   - Updated `DocumentServiceClient` to use generic `createDocument()` and `getDocuments()` methods
+
+5. **Remove domain-specific applications**
    - Remove `backend-actor`
    - Remove `backend-investor` (if not needed)
    - Review other backend applications
@@ -241,33 +259,31 @@ This document identifies all domain-specific (recruitment platform) references t
 
 ### Phase 2: Medium Priority
 
-6. **Extract or remove LinkedIn OAuth**
-   - Move LinkedIn OAuth to separate module
-   - Or remove if not needed for commercial product
-   - Make OAuth provider-agnostic if keeping
+6. **Clean up `common` library**
+   - Remove `AugmentMatchesToggle` (domain-specific)
+   - Keep `LinkedInEmailVerificationUtils` (generic OAuth pattern)
 
-7. **Clean up `common` library**
-   - Remove `AugmentMatchesToggle`
-   - Remove `LinkedInEmailVerificationUtils`
-
-8. **Clean up `domain-clients`**
-   - Remove resume/job spec methods from document clients
-   - Or remove document clients if document-service is refactored
-
-9. **Sanitize scripts and tests**
+7. **Sanitize scripts and tests**
    - Remove domain-specific test scripts
    - Sanitize performance test scripts
 
 ### Phase 3: Documentation & Configuration
 
-10. **Sanitize documentation**
-    - Review all docs for domain references
-    - Replace with generic terms
-    - Follow `PUBLIC_REPO_STRATEGY.md` guidelines
+8. **Sanitize scripts and tests**
+   - Remove domain-specific test scripts (e.g., `dummy-resume-post.sh`, `dummy-job-spec-post.sh`)
+   - Sanitize performance test scripts
+   - Update test scripts to use generic document operations
 
-11. **Sanitize configuration**
-    - Review config files for domain references
-    - Remove domain-specific service names
+9. **Sanitize documentation**
+   - Review all docs for domain references
+   - Replace with generic terms
+   - Follow `PUBLIC_REPO_STRATEGY.md` guidelines
+   - Note: OAuth/LinkedIn patterns are generic and should be kept
+
+10. **Sanitize configuration**
+   - Review config files for domain references
+   - Remove domain-specific service names
+   - Keep OAuth provider configurations (generic pattern)
 
 ## Notes
 
@@ -280,7 +296,10 @@ This document identifies all domain-specific (recruitment platform) references t
 
 ## Questions to Consider
 
-1. **LinkedIn OAuth**: Is this needed for the commercial product, or is it recruitment-platform specific?
-2. **Document Parsing**: Do you need generic document parsing, or was resume/job spec parsing the only use case?
-3. **Applications/UI**: Which applications/UI modules are needed for the commercial product vs. recruitment platform demos?
-4. **TextKernel Integration**: Should this be completely removed, or extracted to a separate domain-specific module?
+1. **Applications/UI**: Which applications/UI modules are needed for the commercial product vs. recruitment platform demos?
+2. **Test Scripts**: Should test scripts be updated to use generic document operations, or removed entirely?
+
+## Notes on Generic Patterns
+
+- **OAuth Integration (LinkedIn)**: OAuth provider integration is a generic infrastructure pattern. The LinkedIn implementation demonstrates the pattern that will be repeated for Google, Apple, Facebook, and other OAuth providers. This is valuable reference material and should be kept as-is.
+- **`actor-service`**: Already renamed from `candidate-service`. Review for any remaining "candidate" references.

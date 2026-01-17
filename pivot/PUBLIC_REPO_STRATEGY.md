@@ -14,23 +14,26 @@ Complete strategy for what to expose in the public repository, component analysi
 
 ## 📊 Component Analysis (20 Tiers)
 
-### **Tier 1: Health Checks** ⭐⭐⭐⭐⭐ ✅ **COMPLETE**
+### **Tier 1: Health Checks** ⭐⭐⭐⭐⭐ ✅ **COMPLETE** ✅ **MIGRATED**
 - **Status**: STRONGLY RECOMMEND
 - **Value**: Very High | **Complexity**: Low | **Risk**: Zero
 - **What**: PostgresHealthCheck, DynamoDbHealthCheck, S3HealthCheck, CognitoHealthCheck
 - **Why**: Production-ready, generic, zero risk, high value
+- **Location**: `forge-kit/forge-contracts/forge-health` (published as `io.forge:forge-health`)
 
-### **Tier 1: Metrics Framework** ⭐⭐⭐⭐⭐ ✅ **COMPLETE**
+### **Tier 1: Metrics Framework** ⭐⭐⭐⭐⭐ ✅ **COMPLETE** ✅ **MIGRATED**
 - **Status**: STRONGLY RECOMMEND
 - **Value**: Very High | **Complexity**: Low | **Risk**: Zero
 - **What**: MetricsRecorder, ServiceMetrics, ServiceMetricsInterceptor, CircuitBreakerMetrics, DatabaseMetricsInterceptor, DatabaseMetrics etc.
 - **Why**: Production-ready, generic, zero risk, high value
+- **Location**: `forge-kit/forge-contracts/forge-metrics` (published as `io.forge:forge-metrics`)
 
-### **Tier 2: Generic Utilities** ⭐⭐⭐
+### **Tier 2: Generic Utilities** ⭐⭐⭐ ✅ **MIGRATED**
 - **Status**: Optional
 - **Value**: Medium | **Complexity**: Low | **Risk**: Low
-- **What**: JsonNodeUtils, ValidationUtils, Base64Utils, ClassUtils
+- **What**: Base64Utils, ClassUtils, JWT utilities
 - **Why**: Useful but not critical
+- **Location**: `forge-kit/forge-contracts/forge-common` (published as `io.forge:forge-common`)
 
 ### **Tier 3: Demo Implementations** ⭐⭐
 - **Status**: Skip (or do later)
@@ -44,11 +47,12 @@ Complete strategy for what to expose in the public repository, component analysi
 - **What**: application.properties.template, docker-compose.example.yml
 - **Why**: Very low effort, helpful for documentation
 
-### **Tier 5: Rate Limiting Core** ⭐⭐⭐⭐ ✅ **COMPLETE**
+### **Tier 5: Rate Limiting Core** ⭐⭐⭐⭐ ✅ **COMPLETE** ✅ **MIGRATED**
 - **Status**: STRONGLY CONSIDER
 - **Value**: High | **Complexity**: Medium | **Risk**: Low
-- **What**: RateLimiter interface, RateLimitStatus, Bucket4jRateLimiter
+- **What**: RateLimiter interface, RateLimitStatus, Bucket4jRateLimiter, key resolvers
 - **Why**: High value but requires careful extraction
+- **Location**: `forge-kit/forge-contracts/forge-throttle` (published as `io.forge:forge-throttle`)
 
 ### **Tier 6: Method Entry Logging** ⭐⭐⭐
 - **Status**: RECOMMEND
@@ -86,11 +90,12 @@ Complete strategy for what to expose in the public repository, component analysi
 - **What**: QuarkusPortsEnvTestResource, test helpers
 - **Why**: Low value but also low effort
 
-### **Tier 12: Taskfiles (Build/Deploy Control Plane)** ⭐⭐⭐⭐
+### **Tier 12: Taskfiles (Build/Deploy Control Plane)** ⭐⭐⭐⭐ ✅ **MIGRATED**
 - **Status**: STRONGLY RECOMMEND
 - **Value**: Very High | **Complexity**: Low-Medium | **Risk**: Low
 - **What**: All Taskfile.yml files (sanitized as reference)
 - **Why**: Excellent operational maturity demonstration
+- **Location**: `forge-kit/taskfile.yml`, `forge-kit/scripts/taskfile.init.yml`
 
 ### **Tier 13: Code Quality & Test Coverage Metrics** ⭐⭐⭐⭐⭐
 - **Status**: STRONGLY RECOMMEND
@@ -98,11 +103,12 @@ Complete strategy for what to expose in the public repository, component analysi
 - **What**: CI/CD badges, Codecov integration, coverage reports
 - **Why**: Zero effort, very high value, builds trust immediately
 
-### **Tier 14: Additional Exception Mappers** ⭐⭐⭐
+### **Tier 14: Additional Exception Mappers** ⭐⭐⭐ ✅ **MIGRATED**
 - **Status**: RECOMMEND
 - **Value**: Medium | **Complexity**: Very Low | **Risk**: Zero
 - **What**: CircuitBreakerOpenExceptionMapper
 - **Why**: Very easy, zero risk, useful utility
+- **Location**: `forge-kit/forge-contracts/forge-metrics/src/main/java/io/forge/kit/metrics/domain/exception/CircuitBreakerOpenExceptionMapper.java`
 
 ### **Tier 15: Static Analysis Configurations** ⭐⭐⭐
 - **Status**: RECOMMEND
@@ -116,11 +122,12 @@ Complete strategy for what to expose in the public repository, component analysi
 - **What**: Spotless config, Eclipse formatter, linting configs
 - **Why**: Low value but also zero effort
 
-### **Tier 17: Git Hooks & Dev Tooling** ⭐⭐⭐
+### **Tier 17: Git Hooks & Dev Tooling** ⭐⭐⭐ ✅ **MIGRATED**
 - **Status**: RECOMMEND
 - **Value**: Medium | **Complexity**: Very Low | **Risk**: Zero
-- **What**: Lefthook config, Renovate config
+- **What**: Renovate config
 - **Why**: Very low effort, zero risk, shows DX focus
+- **Location**: `forge-kit/renovate.json`
 
 ### **Tier 18: Docker Compose & Local Development** ⭐⭐⭐
 - **Status**: CONSIDER
@@ -146,16 +153,18 @@ Complete strategy for what to expose in the public repository, component analysi
 
 ### **Phase 1: Immediate Wins (Do First)**
 1. ✅ **Code Quality Badges** (Tier 13) - Set up immediately, zero effort
-2. ✅ **Health Checks** (Tier 1) - **COMPLETE** - Highest value code component
+2. ✅ **Health Checks** (Tier 1) - **COMPLETE** ✅ **MIGRATED** - Highest value code component
 3. ✅ **Validation Exception Mapper** (Tier 8) - Very easy, zero risk
-4. ✅ **Circuit Breaker Exception Mapper** (Tier 14) - Very easy, zero risk
+4. ✅ **Circuit Breaker Exception Mapper** (Tier 14) - ✅ **MIGRATED** - Very easy, zero risk
 5. ✅ **Method Entry Logging** (Tier 6) - Easy win, zero risk
 6. ✅ **Static Analysis Configs** (Tier 15) - Very easy, zero risk
-7. ✅ **Git Hooks Config** (Tier 17) - Very easy, zero risk
-8. ✅ **Taskfiles** (Tier 12) - Excellent reference material
+7. ✅ **Git Hooks Config** (Tier 17) - ✅ **MIGRATED** - Very easy, zero risk
+8. ✅ **Taskfiles** (Tier 12) - ✅ **MIGRATED** - Excellent reference material
 
 ### **Phase 2: High-Value Components**
-9. ✅ **Rate Limiting Core** (Tier 5) - High value but requires careful extraction
+9. ✅ **Rate Limiting Core** (Tier 5) - ✅ **MIGRATED** - High value but requires careful extraction
+10. ✅ **Metrics Framework** (Tier 1) - ✅ **MIGRATED** - Production-ready observability
+11. ✅ **Generic Utilities** (Tier 2) - ✅ **MIGRATED** - Common utilities
 
 ### **Phase 3: Developer Experience (Optional)**
 10. 🤔 **Docker Compose** (Tier 18) - Good reference, requires sanitization
@@ -329,11 +338,13 @@ Minimal examples that demonstrate usage patterns:
 ## 📦 What You're Offering
 
 ### **Real, Usable Code** (Maven Artifacts)
-- ✅ Health Checks (production-ready) - **COMPLETE**
+- ✅ Health Checks (production-ready) - **COMPLETE** ✅ **MIGRATED** (`io.forge:forge-health`)
+- ✅ Metrics Framework - ✅ **MIGRATED** (`io.forge:forge-metrics`)
+- ✅ Rate Limiting Core - ✅ **MIGRATED** (`io.forge:forge-throttle`)
+- ✅ Generic Utilities - ✅ **MIGRATED** (`io.forge:forge-common`)
+- ✅ Circuit Breaker Exception Mapper - ✅ **MIGRATED** (in `forge-metrics`)
 - Validation Exception Mapper
-- Circuit Breaker Exception Mapper
 - Method Entry Logging
-- Rate Limiting Core (if extracted)
 
 ### **Contracts & Interfaces** (Maven Artifacts)
 - @Secured, @AllowedServices, @ServiceMetrics annotations
@@ -406,17 +417,19 @@ Your public repository demonstrates:
 ## 📋 Implementation Checklist
 
 ### Phase 1: Preparation
-- [x] Health Checks (Tier 1) - **COMPLETE**
+- [x] Health Checks (Tier 1) - **COMPLETE** ✅ **MIGRATED**
 - [ ] Code Quality Badges (Tier 13)
 - [ ] Validation Exception Mapper (Tier 8)
-- [ ] Circuit Breaker Exception Mapper (Tier 14)
+- [x] Circuit Breaker Exception Mapper (Tier 14) - ✅ **MIGRATED**
 - [ ] Method Entry Logging (Tier 6)
 - [ ] Static Analysis Configs (Tier 15)
-- [ ] Git Hooks Config (Tier 17)
-- [ ] Taskfiles (Tier 12)
+- [x] Git Hooks Config (Tier 17) - ✅ **MIGRATED** (Renovate)
+- [x] Taskfiles (Tier 12) - ✅ **MIGRATED**
 
 ### Phase 2: High-Value Components
-- [ ] Rate Limiting Core (Tier 5)
+- [x] Rate Limiting Core (Tier 5) - ✅ **MIGRATED**
+- [x] Metrics Framework (Tier 1) - ✅ **MIGRATED**
+- [x] Generic Utilities (Tier 2) - ✅ **MIGRATED**
 
 ### Phase 3: Contracts & Interfaces
 - [ ] Extract `@Secured` annotation to `contracts/security/`
@@ -458,6 +471,8 @@ You have **20 tiers of components** analyzed, with clear recommendations for eac
 - **3 CONSIDER** (good but optional)
 - **7 Optional/Skip** (lower priority or too domain-specific)
 
-**Status**: Health Checks (Tier 1) is **COMPLETE**. Continue with Phase 1 components.
+**Status**: 
+- ✅ **MIGRATED**: Health Checks (Tier 1), Metrics Framework (Tier 1), Generic Utilities (Tier 2), Rate Limiting Core (Tier 5), Taskfiles (Tier 12), Circuit Breaker Exception Mapper (Tier 14), Git Hooks Config (Tier 17)
+- **Next Steps**: Continue with remaining Phase 1 components (Code Quality Badges, Validation Exception Mapper, Method Entry Logging, Static Analysis Configs)
 
 The strategy balances **demonstrating value** with **protecting your core platform**, giving you a clear path to monetization while building trust through transparency.
