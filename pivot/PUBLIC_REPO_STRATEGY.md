@@ -54,11 +54,13 @@ Complete strategy for what to expose in the public repository, component analysi
 - **Why**: High value but requires careful extraction
 - **Location**: `forge-kit/forge-contracts/forge-throttle` (published as `io.forge:forge-throttle`)
 
-### **Tier 6: Method Entry Logging** ⭐⭐⭐
+### **Tier 6: Method Entry Logging** ⭐⭐⭐ ✅ **MIGRATED**
 - **Status**: RECOMMEND
 - **Value**: Medium | **Complexity**: Low | **Risk**: Zero
 - **What**: @LogMethodEntry annotation, interceptor, utilities
 - **Why**: Easy win, zero risk, useful utility
+- **Location**: `forge-kit/forge-contracts/forge-common` (published as `io.forge:forge-common`)
+- **Note**: Codebase uses `io.forge.kit.common.logging.LogMethodEntry`
 
 ### **Tier 7: Caching Key Generators** ⭐⭐
 - **Status**: SKIP
@@ -66,11 +68,12 @@ Complete strategy for what to expose in the public repository, component analysi
 - **What**: Cache key generation utilities
 - **Why**: Too domain-specific, lower value
 
-### **Tier 8: Validation Exception Mapper** ⭐⭐⭐
+### **Tier 8: Validation Exception Mapper** ⭐⭐⭐ ✅ **MIGRATED**
 - **Status**: RECOMMEND
 - **Value**: Medium | **Complexity**: Very Low | **Risk**: Zero
 - **What**: ValidationExceptionMapper for Jakarta Bean Validation
 - **Why**: Very easy, zero risk, useful utility
+- **Location**: `forge-kit/forge-contracts/forge-common` (published as `io.forge:forge-common`)
 
 ### **Tier 9: Startup Info Panel** ⭐⭐⭐
 - **Status**: CONSIDER
@@ -79,16 +82,18 @@ Complete strategy for what to expose in the public repository, component analysi
 - **Why**: Good DX but Quarkus-specific
 
 ### **Tier 10: Graceful Shutdown Handler** ⭐⭐⭐
-- **Status**: CONSIDER
+- **Status**: OPTIONAL (Remaining - Not Migrated)
 - **Value**: Medium | **Complexity**: Low | **Risk**: Low
-- **What**: Shutdown lifecycle management
-- **Why**: Good pattern but Quarkus-specific
+- **What**: Shutdown lifecycle management (`ShutdownLifecycleEventHandler`)
+- **Why**: Good pattern but Quarkus-specific. User indicated this may be the only remaining useful component, but it's optional.
 
-### **Tier 11: Test Utilities** ⭐⭐
+### **Tier 11: Test Utilities** ⭐⭐ ✅ **MIGRATED**
 - **Status**: Optional
 - **Value**: Low | **Complexity**: Very Low | **Risk**: Zero
 - **What**: QuarkusPortsEnvTestResource, test helpers
 - **Why**: Low value but also low effort
+- **Location**: `forge-kit/forge-contracts/forge-common` (published as `io.forge:forge-common`)
+- **Note**: Codebase uses `io.forge.kit.common.test.QuarkusPortsEnvTestResource`
 
 ### **Tier 12: Taskfiles (Build/Deploy Control Plane)** ⭐⭐⭐⭐ ✅ **MIGRATED**
 - **Status**: STRONGLY RECOMMEND
@@ -110,17 +115,21 @@ Complete strategy for what to expose in the public repository, component analysi
 - **Why**: Very easy, zero risk, useful utility
 - **Location**: `forge-kit/forge-contracts/forge-metrics/src/main/java/io/forge/kit/metrics/domain/exception/CircuitBreakerOpenExceptionMapper.java`
 
-### **Tier 15: Static Analysis Configurations** ⭐⭐⭐
+### **Tier 15: Static Analysis Configurations** ⭐⭐⭐ ✅ **MIGRATED** (Copied)
 - **Status**: RECOMMEND
 - **Value**: Medium | **Complexity**: Very Low | **Risk**: Zero
 - **What**: PMD rules, Checkstyle config, SpotBugs configs
 - **Why**: Very low effort, zero risk, useful reference
+- **Location**: `forge-kit/.config/` (copied by necessity - Maven POMs can't be extracted)
+- **Note**: Config files are copied to both repositories as they're referenced by Maven POMs
 
-### **Tier 16: Code Formatting Configurations** ⭐⭐
+### **Tier 16: Code Formatting Configurations** ⭐⭐ ✅ **MIGRATED** (Copied)
 - **Status**: Optional
 - **Value**: Low | **Complexity**: Very Low | **Risk**: Zero
 - **What**: Spotless config, Eclipse formatter, linting configs
 - **Why**: Low value but also zero effort
+- **Location**: `forge-kit/.config/` (copied by necessity - Maven POMs can't be extracted)
+- **Note**: Config files are copied to both repositories as they're referenced by Maven POMs
 
 ### **Tier 17: Git Hooks & Dev Tooling** ⭐⭐⭐ ✅ **MIGRATED**
 - **Status**: RECOMMEND
@@ -135,11 +144,13 @@ Complete strategy for what to expose in the public repository, component analysi
 - **What**: compose.yml, Docker service scripts
 - **Why**: Good reference but requires sanitization
 
-### **Tier 19: Maven Build Configuration Patterns** ⭐⭐
+### **Tier 19: Maven Build Configuration Patterns** ⭐⭐ ✅ **MIGRATED** (Copied)
 - **Status**: Optional
 - **Value**: Low | **Complexity**: Medium | **Risk**: Low
 - **What**: Build profiles, plugin configurations (sanitized)
 - **Why**: Lower value, requires sanitization
+- **Location**: `forge-kit/` (copied by necessity - Maven POMs can't be extracted)
+- **Note**: Maven POM configurations are copied to both repositories as they can't be extracted as dependencies
 
 ### **Tier 20: Performance Testing Framework (k6)** ⭐⭐
 - **Status**: SKIP
@@ -152,12 +163,12 @@ Complete strategy for what to expose in the public repository, component analysi
 ## 🎯 Recommended Implementation Order
 
 ### **Phase 1: Immediate Wins (Do First)**
-1. ✅ **Code Quality Badges** (Tier 13) - Set up immediately, zero effort
+1. ⏳ **Code Quality Badges** (Tier 13) - **NEXT: HIGHEST ROI** - Set up immediately, zero effort, very high value
 2. ✅ **Health Checks** (Tier 1) - **COMPLETE** ✅ **MIGRATED** - Highest value code component
-3. ✅ **Validation Exception Mapper** (Tier 8) - Very easy, zero risk
+3. ⏳ **Validation Exception Mapper** (Tier 8) - **NEXT: HIGH ROI** - Very easy, zero risk, medium value
 4. ✅ **Circuit Breaker Exception Mapper** (Tier 14) - ✅ **MIGRATED** - Very easy, zero risk
-5. ✅ **Method Entry Logging** (Tier 6) - Easy win, zero risk
-6. ✅ **Static Analysis Configs** (Tier 15) - Very easy, zero risk
+5. ⏳ **Method Entry Logging** (Tier 6) - Easy win, zero risk, medium value
+6. ⏳ **Static Analysis Configs** (Tier 15) - **NEXT: HIGH ROI** - Very easy, zero risk, medium value
 7. ✅ **Git Hooks Config** (Tier 17) - ✅ **MIGRATED** - Very easy, zero risk
 8. ✅ **Taskfiles** (Tier 12) - ✅ **MIGRATED** - Excellent reference material
 
@@ -169,7 +180,7 @@ Complete strategy for what to expose in the public repository, component analysi
 ### **Phase 3: Developer Experience (Optional)**
 10. 🤔 **Docker Compose** (Tier 18) - Good reference, requires sanitization
 11. 🤔 **Startup Info Panel** (Tier 9) - Good DX but Quarkus-specific
-12. 🤔 **Graceful Shutdown** (Tier 10) - Good pattern but Quarkus-specific
+12. 🤔 **Graceful Shutdown** (Tier 10) - **OPTIONAL** - Good pattern but Quarkus-specific. User indicated this may be the only remaining useful component, but it's optional.
 
 ### **Phase 4: Nice to Have**
 13. 🤔 **Code Formatting Configs** (Tier 16) - Optional, zero effort
@@ -418,13 +429,17 @@ Your public repository demonstrates:
 
 ### Phase 1: Preparation
 - [x] Health Checks (Tier 1) - **COMPLETE** ✅ **MIGRATED**
-- [ ] Code Quality Badges (Tier 13)
-- [ ] Validation Exception Mapper (Tier 8)
+- [ ] Code Quality Badges (Tier 13) - **NEXT: HIGHEST ROI** (zero effort, very high value)
+- [x] Validation Exception Mapper (Tier 8) - ✅ **MIGRATED**
 - [x] Circuit Breaker Exception Mapper (Tier 14) - ✅ **MIGRATED**
-- [ ] Method Entry Logging (Tier 6)
-- [ ] Static Analysis Configs (Tier 15)
+- [x] Method Entry Logging (Tier 6) - ✅ **MIGRATED**
+- [x] Static Analysis Configs (Tier 15) - ✅ **MIGRATED** (Copied)
+- [x] Code Formatting Configs (Tier 16) - ✅ **MIGRATED** (Copied)
 - [x] Git Hooks Config (Tier 17) - ✅ **MIGRATED** (Renovate)
 - [x] Taskfiles (Tier 12) - ✅ **MIGRATED**
+- [x] Test Utilities (Tier 11) - ✅ **MIGRATED**
+- [x] Maven Build Configuration Patterns (Tier 19) - ✅ **MIGRATED** (Copied)
+- [ ] Graceful Shutdown Handler (Tier 10) - **OPTIONAL** - User indicated this may be the only remaining useful component
 
 ### Phase 2: High-Value Components
 - [x] Rate Limiting Core (Tier 5) - ✅ **MIGRATED**
@@ -472,7 +487,69 @@ You have **20 tiers of components** analyzed, with clear recommendations for eac
 - **7 Optional/Skip** (lower priority or too domain-specific)
 
 **Status**: 
-- ✅ **MIGRATED**: Health Checks (Tier 1), Metrics Framework (Tier 1), Generic Utilities (Tier 2), Rate Limiting Core (Tier 5), Taskfiles (Tier 12), Circuit Breaker Exception Mapper (Tier 14), Git Hooks Config (Tier 17)
-- **Next Steps**: Continue with remaining Phase 1 components (Code Quality Badges, Validation Exception Mapper, Method Entry Logging, Static Analysis Configs)
+- ✅ **MIGRATED**: Health Checks (Tier 1), Metrics Framework (Tier 1), Generic Utilities (Tier 2), Rate Limiting Core (Tier 5), Method Entry Logging (Tier 6), Validation Exception Mapper (Tier 8), Test Utilities (Tier 11), Taskfiles (Tier 12), Circuit Breaker Exception Mapper (Tier 14), Static Analysis Configurations (Tier 15 - Copied), Code Formatting Configurations (Tier 16 - Copied), Git Hooks Config (Tier 17), Maven Build Configuration Patterns (Tier 19 - Copied)
+- ✅ **COMMON MODULE MIGRATIONS COMPLETE**: All useful common modules have been extracted to the public repository. Config files (Tiers 15, 16, 19) are copied by necessity as Maven POMs can't be extracted. Remaining items are either domain-specific, not particularly useful, or optional (e.g., ShutdownHandler - Tier 10).
+- **Next Steps**: Focus on high-value items: Code Quality Badges (Tier 13), then move to Contracts & Interfaces (Phase 3) and Documentation (Phase 4).
 
 The strategy balances **demonstrating value** with **protecting your core platform**, giving you a clear path to monetization while building trust through transparency.
+
+---
+
+## 🎯 Bang for Buck: Recommended Next Steps
+
+With common module migrations complete, here's the recommended order for maximum impact:
+
+### **Immediate High-ROI Items (Do These First)**
+
+1. **Code Quality Badges (Tier 13)** ⭐⭐⭐⭐⭐
+   - **Effort**: Zero (just configure CI/CD badges)
+   - **Value**: Very High (builds trust immediately)
+   - **Impact**: Shows production readiness at a glance
+   - **Time**: 15-30 minutes
+   - **Status**: ⏳ **NEXT** - Only remaining Phase 1 item
+
+### **High-Value Strategic Items (Next Phase)**
+
+4. **Contracts & Interfaces (Phase 3)** ⭐⭐⭐⭐
+   - **Effort**: Medium (extract annotations/interfaces, create examples)
+   - **Value**: Very High (demonstrates architectural sophistication)
+   - **Impact**: Shows you're serious about the platform
+   - **Time**: 4-8 hours
+   - **What**: Extract `@Secured`, `@AllowedServices`, `@ServiceMetrics`, `TokenValidator`, `RateLimiter`, `MetricsRecorder` to contracts package
+
+5. **Documentation Sanitization (Phase 4)** ⭐⭐⭐
+   - **Effort**: Medium (review and sanitize docs)
+   - **Value**: High (demonstrates thought leadership)
+   - **Impact**: Shows architectural maturity and decision-making process
+   - **Time**: 8-16 hours
+   - **What**: Sanitize ADRs, architecture docs, create examples
+
+### **Optional Items (Lower Priority)**
+
+6. **Method Entry Logging (Tier 6)** ⭐⭐⭐
+   - **Effort**: Low (extract annotation and interceptor)
+   - **Value**: Medium (useful utility)
+   - **Time**: 2-4 hours
+
+7. **Graceful Shutdown Handler (Tier 10)** ⭐⭐⭐
+   - **Effort**: Low (extract class)
+   - **Value**: Medium (good pattern, but Quarkus-specific)
+   - **Time**: 1-2 hours
+   - **Note**: User indicated this may be the only remaining useful component, but it's optional
+
+### **Recommended Order**
+
+**Week 1 (Quick Wins):**
+1. Code Quality Badges (30 min)
+2. Static Analysis Configs (2 hours)
+3. Validation Exception Mapper (1 hour)
+
+**Week 2-3 (Strategic Value):**
+4. Contracts & Interfaces (8 hours)
+5. Documentation Sanitization (16 hours)
+
+**Optional (If Time Permits):**
+6. Method Entry Logging (4 hours)
+7. Graceful Shutdown Handler (2 hours)
+
+**Total Estimated Time**: ~35 hours for core items, ~41 hours including optional items.
