@@ -8,7 +8,12 @@ Complete strategy for what to expose in the public repository, component analysi
 
 **Goal**: Demonstrate technical architecture and operational maturity while protecting core business logic and implementations.
 
-**Approach**: Expose **contracts, examples, reference material, and quality indicators** that showcase sophistication without revealing implementation details.
+**Approach**: Expose **contracts, free implementations, examples, reference material, and quality indicators** that showcase sophistication without revealing implementation details.
+
+**Repository Structure**: The public repository (`forge-kit`) uses a clear separation:
+- **`forge-contract/`**: Pure interfaces and annotations (contracts only, no implementations)
+- **`forge-impl/`**: Free, open-source implementations that demonstrate competency and maturity
+- **Existing modules**: `forge-health`, `forge-metrics`, `forge-throttle`, `forge-common` (already migrated, contain both contracts and implementations)
 
 ---
 
@@ -193,38 +198,80 @@ Complete strategy for what to expose in the public repository, component analysi
 
 ## 📦 Dependency Strategy
 
+### **Repository Structure: Contracts vs Implementations**
+
+The public repository (`forge-kit`) uses a clear separation between **contracts** (interfaces/annotations) and **implementations** (free, open-source implementations that demonstrate competency):
+
+```
+forge-kit/
+├── forge-contract/                # Pure contracts/interfaces only
+│   ├── pom.xml
+│   ├── forge-contract-security/
+│   │   ├── pom.xml
+│   │   └── src/main/java/io/forge/kit/security/contracts/
+│   │       ├── Secured.java
+│   │       ├── AllowedServices.java
+│   │       ├── TokenValidator.java
+│   │       └── RateLimiter.java
+│   ├── forge-contract-metrics/
+│   │   ├── pom.xml
+│   │   └── src/main/java/io/forge/kit/metrics/contracts/
+│   │       ├── ServiceMetrics.java
+│   │       ├── MetricsRecorder.java
+│   │       └── MetricsResultIndicator.java
+│   └── forge-contract-throttle/
+│       ├── pom.xml
+│       └── src/main/java/io/forge/kit/throttle/contracts/
+│           └── RateLimiter.java
+│
+├── forge-impl/                    # Free implementations
+│   ├── pom.xml
+│   ├── forge-impl-security/
+│   │   ├── pom.xml
+│   │   └── src/main/java/io/forge/kit/security/impl/
+│   │       └── SimpleTokenValidator.java (example free impl)
+│   ├── forge-impl-metrics/
+│   │   ├── pom.xml
+│   │   └── src/main/java/io/forge/kit/metrics/impl/
+│   │       └── MicrometerMetricsRecorder.java (example free impl)
+│   └── forge-impl-throttle/
+│       ├── pom.xml
+│       └── src/main/java/io/forge/kit/throttle/impl/
+│           └── Bucket4jRateLimiter.java (free impl)
+│
+├── forge-health/                  # Already migrated (contains both contract + impl)
+├── forge-metrics/                 # Already migrated (contains both contract + impl)
+├── forge-throttle/                 # Already migrated (contains both contract + impl)
+├── forge-common/                  # Already migrated (contains both contract + impl)
+│
+├── docs/
+├── examples/
+└── templates/
+```
+
 ### **Real Maven Dependencies** (Publish as Artifacts)
 
-**What**: Annotations and pure interfaces that define contracts
+**What**: 
+- **Contracts**: Annotations and pure interfaces that define contracts
+- **Implementations**: Free, open-source implementations that demonstrate competency and maturity
 
 **Why**:
 - Maximum value demonstration - people can actually use them
 - Shows you're serious about the platform
 - Creates a "try before you buy" experience
 - Builds trust through usable code
+- Demonstrates competency through working implementations
 - Can be published to Maven Central or GitHub Packages
 
 **Examples**:
-- `@Secured`, `@AllowedServices`, `@ServiceMetrics` annotations
-- `TokenValidator`, `MetricsRecorder`, `RateLimiter` interfaces
-- Health check base classes (already published)
-
-**Structure**:
-```
-public-repo/
-├── contracts/
-│   ├── security-contracts/
-│   │   ├── pom.xml
-│   │   └── src/main/java/tech/eagledrive/security/contracts/
-│   └── metrics-contracts/
-│       ├── pom.xml
-│       └── src/main/java/tech/eagledrive/metrics/contracts/
-```
+- **Contracts**: `@Secured`, `@AllowedServices`, `@ServiceMetrics` annotations; `TokenValidator`, `MetricsRecorder`, `RateLimiter` interfaces
+- **Implementations**: `Bucket4jRateLimiter`, `MicrometerMetricsRecorder`, health check implementations (already published)
 
 **Key Points**:
-- **No implementation dependencies** - these are pure contracts
-- **Minimal dependencies** - only what's needed for annotations (Jakarta EE)
-- **Separate package names** - `tech.eagledrive.security.contracts` vs `tech.eagledrive.security` (private)
+- **Contracts**: No implementation dependencies - these are pure contracts
+- **Implementations**: Depend on contracts and demonstrate working solutions
+- **Minimal dependencies**: Contracts only need Jakarta EE annotations
+- **Separate package names**: `io.forge.kit.security.contracts` vs `io.forge.kit.security.impl` vs `io.forge.security` (private)
 - **Can be published** to Maven Central or GitHub Packages
 - **Version independently** from private repo
 
@@ -315,12 +362,14 @@ Minimal examples that demonstrate usage patterns:
 - Service implementations
 - Business logic
 
-### **2. Infrastructure Implementations**
-- Actual interceptor implementations
-- Filter implementations
-- Token validator implementations
-- Metrics recorder implementations
-- Rate limiter implementations
+### **2. Commercial/Proprietary Infrastructure Implementations**
+- Actual interceptor implementations (commercial)
+- Filter implementations (commercial)
+- Token validator implementations (commercial, e.g., Cognito-specific)
+- Metrics recorder implementations (commercial)
+- Rate limiter implementations (commercial)
+
+**Note**: Free implementations in `forge-impl/` are exposed to demonstrate competency (e.g., `Bucket4jRateLimiter`, simple token validators). These are open-source and show working code without revealing proprietary implementations.
 
 ### **3. Domain-Specific Code**
 - Any code referencing "candidate", "resume", "job", "match"
@@ -335,9 +384,10 @@ Minimal examples that demonstrate usage patterns:
 - AWS resource names
 - Database schemas
 
-### **5. Complete Library Implementations**
-- Keep library implementations private
-- Only expose interfaces and annotations
+### **5. Commercial/Proprietary Library Implementations**
+- Keep commercial/proprietary library implementations private
+- Expose interfaces and annotations in `forge-contract/`
+- Expose free implementations in `forge-impl/` to demonstrate competency
 
 ### **6. Deployment Scripts**
 - Actual deployment scripts with real resource names
@@ -447,12 +497,13 @@ Your public repository demonstrates:
 - [x] Generic Utilities (Tier 2) - ✅ **MIGRATED**
 
 ### Phase 3: Contracts & Interfaces
-- [ ] Extract `@Secured` annotation to `contracts/security/`
-- [ ] Extract `@AllowedServices` annotation to `contracts/security/`
-- [ ] Extract `TokenValidator` interface to `contracts/security/`
-- [ ] Extract `RateLimiter` interface to `contracts/security/`
-- [ ] Extract `@ServiceMetrics` annotation to `contracts/metrics/`
-- [ ] Extract `MetricsRecorder` interface to `contracts/metrics/`
+- [ ] Extract `@Secured` annotation to `forge-contract/forge-contract-security/`
+- [ ] Extract `@AllowedServices` annotation to `forge-contract/forge-contract-security/`
+- [ ] Extract `TokenValidator` interface to `forge-contract/forge-contract-security/`
+- [ ] Extract `RateLimiter` interface to `forge-contract/forge-contract-security/` or `forge-contract/forge-contract-throttle/`
+- [ ] Extract `@ServiceMetrics` annotation to `forge-contract/forge-contract-metrics/`
+- [ ] Extract `MetricsRecorder` interface to `forge-contract/forge-contract-metrics/`
+- [ ] Create free implementations in `forge-impl/` modules (e.g., `Bucket4jRateLimiter`, simple token validators)
 
 ### Phase 4: Documentation
 - [ ] Sanitize ADRs (remove domain references)
@@ -511,11 +562,13 @@ With common module migrations complete, here's the recommended order for maximum
 ### **High-Value Strategic Items (Next Phase)**
 
 4. **Contracts & Interfaces (Phase 3)** ⭐⭐⭐⭐
-   - **Effort**: Medium (extract annotations/interfaces, create examples)
-   - **Value**: Very High (demonstrates architectural sophistication)
-   - **Impact**: Shows you're serious about the platform
-   - **Time**: 4-8 hours
-   - **What**: Extract `@Secured`, `@AllowedServices`, `@ServiceMetrics`, `TokenValidator`, `RateLimiter`, `MetricsRecorder` to contracts package
+   - **Effort**: Medium (extract annotations/interfaces, create free implementations)
+   - **Value**: Very High (demonstrates architectural sophistication and competency)
+   - **Impact**: Shows you're serious about the platform with working code
+   - **Time**: 8-12 hours (includes creating free implementations)
+   - **What**: 
+     - Extract `@Secured`, `@AllowedServices`, `@ServiceMetrics`, `TokenValidator`, `RateLimiter`, `MetricsRecorder` to `forge-contract/` modules
+     - Create free implementations in `forge-impl/` modules (e.g., `Bucket4jRateLimiter`, simple token validators)
 
 5. **Documentation Sanitization (Phase 4)** ⭐⭐⭐
    - **Effort**: Medium (review and sanitize docs)
