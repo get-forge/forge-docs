@@ -94,7 +94,7 @@ io.forge.application.backend/
 
 ### **Infrastructure Libraries** (`libs/{library-name}`)
 
-For libraries that provide infrastructure concerns (aws-api, textkernel-api):
+For libraries that provide infrastructure concerns (aws-api):
 
 ```
 io.forge.{library}/
@@ -177,7 +177,7 @@ io.forge.domain.dto.auth/
 ### **Client Producers**
 
 - Use `{Service}ClientProducer.java`
-- Example: `S3ClientProducer`, `DynamoDbClientProducer`, `TextkernelClientProducer`
+- Example: `S3ClientProducer`, `DynamoDbClientProducer`
 
 ### **Mappers**
 
@@ -193,7 +193,6 @@ io.forge.domain.dto.auth/
 All shared DTOs must be defined in `libs/domain-dtos`:
 - `io.forge.domain.dto.auth.*` - Authentication DTOs
 - `io.forge.domain.dto.user.*` - User DTOs
-- `io.forge.domain.dto.textkernel.*` - Textkernel DTOs
 - `io.forge.domain.dto.document.*` - Document DTOs
 
 ### **Service-Specific DTOs**

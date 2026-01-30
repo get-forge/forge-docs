@@ -204,44 +204,6 @@ rate(agroal_leak_detection_count_total{datasource="default"}[5m])
 - **Critical**: `agroal_awaiting_count{datasource="default"} > 5` (multiple threads waiting)
 - **Critical**: `rate(agroal_leak_detection_count_total{datasource="default"}[5m]) > 0` (connection leaks detected)
 
-### Custom Metrics
-
-Use `ApplicationMetrics` from the `common` library to record custom business metrics:
-
-```java
-import io.forge.metrics.ApplicationMetrics;
-import jakarta.inject.Inject;
-
-@ApplicationScoped
-public class MyService {
-    @Inject
-    ApplicationMetrics metrics;
-
-    public void doSomething() {
-        // Record authentication success
-        metrics.recordAuthenticationSuccess("user");
-
-        // Record authentication failure
-        metrics.recordAuthenticationFailure("user", "invalid_credentials");
-
-        // Record external API call duration
-        long startTime = System.currentTimeMillis();
-        // ... make API call ...
-        long duration = System.currentTimeMillis() - startTime;
-        metrics.recordExternalApiCall("textkernel", "parse-resume", duration);
-
-        // Record database operation
-        long dbStart = System.currentTimeMillis();
-        // ... database operation ...
-        long dbDuration = System.currentTimeMillis() - dbStart;
-        metrics.recordDatabaseOperation("find", "candidate", dbDuration);
-
-        // Record business event
-        metrics.recordBusinessEvent("document.uploaded", "success");
-    }
-}
-```
-
 ## Example: Adding Metrics to AuthService
 
 ```java
@@ -332,7 +294,7 @@ All metrics are automatically tagged with:
 Custom metrics can add additional tags:
 - `type`: Authentication type (`user`, `service`)
 - `status`: Operation status (`success`, `failure`)
-- `api`: External API name (`textkernel`, `cognito`)
+- `api`: External API name (`cognito`)
 - `operation`: Database operation (`find`, `save`, `delete`)
 - `entity`: Entity type (`candidate`)
 - `key_type`: Rate limit key type (`user`, `service`, `ip`, `auth`)

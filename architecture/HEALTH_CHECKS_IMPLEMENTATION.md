@@ -24,7 +24,6 @@ implementation is **straightforward** (~1-2 days) and follows Quarkus SmallRye H
 - **IAM** - Used for service-to-service auth, but failures are immediate and fatal
 
 **❌ NOT NEEDED:**
-- **TextKernel API** - External service, handled by circuit breakers
 - **Service-to-service HTTP calls** - Handled by circuit breakers and retries
 
 ### Best Practices

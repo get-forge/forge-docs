@@ -57,7 +57,7 @@ impact and effort, focusing on boilerplate and productionization rather than fea
 - ✅ Five dashboards created (HTTP, User, JVM, Rate Limiting, Infrastructure metrics)
 - ✅ Authentication metrics implemented in AuthService
 - ✅ Rate limiting metrics fully implemented with comprehensive dashboard
-- ✅ External API call metrics (TextKernel) implemented in document-service
+- ✅ External API call metrics (if any exist)
 - ✅ Database operation metrics implemented via `@DatabaseMetrics` interceptor pattern
 - ✅ Database connection pool metrics (Agroal) enabled and visualized
 - ✅️ Circuit breaker state transition metrics captured and displayed
@@ -82,12 +82,12 @@ implemented and operational.
      - Forge User Metrics (authentication attempts)
      - Quarkus JVM Metrics (per-service memory, GC, threads)
      - Forge Throttle Metrics (rate limiting requests, violations, utilization)
-     - Forge Infrastructure Metrics (TextKernel API, database operation duration, database connection pool metrics)
+     - Forge Infrastructure Metrics (cache, circuit breaker, Notification Service, database operation duration, database connection pool metrics)
 
 3. **✅ Metrics Infrastructure**
    - Authentication metrics implemented in `AuthService`
    - Rate limiting metrics fully implemented via `ThrottleMetricsHandler` with comprehensive tracking
-   - External API call metrics (TextKernel) implemented in `document-service`, tested in Grafana
+   - External API call metrics (if any exist)
    - Database operation metrics implemented via `@DatabaseMetrics` annotation and `DatabaseMetricsInterceptor` for automatic timing collection
    - Database connection pool metrics (Agroal) automatically exposed and visualized in Infrastructure dashboard
    - Error rate by endpoint visualized via heatmap and table panels (derived from HTTP status codes)
@@ -351,7 +351,7 @@ to production infrastructure work.
 
 1. **Add Custom Spans**
    - Database query spans
-   - External API call spans (TextKernel, Cognito)
+   - External API call spans (Cognito)
    - Business operation spans (document parsing)
 
 2. **Trace Sampling Strategy**
