@@ -131,7 +131,7 @@ All manual mappers will follow this pattern:
 @ApplicationScoped
 public class CandidateMapper {
     
-    public ActorRecord toRecord(RegisterRequestPartialAuth source) {
+    public ActorRecord toRecord(RegisterRequestWithAuthIdentity source) {
         // Explicit field mapping
     }
     
