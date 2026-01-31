@@ -496,7 +496,7 @@ maintainability.
    - DTOs documented:
      - `LoginRequest`, `RegisterRequest`, `RefreshRequest`
      - `AuthResponse`, `RegistrationResponse`, `AuthUser`
-     - `CandidateResponse`, `RegisterRequestPartialAuth`
+     - `CandidateResponse`, `RegisterRequestWithAuthIdentity`
      - `ResumeResponse`, `JobSpecResponse`
      - `ErrorResponse`
    - Added `microprofile-openapi-api` dependency to `libs/domain-dtos`
@@ -936,7 +936,7 @@ to fix multiple issues in a single request cycle.
      - `LoginRequest`: `@NotBlank` for username and password
      - `RegisterRequest`: `@NotBlank`, `@Email`, `@Size` constraints for all fields
      - `RefreshRequest`: `@NotBlank` for refreshToken, `@Size` for optional fields
-     - `RegisterRequestPartialAuth`: `@NotNull` and `@Valid` for nested object validation
+     - `RegisterRequestWithAuthIdentity`: `@NotNull` and `@Valid` for nested object validation
 
 2. **✅ REST Endpoint Validation**
    - `@Valid` annotation added to all DTO parameters in REST endpoints:
