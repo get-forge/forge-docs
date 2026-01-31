@@ -241,7 +241,7 @@ public class CandidateService {
     }
     
     @CacheInvalidate(cacheName = "candidate-profiles")
-    public void register(RegisterRequestPartialAuth request) {
+    public void register(RegisterRequestWithAuthIdentity request) {
         // Existing implementation - invalidates cache on registration
     }
 }
