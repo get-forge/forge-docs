@@ -10,7 +10,7 @@ Cross-cutting, annotation-driven audit logging for Quarkus microservices. Struct
 
 - [x] Annotation, interceptor, and event contract (library API).
 - [x] Publisher and ingest API (direct HTTP to audit-service).
-- [ ] Pluggable dispatchers (HTTP today; EventBridge later).
+- [x] Pluggable dispatchers (HTTP today; no-op/eventbridge configurable; EventBridge impl later).
 - [ ] Audit-service EventBridge consumer and optional observability account.
 - [x] Align with existing patterns (LogMethodEntry in forge-kit, notification fire-and-forget).
 
@@ -18,7 +18,7 @@ Cross-cutting, annotation-driven audit logging for Quarkus microservices. Struct
 
 ## Current implementation (summary)
 
-- **libs/audit:** `@AuditEvent`, enums, interceptor (audit *after* `proceed()`), `AuditEventRequestBuilder`, actorId resolution chain (`io.forge.audit.auth`), publisher. Publisher uses `Instance<AuditServiceClient>` and sends **synchronously** (async was reverted for stability; see SendProcessor in notification-service for a future async pattern).
+- **libs/audit:** `@AuditEvent`, enums, interceptor (audit *after* `proceed()`), `AuditEventRequestBuilder`, actorId resolution chain (`io.forge.audit.auth`), publisher. Publisher delegates to an `AuditEventDispatcher` produced from `audit.dispatcher.type` (HTTP, no-op, or eventbridge placeholder); HTTP dispatcher wraps `AuditServiceClient`; send is async (fire-and-forget) with context/classloader propagation.
 - **libs/domain-dtos / domain-clients:** `AuditEventRequest`; `AuditServiceClient` (POST /audit/events).
 - **services/audit-service:** Postgres `audit.audit_events`, Flyway V1, `AuditResource` with `@AllowedServices({"auth-service", "notification-service"})`.
 - **Emitting services:** Configure `quarkus.rest-client.AuditServiceClient.url`; annotate methods with `@AuditEvent` (e.g. login, register, sendWelcomeEmail, sendPasswordResetEmail).
