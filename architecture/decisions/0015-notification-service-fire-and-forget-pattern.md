@@ -8,7 +8,9 @@
 
 ## **Context**
 
-The Notification Service is being designed as a centralized, multi-channel notification delivery service (email, SMS, push notifications). A key architectural decision is how the service handles notification requests and delivery.
+The Notification Service is being designed as a centralized, multi-channel notification delivery service
+(email, SMS, push notifications).
+A key architectural decision is how the service handles notification requests and delivery.
 
 **Options Considered:**
 

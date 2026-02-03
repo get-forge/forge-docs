@@ -8,7 +8,9 @@
 
 ## **Context**
 
-The Notification Service must provide a secure unsubscribe mechanism that allows recipients to opt out of notifications without requiring authentication. Unsubscribe links are included in every notification (email, SMS, push) and must be:
+The Notification Service must provide a secure unsubscribe mechanism that allows recipients to opt out of
+notifications without requiring authentication.
+Unsubscribe links are included in every notification (email, SMS, push) and must be:
 
 - **Secure** - Cannot be forged or tampered with
 - **User-Friendly** - No login required, single-click unsubscribe

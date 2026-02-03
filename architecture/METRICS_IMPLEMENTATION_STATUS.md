@@ -26,7 +26,8 @@
 - ✅ Grafana configured with Prometheus datasource
 - ✅ Three dashboards generated:
   - **Quarkus HTTP Metrics**: Request rate, duration, status codes
-  - **Forge User Metrics**: Authentication attempts (user and service), Actor operations, Document operations, Notification events (welcome & password reset email)
+  - **Forge User Metrics**: Authentication attempts (user and service), Actor operations, Document
+    operations, Notification events (welcome & password reset email)
   - **Forge Infrastructure Metrics**: Cache, circuit breaker, Notification Service (queued, sent, failed)
   - **Quarkus JVM Metrics**: Per-service JVM metrics (memory, GC, threads)
 
