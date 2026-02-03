@@ -2,7 +2,10 @@
 
 **Status:** Accepted  
 **Date:** 2025-01-27  
-**Context:** The platform requires application-level caching to optimize performance, reduce database load, and lower operational costs. We need to choose a caching approach that works for both single-instance (development) and multi-instance (production) deployments.
+**Context:** The platform requires application-level caching to optimize performance, reduce database load,
+and lower operational costs.
+We need to choose a caching approach that works for both single-instance (development) and
+multi-instance (production) deployments.
 
 ## **Context**
 

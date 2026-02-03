@@ -6,7 +6,10 @@
 
 ## Executive Summary
 
-This document outlines a comprehensive caching strategy for the Forge platform, validating use cases from the architectural improvements document and identifying additional opportunities. The strategy leverages Quarkus Cache with Caffeine (default) for local caching and plans for Redis/ElastiCache backend for production multi-instance deployments.
+This document outlines a comprehensive caching strategy for the Forge platform, validating use cases from
+the architectural improvements document and identifying additional opportunities.
+The strategy leverages Quarkus Cache with Caffeine (default) for local caching and plans for
+Redis/ElastiCache backend for production multi-instance deployments.
 
 ## Use Case Analysis
 

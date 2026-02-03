@@ -59,7 +59,8 @@ Frontend → POST /auth/login (backend-actor)
 10. UI module exchanges temporary token for JWT tokens via `POST /auth/tokens/exchange`
 11. Frontend stores JWT tokens in localStorage
 
-**Security Note**: Temporary tokens are **single-use** and automatically invalidated after exchange. See [Temporary Token Security](#temporary-token-security) section below.
+**Security Note**: Temporary tokens are **single-use** and automatically invalidated after exchange.
+See [Temporary Token Security](#temporary-token-security) section below.
 
 ### Registration
 
@@ -97,7 +98,9 @@ Services can make calls to other services using service JWTs:
 
 ### Temporary Token Security
 
-OAuth2/OIDC flows use temporary tokens as an intermediate step between OAuth callback and JWT token generation. These tokens provide an additional security layer:
+OAuth2/OIDC flows use temporary tokens as an intermediate step between OAuth callback and JWT token
+generation.
+These tokens provide an additional security layer:
 
 **How It Works**:
 1. After OAuth callback, `TokenStore.generateToken()` creates a cryptographically secure random token (32-byte UUID)
@@ -277,7 +280,9 @@ quarkus.oidc.linkedin.credentials.secret=${OAUTH2_LINKEDIN_SECRET:}
 
 ### Multi-Tenant Resolution
 
-Cognito is configured as the default tenant (`quarkus.oidc.tenant-enabled=true`). LinkedIn tenant is disabled (`quarkus.oidc.linkedin.tenant-enabled=false`) because LinkedIn OAuth2 is handled manually via custom callback resources, not using Quarkus OIDC's automatic flow.
+Cognito is configured as the default tenant (`quarkus.oidc.tenant-enabled=true`).
+LinkedIn tenant is disabled (`quarkus.oidc.linkedin.tenant-enabled=false`) because LinkedIn OAuth2 is
+handled manually via custom callback resources, not using Quarkus OIDC's automatic flow.
 
 ## Endpoints
 

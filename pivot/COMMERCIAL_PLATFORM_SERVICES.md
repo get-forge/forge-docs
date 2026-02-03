@@ -1,6 +1,7 @@
 # Commercial Platform Services Recommendations
 
-This document identifies valuable, reusable services that would enhance a commercial platform based on the current codebase architecture and common enterprise needs.
+This document identifies valuable, reusable services that would enhance a commercial platform based
+on the current codebase architecture and common enterprise needs.
 
 ## Current Service Landscape
 
