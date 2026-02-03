@@ -1,6 +1,8 @@
 # Audit Service Design
 
-**Status:** Phase 1 complete (local with Postgres). See `libs/audit`, `services/audit-service`, and `@AuditEvent` usages in auth-service and notification-service for current implementation.
+**Status:** Phase 1 complete (local with Postgres).
+See `libs/audit`, `services/audit-service`, and `@AuditEvent` usages in auth-service and
+notification-service for current implementation.
 
 Cross-cutting, annotation-driven audit logging for Quarkus microservices.
 Structured events are emitted and, in production, will flow via AWS EventBridge to a central audit
@@ -31,7 +33,8 @@ Minimal business-logic impact: annotate methods; an interceptor and publisher ha
 - **libs/domain-dtos / domain-clients:** `AuditEventRequest`; `AuditServiceClient` (POST /audit/events).
 - **services/audit-service:** Postgres `audit.audit_events`, Flyway V1, `AuditResource` with
   `@AllowedServices({"auth-service", "notification-service"})`.
-- **Emitting services:** Configure `quarkus.rest-client.AuditServiceClient.url`; annotate methods with `@AuditEvent` (e.g. login, register, sendWelcomeEmail, sendPasswordResetEmail).
+- **Emitting services:** Configure `quarkus.rest-client.AuditServiceClient.url`; annotate methods with
+  `@AuditEvent` (e.g. login, register, sendWelcomeEmail, sendPasswordResetEmail).
 
 **Run locally:** Postgres + audit-service (port from `AUDIT_SERVICE_PORT`) + auth/notification-service
 with that env set.

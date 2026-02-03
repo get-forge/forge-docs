@@ -100,5 +100,14 @@ Security: `@PermitAll`; authenticity via SNS signature verification only.
 
 ## References
 
-- ADRs: [0015](../architecture/decisions/0015-notification-service-fire-and-forget-pattern.md) (fire-and-forget), [0016](../architecture/decisions/0016-notification-service-rate-limiting-strategy.md) (rate limiting), [0017](../architecture/decisions/0017-notification-service-template-implementation.md) (templates), [0018](../architecture/decisions/0018-notification-service-template-engine.md) (Qute), [0019](../architecture/decisions/0019-notification-service-unsubscribe-token-security.md) (unsubscribe tokens).
+- ADRs:
+  - [0015](../architecture/decisions/0015-notification-service-fire-and-forget-pattern.md)
+    (fire-and-forget)
+  - [0016](../architecture/decisions/0016-notification-service-rate-limiting-strategy.md)
+    (rate limiting)
+  - [0017](../architecture/decisions/0017-notification-service-template-implementation.md)
+    (templates)
+  - [0018](../architecture/decisions/0018-notification-service-template-engine.md) (Qute)
+  - [0019](../architecture/decisions/0019-notification-service-unsubscribe-token-security.md)
+    (unsubscribe tokens)
 - [AWS SES](https://docs.aws.amazon.com/ses/) · [LocalStack SES](https://docs.localstack.cloud/aws/services/ses)
