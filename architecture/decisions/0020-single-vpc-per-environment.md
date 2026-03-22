@@ -35,4 +35,4 @@ We use a **single VPC per environment**. Exposure is controlled by **ALB securit
 
 ## **Related**
 
-- Infra: `ForgeNetworkConstruct` (single VPC, public + private subnets), `ForgeSecurityConstruct` (public vs internal ALB SGs), `ForgeRuntimeConstruct` (ALB in public subnets, all ECS tasks in private subnets via `taskSubnets`), `FORGE_SERVICES` / `allowInternetTraffic` for which services get internet-facing ALBs.
+- Infra: `ForgeNetworkConstruct` (single VPC, public + private subnets), `ForgeEcsSecurityConstruct` (public vs internal ALB SGs, WAF, ECS IAM), `ForgeSecretSecurityConstruct` (Secrets Manager + grants), `ForgeRuntimeConstruct` (ALB in public subnets, all ECS tasks in private subnets via `taskSubnets`), `FORGE_SERVICES` / `allowInternetTraffic` for which services get internet-facing ALBs.
