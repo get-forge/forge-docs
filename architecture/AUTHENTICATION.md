@@ -245,8 +245,9 @@ Frontend applications handle authentication client-side:
 | `COGNITO_SERVICE_ACCOUNT_USERNAME` | Service account username (e.g., `service-document-service`) | - |
 | `COGNITO_SERVICE_ACCOUNT_PASSWORD` | Service account password                                    | - |
 | `AWS_REGION`                       | AWS region                                                  | `us-west-2` |
-| `OAUTH2_LINKEDIN_CLIENT_ID`        | LinkedIn OAuth2 client ID                                   | - |
-| `OAUTH2_LINKEDIN_SECRET`           | LinkedIn OAuth2 secret                                      | - |
+| `LINKEDIN_OAUTH2_CLIENT_ID`        | LinkedIn OAuth2 client ID (from LinkedIn developer app)     | - |
+| `LINKEDIN_OAUTH2_CLIENT_SECRET`    | LinkedIn OAuth2 client secret (from LinkedIn developer app) | - |
+| `LINKEDIN_REFRESH_TOKEN_ENCRYPTION_KEY` | Base64 AES-256 key for encrypting stored LinkedIn refresh tokens (app-generated; not from LinkedIn) | - |
 
 ### OIDC Configuration
 
@@ -274,8 +275,8 @@ quarkus.oidc.linkedin.tenant-enabled=false
 quarkus.oidc.linkedin.application-type=service
 quarkus.oidc.linkedin.discovery-enabled=false
 quarkus.oidc.linkedin.auth-server-url=https://www.linkedin.com
-quarkus.oidc.linkedin.client-id=${OAUTH2_LINKEDIN_CLIENT_ID:}
-quarkus.oidc.linkedin.credentials.secret=${OAUTH2_LINKEDIN_SECRET:}
+quarkus.oidc.linkedin.client-id=${LINKEDIN_OAUTH2_CLIENT_ID:}
+quarkus.oidc.linkedin.credentials.secret=${LINKEDIN_OAUTH2_CLIENT_SECRET:}
 ```
 
 ### Multi-Tenant Resolution
