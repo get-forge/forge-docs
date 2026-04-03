@@ -12,16 +12,25 @@
 
 ## Business and Technical Value
 
-- **Security by default:** Stateless **JWT** with **AWS Cognito**, **service-to-service** auth, encrypted config (**SmallRye Config Crypto** + **AWS Systems Manager Parameter Store**), and **network controls** (WAF, security groups, private subnets) on public and management paths.
-- **Operational confidence:** **OpenTelemetry** and **Jaeger** for tracing; **Micrometer**, **Prometheus**, and **Grafana** for metrics; **readiness** health checks suited to ALB and ECS.
-- **Resilience:** **MicroProfile Fault Tolerance** (timeouts, retries, circuit breakers) on critical paths; **rate limiting** where enforced in the stack.
+- **Security by default:** Stateless **JWT** with **AWS Cognito**,
+  **service-to-service** auth, encrypted config (**SmallRye Config Crypto** +
+  **AWS Systems Manager Parameter Store**), and **network controls** (WAF,
+  security groups, private subnets) on public and management paths.
+- **Operational confidence:** **OpenTelemetry** and **Jaeger** for tracing;
+  **Micrometer**, **Prometheus**, and **Grafana** for metrics; **readiness**
+  health checks suited to ALB and ECS.
+- **Resilience:** **MicroProfile Fault Tolerance** (timeouts, retries, circuit breakers) on
+  critical paths; **rate limiting** where enforced in the stack.
 - **Engineering discipline:** Checkstyle, PMD, SpotBugs, OWASP dependency checks; **GitHub Actions**; **Renovate**; **ADRs**; conventional commits.
 
 ## What Runs in Production (Shape)
 
 - **Compute:** **Amazon ECS on Fargate** behind an **Application Load Balancer**; container images in **ECR**.
 - **Data:** **PostgreSQL (RDS)**, **DynamoDB**, **S3** by service need; **Cognito** for identity.
-- **IaC:** **AWS CDK v2** (TypeScript) in `infra/` as a **stage**: **Network** (VPC), **Domain** (DNS, certificates, SES-related outputs for mail), **Datastore**, **Security** (WAF, Cognito integration, related controls), **Runtime** (ECS services). Stacks declare explicit dependencies.
+- **IaC:** **AWS CDK v2** (TypeScript) in `infra/` as a **stage**: **Network** (VPC), **Domain**
+  (DNS, certificates, SES-related outputs for mail), **Datastore**, **Security** (WAF,
+  Cognito integration, related controls), **Runtime** (ECS services). Stacks declare
+  explicit dependencies.
 
 ## Services and Applications (Current)
 
@@ -36,7 +45,8 @@
 
 - **Email** via **AWS SES**; **provider interface** ready for more channels later.
 - **Templates** (Qute); **PostgreSQL** for notification records and processing.
-- **Asynchronous, fire-and-forget** flow; **retries** and **unsubscribe** with opaque tokens (ADRs **0015–0019** under `docs/architecture/decisions/`).
+- **Asynchronous, fire-and-forget** flow; **retries** and **unsubscribe** with opaque
+  tokens (ADRs **0015-0019** under `docs/architecture/decisions/`).
 - **SMS and push** are not in this first phase (see `services/notification-service/README.md`).
 
 ## Delivery Pipeline (High Level)
@@ -44,17 +54,25 @@
 **GitHub Actions** uses **OIDC** to AWS (no long-lived CI keys):
 
 - **Every push to `main`:** hygiene checks, **build and test**, static analysis, and coverage workflows as configured.
-- **Application delivery:** when `applications/`, `services/`, `ui/`, or the centralized service list change, **package and push images** for **changed modules only**, then **deploy those images** to ECS on Fargate.
-- **Full-stack infra (CDK):** **manual bootstrap** workflow seeds shared AWS resources (for example ECR and domain-related stacks); on success, **ECR image seed** runs, then **CDK synth, test, and deploy** applies the `infra/` app. This chain is for **infrastructure evolution**, not every application commit.
+- **Application delivery:** when `applications/`, `services/`, `ui/`, or the centralized
+  service list change, **package and push images** for **changed modules only**, then
+  **deploy those images** to ECS on Fargate.
+- **Full-stack infra (CDK):** **manual bootstrap** workflow seeds shared AWS resources
+  (for example ECR and domain-related stacks); on success, **ECR image seed** runs, then
+  **CDK synth, test, and deploy** applies the `infra/` app. This chain is for
+  **infrastructure evolution**, not every application commit.
 
 For exact job names and `on:` triggers, see `.github/workflows/`.
 
 ## Where to Go Deeper
 
-- **Broader technical backlog and history:** `docs/architecture/ARCHITECTURAL_IMPROVEMENTS.md` (some items evolve as IaC and services land; cross-check against code).
+- **Broader technical backlog and history:** `docs/architecture/ARCHITECTURAL_IMPROVEMENTS.md`
+  (some items evolve as IaC and services land; cross-check against code).
 - **Notification design:** `docs/pivot/NOTIFICATION_SERVICE_DESIGN.md` and `services/notification-service/README.md`.
 - **Repository map and stack details:** root `README.md` and `infra/` documentation.
 
 ---
 
-*This document is maintained to track the platform story for executives and onboarding; update it when major capabilities (new services, deployment model, or compliance posture) change.*
+*This document is maintained to track the platform story for executives and onboarding;*
+
+*Update it when major capabilities (new services, deployment model, or compliance posture) change.*
