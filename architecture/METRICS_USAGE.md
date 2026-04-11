@@ -248,7 +248,7 @@ public class AuthService {
 
 1. **Start Prometheus and Grafana**:
    ```bash
-   task metrics-start
+   task metrics:start
    # or individually:
    task prometheus-start
    task grafana-start
