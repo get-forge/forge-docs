@@ -454,9 +454,9 @@ PR-level coverage reporting.
 
 5. **✅ Coverage Report Generation**
    - Taskfile tasks for coverage operations:
-     - `clover-unit`: Run unit tests with coverage
-     - `clover-int`: Run integration tests with coverage
-     - `clover-report`: Generate merged coverage report
+     - `_clover:unit`: Run unit tests with coverage
+     - `_clover:integration`: Run integration tests with coverage
+     - `_clover:report`: Generate merged coverage report
    - HTML reports generated in `target/site/clover/`
    - Coverage summary extracted from Clover XML for CI job summaries
 
