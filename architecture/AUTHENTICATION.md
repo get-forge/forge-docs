@@ -29,27 +29,37 @@ Frontend → POST /auth/login (backend-actor)
          → Frontend includes Authorization: Bearer <token> in all API calls
 ```
 
-### OAuth2/OIDC Flows (Cognito & LinkedIn)
+#### Why form-based login instead of Cognito browser OAuth?
 
-#### Cognito OAuth2 Flow
+Email and password sign-in uses **`POST /auth/login`**, which authenticates against the Cognito User Pool
+via server-side APIs (for example `InitiateAuth` with username and password), not the **OAuth2
+authorization-code** flow where the browser is redirected to Cognito’s authorize endpoint and returns with
+a `code`. Cognito still issues OIDC-shaped JWTs; the difference is how the user proves their identity.
 
-1. User clicks "Continue with Cognito" button
-2. Frontend redirects to `GET /auth/cognito/login` (auth-service)
-3. `CognitoOidcLoginResource` constructs OAuth2 authorization URL and redirects to Cognito
-4. User authenticates with Cognito
-5. Cognito redirects back to `/auth/cognito/callback` with authorization code
-6. Quarkus OIDC processes callback, exchanges code for tokens, creates `SecurityIdentity`
-7. `CognitoSecurityIdentityAugmentor` maps Cognito claims to `AuthUser` domain model
-8. Quarkus OIDC redirects to `/auth/cognito/success`
-9. `CognitoOidcCallbackResource` extracts `AuthUser`, generates temporary token via `TokenStore`, redirects to UI with token
-10. UI module exchanges temporary token for JWT tokens via `POST /auth/tokens/exchange`
-11. Frontend stores JWT tokens in localStorage
+This approach was chosen because:
+
+- **Product UX**: The authorization-code path is often paired with **Cognito’s hosted sign-in** (or a flow
+  that still feels like leaving the product for Cognito). A first-party login screen keeps branding, copy,
+  and layout under full application control.
+- **One contract for clients**: JSON request in, tokens in the response. The same pattern suits the web
+  UI, future mobile apps, and other API consumers without each one implementing redirect URLs, state, and
+  callback handling.
+- **Stateless JWT model**: The platform stores tokens client-side and sends `Authorization: Bearer`.
+  Direct login returns tokens in the API response. Browser OIDC “web-app” flows typically add redirects,
+  callback URLs, and framework session or cookie behavior unless deliberately minimized.
+- **Social login stays separate**: Providers such as LinkedIn require an OAuth redirect and their own
+  callback; that path remains explicit in the LinkedIn flow below.
+
+### OAuth2/OIDC Flow (LinkedIn)
+
+LinkedIn sign-in uses OAuth2 redirects and a server-side callback (see below). It is separate from Cognito
+email and password, which use form-based login only.
 
 #### LinkedIn OAuth2 Flow
 
 1. User clicks "Continue with LinkedIn" button
 2. Frontend redirects to `GET /auth/linkedin/login` (auth-service)
-3. `LinkedInOidcLoginResource` constructs OAuth2 authorization URL and redirects to LinkedIn
+3. `LinkedInLoginRedirectResource` constructs OAuth2 authorization URL and redirects to LinkedIn
 4. User authenticates with LinkedIn
 5. LinkedIn redirects back to `/auth/linkedin/login/callback` with authorization code
 6. `LinkedInLoginCallbackResource` manually exchanges code for access token (LinkedIn doesn't support Quarkus OIDC's default flow)
@@ -216,11 +226,8 @@ Frontend applications handle authentication client-side:
 
 - **`AuthResource`**: Form-based login and registration endpoints
 - **`TokenExchangeResource`**: Exchanges temporary tokens for user info (`POST /auth/tokens/exchange`)
-- **`CognitoOidcLoginResource`**: Initiates Cognito OAuth2 flow
-- **`CognitoOidcCallbackResource`**: Handles Cognito OAuth2 callback, generates temporary token
-- **`LinkedInOidcLoginResource`**: Initiates LinkedIn OAuth2 flow
+- **`LinkedInLoginRedirectResource`**: Initiates LinkedIn OAuth2 flow
 - **`LinkedInLoginCallbackResource`**: Handles LinkedIn OAuth2 login callback, generates temporary token
-- **`CognitoSecurityIdentityAugmentor`**: Maps OIDC claims to `AuthUser` domain model
 - **`TokenStore`**: Generates temporary tokens for OIDC flows
 - **`CognitoServiceAuthenticationProvider`**: Authenticates services with Cognito using service account credentials
 
@@ -260,9 +267,8 @@ quarkus.oidc.tenant-enabled=true
 quarkus.oidc.auth-server-url=https://cognito-idp.${aws.region}.amazonaws.com/${cognito.actor.user-pool-id}
 quarkus.oidc.client-id=${cognito.actor.client-id}
 quarkus.oidc.credentials.secret=${cognito.actor.client-secret}
-quarkus.oidc.application-type=web-app
+quarkus.oidc.application-type=service
 quarkus.oidc.authentication.scopes=openid,profile,email
-quarkus.oidc.authentication.redirect-path=/auth/cognito/success
 ```
 
 #### LinkedIn (Named Tenant)
@@ -281,9 +287,10 @@ quarkus.oidc.linkedin.credentials.secret=${LINKEDIN_OAUTH2_CLIENT_SECRET:}
 
 ### Multi-Tenant Resolution
 
-Cognito is configured as the default tenant (`quarkus.oidc.tenant-enabled=true`).
-LinkedIn tenant is disabled (`quarkus.oidc.linkedin.tenant-enabled=false`) because LinkedIn OAuth2 is
-handled manually via custom callback resources, not using Quarkus OIDC's automatic flow.
+The default tenant points at the Cognito issuer with `application-type=service` (no Quarkus OIDC
+web-app redirect flow). LinkedIn tenant is disabled (`quarkus.oidc.linkedin.tenant-enabled=false`)
+because LinkedIn OAuth2 is handled manually via custom callback resources, not using Quarkus OIDC's
+automatic flow.
 
 ## Endpoints
 
@@ -293,7 +300,6 @@ handled manually via custom callback resources, not using Quarkus OIDC's automat
 - `POST /auth/register` - Registration (returns JWT tokens)
 - `POST /auth/tokens/exchange` - Exchange temporary token for user info (used in OIDC flows)
 - `POST /auth/tokens/refresh` - Refresh access token using refresh token
-- `GET /auth/cognito/login` - Initiates Cognito OAuth2 flow (redirects to Cognito)
 - `GET /auth/linkedin/login` - Initiates LinkedIn OAuth2 flow (redirects to LinkedIn)
 
 ### Protected Endpoints (Require `@Secured`)
