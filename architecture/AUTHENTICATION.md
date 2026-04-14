@@ -363,4 +363,3 @@ For detailed implementation instructions, see:
 - [ADR-0003: Authentication and User Management Approach](../decisions/0003-authentication-and-user-management-approach.md)
 - [ADR-0004: Use AWS Cognito Across All Environments](../decisions/0004-use-aws-cognito-across-all-environments.md)
 - [Security Library README](../../libs/security/README.md)
-
