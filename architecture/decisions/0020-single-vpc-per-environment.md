@@ -51,11 +51,3 @@ VPC). No separate “frontend” vs “backend” VPC.
   splitting or reorganising VPCs is a relatively straightforward change.
 
 ---
-
-## **Related**
-
-- Infra: `ForgeNetworkConstruct` (single VPC, public + private subnets),
-  `ForgeEcsSecurityConstruct` (public vs internal ALB SGs, WAF, ECS IAM),
-  `ForgeSecretSecurityConstruct` (Secrets Manager + grants), `ForgeRuntimeConstruct`
-  (ALB in public subnets, all ECS tasks in private subnets via `taskSubnets`),
-  `FORGE_SERVICES` / `allowInternetTraffic` for which services get internet-facing ALBs.
