@@ -1,10 +1,8 @@
-# **ADR-0017: Notification Service Template Storage**
+# 0017. Notification Service Template Storage
 
-**Date:** 2026-01-23  
-**Status:** Accepted  
-**Context:** Design of the Notification Service template storage solution
-
----
+**Status:** Accepted
+**Date:** 2026-01-23
+**Context:** Where and how notification templates (email, SMS, push) are stored, versioned, and scaled.
 
 ## **Context**
 
@@ -162,6 +160,3 @@ String rendered = Qute.fmt(template.getHtmlBody())
 - Current: Single language
 
 ---
-
-**Decision Owner:** Architecture Team  
-**Review Cycle:** Review when template management requirements change or if performance issues emerge

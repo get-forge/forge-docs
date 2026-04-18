@@ -1,4 +1,4 @@
-# 7. Observability Strategy
+# 0007. Observability Strategy
 
 **Status:** Proposed
 **Date:** 2025-11-12
@@ -16,9 +16,9 @@
 * Use **JSON console logs** locally for structured output compatible with CloudWatch.
 * Enable **OpenTelemetry tracing** in Quarkus; spans recorded locally, propagated automatically via HTTP headers.
 * Future AWS deployment:
-    * Logs → CloudWatch Logs via Fluent Bit / CloudWatch Agent.
-    * Traces → AWS X-Ray via ADOT Collector (OTLP).
-    * Metrics → CloudWatch via Micrometer (future).
+  * Logs → CloudWatch Logs via Fluent Bit / CloudWatch Agent.
+  * Traces → AWS X-Ray via ADOT Collector (OTLP).
+  * Metrics → CloudWatch via Micrometer (future).
 * Keep Quarkus code unchanged between local and AWS environments; configuration switches endpoints only.
 
 ## Consequences

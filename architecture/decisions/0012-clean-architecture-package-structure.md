@@ -1,10 +1,8 @@
-# **ADR-0012: Clean Architecture Package Structure Standards**
+# 0012. Clean Architecture Package Structure Standards
 
-**Date:** 2025-12-10  
-**Status:** Accepted  
-**Context:** Standardization of Java package structure across all modules using Clean Architecture principles
-
----
+**Status:** Accepted
+**Date:** 2025-12-10
+**Context:** Standardize Java package structure across modules using Clean Architecture principles.
 
 ## **Context**
 
@@ -58,19 +56,6 @@ io.forge.services.{service}/
     └── StartupBanner.java
 ```
 
-**Example**: `services/actor-service`
-```
-io.forge.services.actor/
-├── domain/
-│   └── CandidateService.java
-├── infrastructure/
-│   └── persistence/
-│       └── CandidateRepository.java
-└── presentation/
-    └── rest/
-        └── CandidateResource.java
-```
-
 ### **Applications** (`application/{app-name}`)
 
 ```
@@ -80,16 +65,6 @@ io.forge.application.{app}/
 │       └── [REST controllers]
 └── runtime/                              # Runtime utilities
     └── StartupBanner.java
-```
-
-**Example**: `application/backend-actor`
-```
-io.forge.application.backend/
-└── presentation/
-    └── rest/
-        ├── AuthController.java
-        ├── CandidateController.java
-        └── ResumeController.java
 ```
 
 ### **Infrastructure Libraries** (`libs/{library-name}`)
@@ -106,17 +81,6 @@ io.forge.{library}/
     └── [Domain interfaces]
 ```
 
-**Example**: `libs/aws-api`
-```
-io.forge.aws/
-└── infrastructure/
-    ├── config/
-    │   └── S3ClientProducer.java
-    └── client/
-        └── s3/
-            └── S3Client.java
-```
-
 ### **Client Libraries** (`libs/domain-clients`)
 
 For REST client interfaces:
@@ -124,15 +88,6 @@ For REST client interfaces:
 ```
 io.forge.client.{service}/
 └── {Service}Client.java
-```
-
-**Example**: `libs/domain-clients`
-```
-io.forge.client.auth/
-└── AuthServiceClient.java
-
-io.forge.client.document/
-└── ParseServiceClient.java
 ```
 
 ### **Domain Libraries** (`libs/domain-*`)
@@ -144,14 +99,6 @@ io.forge.domain.{concern}/
 └── [Domain types, DTOs, interfaces]
 ```
 
-**Example**: `libs/domain-dtos`
-```
-io.forge.domain.dto.auth/
-├── LoginRequest.java
-├── RegisterRequest.java
-└── AuthResponse.java
-```
-
 ---
 
 ## **Naming Conventions**
@@ -159,9 +106,7 @@ io.forge.domain.dto.auth/
 ### **REST Resources/Controllers**
 
 - **Services**: Use `{Service}Resource.java` suffix, place in `presentation/rest/`
-  - Example: `CandidateResource`, `ResumeResource`
 - **Applications**: Use `{Feature}Controller.java` suffix, place in `presentation/rest/`
-  - Example: `AuthController`, `CandidateController`, `ResumeController`
 - **Exception**: Protocol-specific resources (OIDC) can stay in protocol packages (`oidc/`)
 
 ### **Domain Services**
@@ -242,17 +187,6 @@ io.forge.security/
         └── CognitoUserAuthenticationProvider.java
 ```
 
-### **Good Structure: backend-actor**
-
-```
-io.forge.application.backend/
-└── presentation/
-    └── rest/
-        ├── AuthController.java
-        ├── CandidateController.java
-        └── ResumeController.java
-```
-
 ---
 
 ## **Consequences**
@@ -300,4 +234,3 @@ Code reviews should verify:
 **Review Cycle:** Review annually or when new module types are introduced
 
 ---
-

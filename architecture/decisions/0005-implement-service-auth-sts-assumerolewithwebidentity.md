@@ -1,14 +1,8 @@
-# 5. Implement Service-to-Service Authentication Using AWS STS AssumeRoleWithWebIdentity
-
-**Date:** 2025-10-27  
-**Updated:** 2025-01-27
+# 0005. Implement Service-to-Service Authentication Using AWS STS AssumeRoleWithWebIdentity
 
 **Status:** Accepted
-
-**Context:** Continuation of ADR-0004 (Auth Environment) — refines approach for service-to-service
-authentication using AWS Cognito across all environments
-
----
+**Date:** 2025-10-27
+**Context:** Continuation of ADR-0004; service-to-service authentication and secure AWS IAM access via Cognito and STS.
 
 ## **Context**
 

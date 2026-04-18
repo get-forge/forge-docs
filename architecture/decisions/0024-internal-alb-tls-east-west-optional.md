@@ -1,15 +1,13 @@
-# **ADR-0024: Internal (private) ALB TLS for east-west traffic (optional)**
+# 0024. Internal (private) ALB TLS for east-west traffic (optional)
 
-**Date:** 2026-04-07  
-**Status:** Accepted  
-
----
+**Status:** Accepted
+**Date:** 2026-04-07
+**Context:** Optional TLS on internal ALBs for in-VPC east-west traffic, versus HTTP behind security groups and private subnets.
 
 ## **Context**
 
 The runtime uses an **internal-facing Application Load Balancer** in **private subnets** for
-**service-to-service** and **browser-to-API** paths that are routed by hostname and path rules (see
-`INTERNAL_ALB_PATH_SERVICES`, `addInternalAlbListener`, ADR-0020). Traffic stays **inside the VPC** between
+**service-to-service** and **browser-to-API** paths that are routed by hostname and path rules. Traffic stays **inside the VPC** between
 **Fargate** tasks and the internal ALB.
 
 **TLS on the public ALB** is **required** for browser-facing HTTPS and is **implemented** (ACM certificate,
@@ -38,15 +36,15 @@ target** hop as a **separate** decision (see below).
 from the load balancer to **registered targets** uses whatever **protocol** the **target group** is configured
 for.
 
-**Baseline Forge CDK** (see `ForgeElbTargetGroupConstruct`): **all** application target groups use
-**`protocol: HTTP`** to **ECS tasks** on the **container port** (for example **8080**). The **public** ALB uses
-an **HTTPS** listener toward clients and **forwards** to those **HTTP** target groups. So today:
+**Baseline Forge CDK**: **all** application target groups use **`protocol: HTTP`** to **ECS tasks** on the
+**container port**. The **public** ALB uses an **HTTPS** listener toward clients and **forwards** to those **HTTP**
+target groups. So today:
 
-| Segment | Encrypted in baseline? |
-|--------|-------------------------|
-| **Client → public ALB** | **Yes** (HTTPS listener, ACM on the ALB). |
-| **Public ALB → ECS task** | **No** (HTTP target group within the VPC). |
-| **Task → internal ALB → task** | **No** (HTTP throughout). |
+| Segment                        | Encrypted in baseline?                     |
+|--------------------------------|--------------------------------------------|
+| **Client → public ALB**        | **Yes** (HTTPS listener, ACM on the ALB).  |
+| **Public ALB → ECS task**      | **No** (HTTP target group within the VPC). |
+| **Task → internal ALB → task** | **No** (HTTP throughout).                  |
 
 **Implication:** Turning on an **HTTPS** listener on the **internal** ALB encrypts **caller → internal ALB**
 only. It does **not**, by itself, encrypt **internal ALB → Fargate**. **Full** encryption on that last hop
@@ -62,9 +60,8 @@ TLS alone.
 
 ## **Decision**
 
-1. **Baseline CDK keeps the internal ALB on HTTP (port 80)** for listeners between tasks and the internal ALB.
-   This matches the **current** `addInternalAlbListener` shape and **FORGE_INTERNAL_ALB_URL** usage (`http://` to
-   the internal ALB DNS name).
+1. **Baseline CDK keeps the internal ALB on HTTP** for listeners between tasks and the internal ALB.
+   This matches the **current** `addInternalAlbListener` shape (`http://` to the internal ALB DNS name).
 
 2. **HTTPS on the internal ALB is optional** and **customer-owned** when **compliance**, **threat model**, or
    **policy** require **east-west** encryption. Teams may adopt it by **following the same TLS pattern** already
@@ -136,9 +133,8 @@ application) or **mesh** / **mTLS**, as described in **ALB TLS termination and t
 - **ADR-0020:** Single VPC per environment (internal ALB placement, security groups).
 - **ADR-0022:** Public ALB edge and origin protection (public TLS, WAF, CloudFront direction).
 - **ADR-0023:** DNSSEC and Route 53 hosted zones (baseline posture; registrar and certificate context).
-- **Infra:** `addInternalAlbListener` in `alb-listener-utils.ts`, `ForgePlatformConstruct` (internal ALB),
-  `ForgeElbTargetGroupConstruct` (**HTTP** target protocol to tasks), `ForgeFargateServiceConstruct`
-  (`FORGE_INTERNAL_ALB_URL`), `ForgeEcsSecurityConstruct` (internal ALB security group).
 - **AWS (ALB HTTPS):** [ALB HTTPS listeners](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html)
 - **AWS (target groups):** [ALB target groups](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html)  
   (protocol and TLS to targets).
+
+---

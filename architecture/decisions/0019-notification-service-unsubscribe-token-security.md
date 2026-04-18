@@ -1,10 +1,8 @@
-# **ADR-0019: Notification Service Unsubscribe Token Security**
+# 0019. Notification Service Unsubscribe Token Security
 
-**Date:** 2026-01-23  
-**Status:** Accepted  
-**Context:** Design of secure unsubscribe mechanism for the Notification Service
-
----
+**Status:** Accepted
+**Date:** 2026-01-23
+**Context:** Secure, login-free unsubscribe links with tamper resistance, auditability, and revocation.
 
 ## **Context**
 
@@ -242,6 +240,3 @@ https://api.example.com/notifications/unsubscribe?token={opaque-token}
 - Future: May add more analytics (geolocation, device type, etc.)
 
 ---
-
-**Decision Owner:** Architecture Team  
-**Review Cycle:** Review if compliance requirements change or if stateless approach becomes necessary

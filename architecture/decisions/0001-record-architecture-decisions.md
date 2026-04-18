@@ -1,15 +1,13 @@
-# **ADR-0001: Record architecture decisions**
-
-**Date:** 2025-01-19
+# 0001. Record architecture decisions
 
 **Status:** Accepted
-
+**Date:** 2025-01-19
 **Context:** We need to record the architectural decisions made on this project.
 
 ## **Decision**
 
 We will use Architecture Decision Records, as [described by Michael Nygard]
-(http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions).
+(<http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions>).
 
 ## **Consequences**
 

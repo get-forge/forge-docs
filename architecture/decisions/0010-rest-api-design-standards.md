@@ -1,10 +1,8 @@
-# **ADR-0010: REST API Design Standards**
+# 0010. REST API Design Standards
 
-**Date:** 2025-12-10
 **Status:** Accepted
-**Context:** Standardization of REST API endpoint design across all microservices
-
----
+**Date:** 2025-12-10
+**Context:** Standardize REST API endpoint design across all microservices for consistency and maintainability.
 
 ## **Context**
 
@@ -29,51 +27,52 @@ industry best practices. All endpoints across all services must follow these sta
 ### **Core Principles**
 
 1. **Resource-Based URLs**: Use nouns, not verbs. Resources represent entities, not actions.
-   - ✅ `/candidates`, `/resumes`, `/job-specs`
-   - ❌ `/parse/resume`, `/admin/toggle`
+   * ✅ `/candidates`, `/resumes`, `/job-specs`
+   * ❌ `/parse/resume`, `/admin/toggle`
 
 2. **Plural Nouns**: Use plural nouns for resource collections.
-   - ✅ `/candidates`, `/resumes`
-   - ❌ `/candidate`, `/resume`
+   * ✅ `/candidates`, `/resumes`
+   * ❌ `/candidate`, `/resume`
 
 3. **HTTP Methods**: Use HTTP methods to indicate actions.
-   - **GET**: Retrieve resources (idempotent, safe)
-   - **POST**: Create resources or perform actions (not idempotent)
-   - **PUT**: Replace entire resource (idempotent)
-   - **PATCH**: Partial update (idempotent)
-   - **DELETE**: Remove resource (idempotent)
+   * **GET**: Retrieve resources (idempotent, safe)
+   * **POST**: Create resources or perform actions (not idempotent)
+   * **PUT**: Replace entire resource (idempotent)
+   * **PATCH**: Partial update (idempotent)
+   * **DELETE**: Remove resource (idempotent)
 
 4. **Query Parameters for Filtering**: Use query parameters for filtering, searching, and pagination.
-   - ✅ `GET /candidates?candidateId={id}`
-   - ❌ `GET /candidate/{email}/candidates`
+   * ✅ `GET /candidates?candidateId={id}`
+   * ❌ `GET /candidate/{email}/candidates`
 
 5. **Path Parameters for Identification**: Use path parameters for resource identification.
-   - ✅ `GET /candidates/{candidateId}`
-   - ❌ `GET /candidates?candidateId={id}` (for single resource)
+   * ✅ `GET /candidates/{candidateId}`
+   * ❌ `GET /candidates?candidateId={id}` (for single resource)
 
 6. **Consistent ID Usage**: Use UUIDs consistently in path parameters. Use query parameters for filtering by other attributes.
-   - ✅ `GET /candidates?candidateId={uuid}`
-   - ❌ `GET /candidate/{email}/candidates`
+   * ✅ `GET /candidates?candidateId={uuid}`
+   * ❌ `GET /candidate/{email}/candidates`
 
 7. **Proper Status Codes**:
-   - `200 OK` - Success
-   - `201 Created` - Resource created successfully
-   - `204 No Content` - Success with no response body
-   - `400 Bad Request` - Validation errors
-   - `401 Unauthorized` - Authentication required
-   - `404 Not Found` - Resource not found
-   - `422 Unprocessable Entity` - Validation errors (more specific than 400)
-   - `500 Internal Server Error` - Server errors
+   * `200 OK` - Success
+   * `201 Created` - Resource created successfully
+   * `204 No Content` - Success with no response body
+   * `400 Bad Request` - Validation errors
+   * `401 Unauthorized` - Authentication required
+   * `404 Not Found` - Resource not found
+   * `422 Unprocessable Entity` - Validation errors (more specific than 400)
+   * `500 Internal Server Error` - Server errors
 
 8. **Security Best Practices**:
-   - Never put sensitive data in URL query parameters (use POST with body)
-   - Use POST for token exchange and validation operations
-   - ✅ `POST /auth/tokens/exchange` with token in body
-   - ❌ `GET /auth/token/exchange?token=xxx`
+   * Never put sensitive data in URL query parameters (use POST with body)
+   * Use POST for token exchange and validation operations
+   * ✅ `POST /auth/tokens/exchange` with token in body
+   * ❌ `GET /auth/token/exchange?token=xxx`
 
 ### **Endpoint Structure Examples**
 
 #### **Resource Creation**
+
 ```java
 @POST
 @Path("/resumes")
@@ -85,6 +84,7 @@ public Response createResume(@RestForm String candidateId, @RestForm FileUpload 
 ```
 
 #### **Resource Retrieval with Filtering**
+
 ```java
 @GET
 @Path("/actor")
@@ -96,6 +96,7 @@ public Response getActor(
 ```
 
 #### **Resource Update**
+
 ```java
 @PUT
 @Path("/admin/features/{featureName}")
@@ -112,9 +113,6 @@ public Response updateFeature(
 
 **Authentication Endpoints**: Authentication endpoints are an exception where action-based URLs are
 acceptable, as they represent authentication operations, not resource operations.
-- ✅ `POST /auth/login`
-- ✅ `POST /auth/register`
-- ✅ `POST /auth/tokens/refresh`
 
 ---
 
@@ -129,22 +127,14 @@ acceptable, as they represent authentication operations, not resource operations
 * **Developer Experience**: Clear patterns reduce decision fatigue and speed up development
 * **Industry Alignment**: Follows widely-accepted REST principles and best practices
 
-
 ---
 
 ## **References**
 
 * RFC 7231: Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content
 * RESTful Web Services by Leonard Richardson and Sam Ruby
-* REST API Tutorial: https://restfulapi.net/
-* Microsoft REST API Guidelines: https://github.com/microsoft/api-guidelines
-* Google Cloud API Design Guide: https://cloud.google.com/apis/design
+* REST API Tutorial: <https://restfulapi.net/>
+* Microsoft REST API Guidelines: <https://github.com/microsoft/api-guidelines>
+* Google Cloud API Design Guide: <https://cloud.google.com/apis/design>
 
 ---
-
-**Decision Owner:** Architecture Team
-
-**Review Cycle:** Review annually or when significant new requirements emerge (e.g., HATEOAS implementation)
-
----
-

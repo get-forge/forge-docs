@@ -1,10 +1,8 @@
-# **ADR-0015: Notification Service Fire-and-Forget / Asynchronous Messaging Pattern**
+# 0015. Notification Service Fire-and-Forget / Asynchronous Messaging Pattern
 
-**Date:** 2026-01-23  
-**Status:** Accepted  
-**Context:** Design of the Notification Service as a centralized notification delivery service for the commercial platform
-
----
+**Status:** Accepted
+**Date:** 2026-01-23
+**Context:** Centralized Notification Service design: how requests are acknowledged vs delivered asynchronously at scale.
 
 ## **Context**
 
@@ -168,6 +166,3 @@ Notifications are processed in priority order:
 - Current: Polling via status endpoint
 
 ---
-
-**Decision Owner:** Architecture Team  
-**Review Cycle:** Review when SQS integration is implemented or if synchronous delivery requirements emerge
