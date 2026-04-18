@@ -1,9 +1,10 @@
-# ADR-0013: Migration from MapStruct to Manual Mappers
+# 0013. Migration from MapStruct to Manual Mappers
 
-## Status
-**Proposed** - Awaiting approval
+**Status:** Accepted
+**Date:** 2026-01-30
+**Context:** MapStruct introduced build cache, CDI, annotation processor, and CI issues; manual mappers are proposed instead.
 
-## Context
+## **Context**
 
 We implemented MapStruct to handle DTO-to-entity mapping, but it has caused significant build issues:
 
@@ -37,7 +38,7 @@ We evaluated whether other 3rd party mapping libraries would solve our issues, b
 #### Runtime Reflection-Based Libraries (Dozer, ModelMapper, Orika)
 - **Dozer**: Runtime reflection-based mapping
   - **Pros**: No annotation processing, no build issues
-  - **Cons**: 
+  - **Cons**:
     - Significant performance overhead (5-10x slower than MapStruct)
     - Runtime errors instead of compile-time safety
     - Less type safety

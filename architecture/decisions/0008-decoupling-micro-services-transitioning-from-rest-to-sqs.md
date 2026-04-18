@@ -1,9 +1,8 @@
-# 8. Decoupling micro-services - transitioning from REST to SQS
+# 0008. Decoupling micro-services — transitioning from REST to SQS
 
 **Status:** Accepted
 **Date:** 2025-11-18
-
----
+**Context:** Multiple Quarkus microservices in an evolving prototype; synchronous REST now with message-friendly boundaries for a later SQS move.
 
 ## **Context**
 

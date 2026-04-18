@@ -1,12 +1,8 @@
-# **ADR-0002: Adoption of Quarkus for API and Controller Tier**
-
-**Date:** 2025-10-08
+# 0002. Adoption of Quarkus for API and Controller Tier
 
 **Status:** Accepted
-
-**Context:** Early-stage architecture decision for core application backend
-
----
+**Date:** 2025-10-08
+**Context:** Early-stage architecture decision for core application backend; need a performant, cloud-native JVM framework for APIs and controllers.
 
 ## **Context**
 
@@ -108,11 +104,5 @@ Quarkus supports any JDBC-compatible database. PostgreSQL is the default in most
 * Smaller developer community than Spring Boot, particularly for advanced enterprise integrations.
 * Some enterprise features (e.g. full Spring ecosystem integrations, legacy connectors) may require
   additional libraries or manual configuration later.
-
----
-
-**Decision Owner:** CTO / Architecture Team
-
-**Review Cycle:** Reassess in 6–12 months, particularly if enterprise or multi-service orchestration requirements evolve.
 
 ---

@@ -1,11 +1,8 @@
-# 14. Application Caching Strategy
+# 0014. Application Caching Strategy
 
-**Status:** Accepted  
-**Date:** 2025-01-27  
-**Context:** The platform requires application-level caching to optimize performance, reduce database load,
-and lower operational costs.
-We need to choose a caching approach that works for both single-instance (development) and
-multi-instance (production) deployments.
+**Status:** Accepted
+**Date:** 2025-01-27
+**Context:** Application-level caching to improve performance and cut load and cost across single-instance dev and multi-instance production.
 
 ## **Context**
 
@@ -60,36 +57,36 @@ Implement a **three-phase caching strategy** using Quarkus Cache:
 
 ### **Why Quarkus Cache**
 
-* **Framework Integration** - Native Quarkus support with CDI annotations
-* **Multiple Backends** - Supports Caffeine (local) and Redis (distributed) via configuration
-* **Simple API** - `@CacheResult` and `@CacheInvalidate` annotations reduce boilerplate
-* **Metrics** - Automatic Micrometer integration for cache metrics
-* **Production Ready** - Battle-tested in Quarkus ecosystem
+- **Framework Integration** - Native Quarkus support with CDI annotations
+- **Multiple Backends** - Supports Caffeine (local) and Redis (distributed) via configuration
+- **Simple API** - `@CacheResult` and `@CacheInvalidate` annotations reduce boilerplate
+- **Metrics** - Automatic Micrometer integration for cache metrics
+- **Production Ready** - Battle-tested in Quarkus ecosystem
 
 ### **Why Three-Phase Approach**
 
-* **Incremental Risk** - Start simple (local cache), add metrics, then migrate to distributed
-* **Development First** - Local caching works immediately without infrastructure dependencies
-* **Metrics Before Production** - Understand cache performance before distributed migration
-* **Production Hardening** - Redis backend provides consistency across instances
+- **Incremental Risk** - Start simple (local cache), add metrics, then migrate to distributed
+- **Development First** - Local caching works immediately without infrastructure dependencies
+- **Metrics Before Production** - Understand cache performance before distributed migration
+- **Production Hardening** - Redis backend provides consistency across instances
 
 ### **Why Cache-Aside Pattern**
 
-* **Simplicity** - Clear separation: reads populate cache, writes invalidate cache
-* **Consistency** - Database remains source of truth
-* **Flexibility** - Easy to add/remove caching without changing business logic
+- **Simplicity** - Clear separation: reads populate cache, writes invalidate cache
+- **Consistency** - Database remains source of truth
+- **Flexibility** - Easy to add/remove caching without changing business logic
 
 ### **Why Shared Redis Infrastructure**
 
-* **Cost Optimization** - Single ElastiCache cluster serves caching + rate limiting
-* **Operational Simplicity** - One infrastructure component to manage
-* **Synergy** - Rate limiting already planned for Redis backend (see ADR/ARCHITECTURAL_IMPROVEMENTS.md section 1.3)
+- **Cost Optimization** - Single ElastiCache cluster serves caching + rate limiting
+- **Operational Simplicity** - One infrastructure component to manage
+- **Synergy** - Rate limiting already planned for Redis backend (see ADR/ARCHITECTURAL_IMPROVEMENTS.md section 1.3)
 
 ### **Why These Use Cases**
 
-* **Token Validation** - Highest frequency (every authenticated request), high cryptographic overhead
-* **Candidate Profiles** - Frequently accessed, low change rate, database query overhead
-* **Parsed Documents** - Idempotent (safe to cache), DynamoDB read cost reduction
+- **Token Validation** - Highest frequency (every authenticated request), high cryptographic overhead
+- **Candidate Profiles** - Frequently accessed, low change rate, database query overhead
+- **Parsed Documents** - Idempotent (safe to cache), DynamoDB read cost reduction
 
 ---
 
@@ -151,35 +148,36 @@ Implement a **three-phase caching strategy** using Quarkus Cache:
 
 **Token Validation Cache:**
 - Cache name: `token-validation`
-- Key: `token:${tokenHash}:${expirationTime}`
+- Key: Composite key: hashed token reference plus expiry (so entries line up with JWT validity windows;
+  never use the raw bearer token as all or part of the key).
 - TTL: Token expiration time (automatic)
 - Max size: 10,000 entries
 
 **Candidate Profile Cache:**
 - Cache name: `candidate-profiles`
-- Key: `candidate:${candidateId}`
+- Key: Composite key: profile namespace plus stable candidate identifier
 - TTL: 10 minutes
 - Max size: 5,000 entries
 - Invalidation: On profile registration/updates
 
 **Document Cache:**
 - Cache name: `parsed-resumes`, `parsed-jobspecs`
-- Key: `resume:${candidateId}` or `jobspec:${transactionId}`
+- Key: Composite key: document-type namespace plus candidate identifier or job-spec transaction identifier, depending on which artifact is cached
 - TTL: 1 hour
 - Max size: 10,000 entries
 - Invalidation: On document re-upload
 
 ### Error Handling
 
-* **Fail-Open Strategy** - Cache failures don't break requests
-* **Negative Caching** - Don't cache null/empty results (except token validation)
-* **Exception Handling** - Quarkus Cache handles exceptions gracefully, falls back to underlying operation
+- **Fail-Open Strategy** - Cache failures don't break requests
+- **Negative Caching** - Don't cache null/empty results (except token validation)
+- **Exception Handling** - Quarkus Cache handles exceptions gracefully, falls back to underlying operation
 
 ### Security Considerations
 
-* **Token Caching** - Cache keys use token hashes (not full tokens)
-* **PII in Cache** - Ensure Redis encryption at rest and in transit
-* **Key Namespacing** - Use prefixes (`cache:token:`, `cache:candidate:`) to prevent collisions
+- **Token Caching** - Cache keys use token hashes (not full tokens)
+- **PII in Cache** - Ensure Redis encryption at rest and in transit
+- **Key Namespacing** - Use prefixes (`cache:token:`, `cache:candidate:`) to prevent collisions
 
 ---
 
@@ -187,44 +185,42 @@ Implement a **three-phase caching strategy** using Quarkus Cache:
 
 ### **Positive**
 
-* **Performance** - Reduced latency for cached operations (20-50ms improvement)
-* **Cost Reduction** - 20-30% reduction in DynamoDB read capacity, 30-40% reduction in PostgreSQL queries
-* **Scalability** - Redis backend enables horizontal scaling with shared cache
-* **Operational Efficiency** - Shared Redis infrastructure for caching + rate limiting
-* **Developer Experience** - Simple annotations, no boilerplate cache management code
+- **Performance** - Reduced latency for cached operations (20-50ms improvement)
+- **Cost Reduction** - 20-30% reduction in DynamoDB read capacity, 30-40% reduction in PostgreSQL queries
+- **Scalability** - Redis backend enables horizontal scaling with shared cache
+- **Operational Efficiency** - Shared Redis infrastructure for caching + rate limiting
+- **Developer Experience** - Simple annotations, no boilerplate cache management code
 
 ### **Negative**
 
-* **Complexity** - Additional infrastructure component (Redis) in production
-* **Cache Invalidation** - Must ensure cache invalidation on writes (cache-aside pattern)
-* **Memory Usage** - Local cache (Caffeine) consumes JVM heap memory
-* **Cache Stampede** - Risk of thundering herd if cache expires simultaneously (mitigated by TTL variance)
+- **Complexity** - Additional infrastructure component (Redis) in production
+- **Cache Invalidation** - Must ensure cache invalidation on writes (cache-aside pattern)
+- **Memory Usage** - Local cache (Caffeine) consumes JVM heap memory
+- **Cache Stampede** - Risk of thundering herd if cache expires simultaneously (mitigated by TTL variance)
 
 ### **Risks and Mitigations**
 
-* **Cache Inconsistency** - Mitigated by cache-aside pattern (database is source of truth)
-* **Cache Failures** - Mitigated by fail-open strategy (requests continue without cache)
-* **Memory Pressure** - Mitigated by size limits and TTL-based eviction
-* **Redis Availability** - Mitigated by ElastiCache high availability configuration
+- **Cache Inconsistency** - Mitigated by cache-aside pattern (database is source of truth)
+- **Cache Failures** - Mitigated by fail-open strategy (requests continue without cache)
+- **Memory Pressure** - Mitigated by size limits and TTL-based eviction
+- **Redis Availability** - Mitigated by ElastiCache high availability configuration
 
 ---
 
 ## **Success Metrics**
 
-* Cache hit rate > 80% for token validation
-* Cache hit rate > 60% for candidate profiles
-* Cache hit rate > 70% for documents
-* P95 latency reduction of 20-50ms for cached operations
-* 20-30% reduction in DynamoDB read capacity units
-* 30-40% reduction in PostgreSQL query volume
+- Cache hit rate > 80% for token validation
+- Cache hit rate > 60% for candidate profiles
+- Cache hit rate > 70% for documents
+- P95 latency reduction of 20-50ms for cached operations
+- 20-30% reduction in DynamoDB read capacity units
+- 30-40% reduction in PostgreSQL query volume
 
 ---
 
 ## **References**
 
-* [Quarkus Cache Guide](https://quarkus.io/guides/cache)
-* [Quarkus Redis Cache](https://quarkus.io/guides/cache-redis-reference)
-* `docs/architecture/CACHING_STRATEGY.md` - Detailed implementation plan
-* `docs/architecture/ARCHITECTURAL_IMPROVEMENTS.md` section 4.3 - Caching strategy overview
-* `docs/architecture/ARCHITECTURAL_IMPROVEMENTS.md` section 1.3 - Rate limiting (Redis integration)
+- [Quarkus Cache Guide](https://quarkus.io/guides/cache)
+- [Quarkus Redis Cache](https://quarkus.io/guides/cache-redis-reference)
 
+---

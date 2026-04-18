@@ -1,9 +1,8 @@
-# **ADR-0023: DNSSEC and Route 53 hosted zones (baseline posture)**
+# 0023. DNSSEC and Route 53 hosted zones (baseline posture)
 
-**Date:** 2026-04-06  
-**Status:** Accepted  
-
----
+**Status:** Accepted
+**Date:** 2026-04-06
+**Context:** DNSSEC signing trade-offs for Route 53 child zones under signed parents; baseline posture vs portability and ACM validation.
 
 ## **Context**
 
@@ -11,13 +10,13 @@
 signed by keys the parent chain trusts. It addresses **DNS data integrity** at the resolution layer, not transport
 encryption to HTTPS endpoints.
 
-The Forge **Domain stack** provisions a **Route 53 public hosted zone** per environment (for example
-`int.forgeplatform.software` via `DOMAIN.SUB_ROOT`). The **parent** zone (for example `forgeplatform.software`) often
-lives at a **registrar** and may have **DNSSEC enabled** with **DS** records at the TLD. The **child** zone can be
-**unsigned** (no Route 53 DNSSEC signing) while the parent **is** signed. That combination can produce **bogus** DNSSEC
-validation for some validators when the **signed parent** does not answer **DS** queries or **denial-of-existence**
-proofs for the delegation in a **standards-compliant** way (see RFC 4034). **AWS Certificate Manager** domain validation
-can fail in that situation even when a **plain** `dig` CNAME for the validation record appears correct.
+The Forge **Domain stack** provisions a **Route 53 public hosted zone** per environment (e.g. `int.example.com`). The
+**parent** zone (e.g. `example.com`) often lives at a **registrar** and may have **DNSSEC enabled** with **DS** records
+at the TLD. The **child** zone can be **unsigned** (no Route 53 DNSSEC signing) while the parent **is** signed. That
+combination can produce **bogus** DNSSEC validation for some validators when the **signed parent** does not answer
+**DS** queries or **denial-of-existence** proofs for the delegation in a **standards-compliant** way (see RFC 4034).
+**AWS Certificate Manager** domain validation can fail in that situation even when a **plain** `dig` CNAME for the
+validation record appears correct.
 
 **Route 53** can **enable DNSSEC signing** for a hosted zone using a **Key Signing Key (KSK)** backed by **KMS**, after
 which **DS** records must be published at the **parent** (registrar or DNS operator). That is **operationally** heavier
@@ -79,7 +78,7 @@ targets a **different** threat class (tampering or spoofing of **DNS answers** a
 - **ADR-0022:** Public ALB edge and origin protection (TLS, WAF, CloudFront target direction).
 - **ADR-0020:** Single VPC per environment (networking and security groups).
 - **ADR-0011:** Stateless JWT authentication (application identity).
-- **Infra:** `ForgeHostedZoneConstruct` (Route 53 public hosted zone, ACM certificate for public ALB), **Domain stack**
-  (`ForgeDomainStack`).
 - **AWS (DNSSEC):** [DNSSEC signing in Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-configuring-dnssec.html)
 - **AWS (ACM):** [DNS validation](https://docs.aws.amazon.com/acm/latest/userguide/dns-validation.html)
+
+---

@@ -1,16 +1,11 @@
-# 9. User Profile Storage Strategy
+# 0009. User Profile Storage Strategy
 
 **Status:** Accepted
 **Date:** 2025-11-25
-**Context:** The platform currently uses AWS Cognito for user authentication. We need to store additional
-user profile attributes beyond basic identity (e.g., date of birth, mobile number, LinkedIn handle,
-profile photo, preferences, etc.).
+**Context:** Cognito handles auth; we must store extended profile attributes beyond basic identity and choose Cognito attributes vs application database.
 
 ## **Context**
 
-The platform currently uses AWS Cognito for user authentication. We need to store additional user
-profile attributes beyond basic identity (e.g., date of birth, mobile number, LinkedIn handle, profile
-photo, preferences, etc.).
 We must choose between:
 
 1. Storing extended attributes directly in **AWS Cognito** user attributes, or
@@ -50,7 +45,7 @@ Cognito remains the identity provider; the application database becomes the syst
 
 ## **Hybrid Architecture Pattern (Recommended)**
 
-### **Store the following *in Cognito*** (minimal identity set):
+### **Store the following *in Cognito*** (minimal identity set)
 
 | Attribute                               | Reason                         |
 | --------------------------------------- | ------------------------------ |
@@ -60,7 +55,7 @@ Cognito remains the identity provider; the application database becomes the syst
 | **phone_number** (optional)             | Required only if used for MFA  |
 | **given_name / family_name** (optional) | Convenience, but not mandatory |
 
-### **Store the following *in the application database*** (system of record):
+### **Store the following *in the application database*** (system of record)
 
 * Date of birth
 * Mobile phone (if not used for MFA)

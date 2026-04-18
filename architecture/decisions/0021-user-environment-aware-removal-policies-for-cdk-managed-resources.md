@@ -1,8 +1,8 @@
-# 21. Environment-aware removal policies for CDK-managed resources
+# 0021. Environment-aware removal policies for CDK-managed resources
 
-**Date:** 2026-03-27  
-**Status:** Accepted  
-**Context:** Adopting an environment-sensitive and resource-type-aware removal policy strategy.
+**Status:** Accepted
+**Date:** 2026-03-27
+**Context:** CDK `RemovalPolicy` must balance destroy vs retain by environment and resource type without orphans or data loss.
 
 ## Context
 
@@ -24,12 +24,12 @@ Adopt an **environment-sensitive and resource-type-aware removal policy strategy
 
 * **Non-production (dev/test):**
 
-    * Default: `DESTROY`
-* 
+  * Default: `DESTROY`
+*
 * **Production:**
 
-    * Use `RETAIN` **only for stateful resources**
-    * Use `DESTROY` for stateless infrastructure
+  * Use `RETAIN` **only for stateful resources**
+  * Use `DESTROY` for stateless infrastructure
 
 ### 2. Resource Classification
 
@@ -78,3 +78,5 @@ Retention is a **data protection mechanism**, not a substitute for:
 * Access control
 
 Stack deletion in production should be considered an exceptional operation.
+
+---
