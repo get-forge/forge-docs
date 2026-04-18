@@ -1,10 +1,8 @@
-# **ADR-0020: Single VPC per environment**
+# 0020. Single VPC per environment
 
-**Date:** 2026-02-22  
-**Status:** Accepted  
-**Context:** Whether to deploy web frontends and backend microservices in separate VPCs or a single VPC.
-
----
+**Status:** Accepted
+**Date:** 2026-02-22
+**Context:** Whether web frontends and backends use separate VPCs or one VPC per environment with ALB exposure patterns.
 
 ## **Context**
 

@@ -1,10 +1,8 @@
-# **ADR-0011: Stateless JWT Authentication**
+# 0011. Stateless JWT Authentication
 
-**Date:** 2025-12-10
 **Status:** Accepted
-**Context:** Migration from hybrid authentication (JWT + sessions) to fully stateless JWT-based authentication
-
----
+**Date:** 2025-12-10
+**Context:** Migrate from hybrid JWT plus sessions to fully stateless JWT authentication for horizontal scaling.
 
 ## **Context**
 
@@ -97,17 +95,7 @@ JavaScript handles authentication:
 
 ### **Request Flow**
 
-All frontend requests route through `backend-actor` (port 8500):
-- `POST /auth/login` → `backend-actor` → `auth-service`
-- `POST /auth/register` → `backend-actor` → `auth-service`
-- `GET /actors/{id}` → `backend-actor` → `actor-service`
-- `POST /resumes` → `backend-actor` → `document-service`
+All frontend requests route through BFF on port N:
+- `POST /api/session` → `bff` → `auth-service`
 
 ---
-
-**Decision Owner:** Architecture Team
-
-**Review Cycle:** Review if token revocation requirements emerge or if security concerns require server-side session management
-
----
-

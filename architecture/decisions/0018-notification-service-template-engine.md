@@ -1,10 +1,8 @@
-# **ADR-0018: Notification Service Template Engine Selection**
+# 0018. Notification Service Template Engine Selection
 
-**Date:** 2026-01-23  
-**Status:** Accepted  
-**Context:** Design of the Notification Service template rendering engine for email, SMS, and push notifications
-
----
+**Status:** Accepted
+**Date:** 2026-01-23
+**Context:** Choose a template engine for rendering notifications with variables, HTML/text, and Quarkus integration.
 
 ## **Context**
 
@@ -200,6 +198,3 @@ String rendered = Qute.fmt(template.getHtmlBody())
 - Future: May add template validation at storage time
 
 ---
-
-**Decision Owner:** Architecture Team  
-**Review Cycle:** Review if Quarkus migration occurs or if template engine requirements change significantly

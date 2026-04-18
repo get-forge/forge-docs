@@ -1,10 +1,8 @@
-# **ADR-0016: Notification Service Rate Limiting Strategy**
+# 0016. Notification Service Rate Limiting Strategy
 
-**Date:** 2026-01-23  
-**Status:** Accepted  
-**Context:** Design of the Notification Service rate limiting to respect external provider constraints and ensure critical notifications are not blocked
-
----
+**Status:** Accepted
+**Date:** 2026-01-23
+**Context:** Outbound rate limiting for SES, Twilio, and future providers so limits are respected and critical messages are not starved.
 
 ## **Context**
 
@@ -168,6 +166,3 @@ notification.rate-limit.twilio.low.per-minute=50
 - Current: Static configuration
 
 ---
-
-**Decision Owner:** Architecture Team  
-**Review Cycle:** Review when new providers are added or if distributed rate limiting is needed

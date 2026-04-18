@@ -1,14 +1,8 @@
-# 4. Use AWS Cognito Across All Environments (Production and Development)
-
-**Date:** 2025-10-27  
-**Updated:** 2025-01-27
+# 0004. Use AWS Cognito Across All Environments (Production and Development)
 
 **Status:** Accepted
-
-**Context:** Continuation of ADR-0003 (Auth) — refines approach for authentication, authorization etc
-after investigation into various development tools and cost analysis
-
----
+**Date:** 2025-10-27
+**Context:** Continuation of ADR-0003 (Auth); unified Cognito across environments after development tooling and cost analysis.
 
 ## **Context**
 
@@ -128,11 +122,5 @@ We will adopt the following strategy:
 
 This ADR ensures that authentication is consistent, secure, and cost-effective across all environments,
 while providing full functionality without expensive development tools.
-
----
-
-**Decision Owner:** CTO / Architecture Team
-
-**Review Cycle:** Revisit if product roadmap requires custom user workflows, enterprise federation, or multi-region identity.
 
 ---

@@ -1,12 +1,8 @@
-# **ADR-0003: Authentication and User Management Approach**
-
-**Date:** 2025-10-08
+# 0003. Authentication and User Management Approach
 
 **Status:** Accepted
-
-**Context:** Continuation of ADR-001 (Quarkus adoption) — defines approach for authentication, authorization, and user data management.
-
----
+**Date:** 2025-10-08
+**Context:** Continuation of ADR-0002 (Quarkus adoption); defines authentication, authorization, and user data management.
 
 ## **Context**
 
@@ -100,11 +96,5 @@ If business needs require:
 * Introduces external dependency (Cognito availability, cost model).
 * Requires internet connectivity for development (vs local emulation).
 * Less direct control over user-table schema and credential policies.
-
----
-
-**Decision Owner:** CTO / Architecture Team
-
-**Review Cycle:** Revisit if product roadmap requires custom user workflows, enterprise federation, or multi-region identity.
 
 ---
