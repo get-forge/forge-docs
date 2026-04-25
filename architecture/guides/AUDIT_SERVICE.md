@@ -1,8 +1,4 @@
-# Audit Service Design
-
-**Status:** Phase 1 complete (local with Postgres).
-See `libs/audit`, `services/audit-service`, and `@AuditEvent` usages in auth-service and
-notification-service for current implementation.
+# Audit service
 
 Cross-cutting, annotation-driven audit logging for Quarkus microservices.
 Structured events are emitted and, in production, will flow via AWS EventBridge to a central audit
@@ -10,18 +6,6 @@ pipeline (aligned with [centralized alerting][audit-centralized-alerting]).
 Minimal business-logic impact: annotate methods; an interceptor and publisher handle capture and delivery.
 
 [audit-centralized-alerting]: https://awsfundamentals.com/blog/build-centralized-alerting-across-your-organization-with-cloudwatch-eventbridge-lambda-and-cdk
-
----
-
-## Design checklist
-
-- [x] Annotation, interceptor, and event contract (library API).
-- [x] Publisher and ingest API (direct HTTP to audit-service).
-- [x] Pluggable dispatchers (HTTP today; no-op/eventbridge configurable; EventBridge impl later).
-- [ ] Audit-service EventBridge consumer and optional observability account.
-- [x] Align with existing patterns (LogMethodEntry in forge-kit, notification fire-and-forget).
-
----
 
 ## Current implementation (summary)
 
@@ -80,7 +64,7 @@ directly; the interceptor and publisher stay the same; only the dispatcher imple
 (e.g. `audit.dispatcher.type=eventbridge`).
 EventBridge rules deliver events to a target (SQS, Lambda, API Destination) in the same or a central
 account; audit-service (or a consumer in the central account) persists.
-The app never "calls back" to audit-service in that path. “calls back” to audit-service in that path.
+The app never calls back to audit-service in that path.
 
 | Path        | Emitting service sends to | Where audit-service runs |
 |------------|----------------------------|---------------------------|
@@ -114,4 +98,4 @@ The app never "calls back" to audit-service in that path. “calls back” to au
 
 - Cross-cutting: forge-kit `LogMethodEntry`, `LogMethodEntryInterceptor`; `libs/security` interceptors.
 - Centralized alerting: [Build Centralized Alerting with CloudWatch, EventBridge, Lambda, and CDK](https://awsfundamentals.com/blog/build-centralized-alerting-across-your-organization-with-cloudwatch-eventbridge-lambda-and-cdk).
-- Platform: [COMMERCIAL_PLATFORM_SERVICES.md](COMMERCIAL_PLATFORM_SERVICES.md). Notification pattern: ADR [0015](../architecture/decisions/0015-notification-service-fire-and-forget-pattern.md).
+- Notification pattern: [ADR 0015](../decisions/0015-notification-service-fire-and-forget-pattern.md).
