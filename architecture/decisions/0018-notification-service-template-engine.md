@@ -7,7 +7,7 @@
 ## **Context**
 
 The Notification Service requires a template engine to render notifications (email, SMS, push) with variable substitution. Templates need to:
-- Support variable substitution (e.g., `{{firstName}}`, `{{activationLink}}`)
+- Support variable substitution (e.g., {% raw %}`{{firstName}}`, `{{activationLink}}`{% endraw %})
 - Support HTML and text formats
 - Handle loops and conditionals for complex templates
 - Scale to high throughput (thousands of notifications per minute)
@@ -15,7 +15,7 @@ The Notification Service requires a template engine to render notifications (ema
 
 **Template Engine Options Considered:**
 
-1. **Simple String Replacement** - Custom `{{variable}}` replacement
+1. **Simple String Replacement** - Custom {% raw %}`{{variable}}`{% endraw %} replacement
    - Pros: Simple, no dependencies
    - Cons: Limited functionality, hard to maintain for complex logic (loops, conditionals), no validation
 
@@ -145,6 +145,8 @@ String rendered = Qute.fmt(template.getHtmlBody())
 
 ### **Template Syntax Example:**
 
+{% raw %}
+
 ```html
 <!DOCTYPE html>
 <html>
@@ -166,6 +168,8 @@ String rendered = Qute.fmt(template.getHtmlBody())
 </body>
 </html>
 ```
+
+{% endraw %}
 
 ### **Integration Points:**
 
