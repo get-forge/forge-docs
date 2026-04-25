@@ -1,34 +1,12 @@
-# Notification Service
+# Notification service
 
-**Status:** Phase 1 & 2 complete (SES SNS webhook remaining). See [Remaining Work (Todo)](#remaining-work-todo).
+Centralized notification delivery: email (AWS SES), templates, delivery tracking, unsubscribe handling,
+and processing with retries. The API is fire-and-forget (acceptance is not final delivery).
+See
+[`services/notification-service/README.md`](https://github.com/get-forge/forge-platform/blob/main/services/notification-service/README.md)
+for module entry points.
 
-Centralized notification delivery: email (SES), templates (DynamoDB + Qute), delivery tracking,
-unsubscribe, priority-based processing and retries.
-Fire-and-forget API (201 = accepted, not delivered).
-LocalStack for local dev.
-**Code is the source of truth**; this doc only covers implementation status and specs needed for
-future features.
-
----
-
-## Implementation Status
-
-- **Phase 1 (MVP – Email):** Complete. See git history.
-- **Phase 2 (Tracking & Retries):** Complete except SES SNS webhook. See git history.
-
----
-
-## Remaining Work (Todo)
-
-1. **SES SNS webhook** – See [implementation spec](#ses-sns-webhook--implementation-spec) below.
-2. **SMS** – AWS SNS or Twilio (Phase 3).
-3. **Push** – FCM/APNS (Phase 3).
-4. **Template versioning, scheduled notifications, batch sending, SQS integration** (Phase 3).
-5. **Multi-language, A/B testing, analytics, delivery preferences, per-tenant rate limiting, template marketplace** (Phase 4).
-
----
-
-## SES SNS Webhook – Implementation Spec
+## SES SNS webhook (spec)
 
 **Endpoint:** **POST** `/notifications/webhooks/ses` — raw SNS JSON body.
 Return **200 OK** for all valid requests (including subscription confirmations and unknown message IDs).
@@ -102,13 +80,9 @@ or run `awslocal ses verify-email-identity` for a custom `notification.ses.from-
 ## References
 
 - ADRs:
-  - [0015](../architecture/decisions/0015-notification-service-fire-and-forget-pattern.md)
-    (fire-and-forget)
-  - [0016](../architecture/decisions/0016-notification-service-rate-limiting-strategy.md)
-    (rate limiting)
-  - [0017](../architecture/decisions/0017-notification-service-template-implementation.md)
-    (templates)
-  - [0018](../architecture/decisions/0018-notification-service-template-engine.md) (Qute)
-  - [0019](../architecture/decisions/0019-notification-service-unsubscribe-token-security.md)
-    (unsubscribe tokens)
+  - [0015](../decisions/0015-notification-service-fire-and-forget-pattern.md) (fire-and-forget)
+  - [0016](../decisions/0016-notification-service-rate-limiting-strategy.md) (rate limiting)
+  - [0017](../decisions/0017-notification-service-template-implementation.md) (templates)
+  - [0018](../decisions/0018-notification-service-template-engine.md) (Qute)
+  - [0019](../decisions/0019-notification-service-unsubscribe-token-security.md) (unsubscribe tokens)
 - [AWS SES](https://docs.aws.amazon.com/ses/) · [LocalStack SES](https://docs.localstack.cloud/aws/services/ses)

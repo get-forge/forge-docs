@@ -1,8 +1,11 @@
-# Service-to-Service Authentication Explained
+# Service authentication
 
-## Current Architecture (User Token Forwarding)
+User login, Cognito form auth, and LinkedIn: [USER_AUTHENTICATION.md](USER_AUTHENTICATION.md).
+
+## Current architecture (user token forwarding)
 
 **How it works now:**
+
 ```
 Frontend User → Gets JWT token (user identity)
      ↓
@@ -39,6 +42,7 @@ actor-service → Validates user JWT (knows it's from a user)
 - Current system: Can't make service calls without a user token
 
 **Example:**
+
 ```java
 // This won't work - no user token available
 @Scheduled(every = "1 day")
@@ -55,6 +59,7 @@ void cleanupOldResumes() {
 - You can't say "only document-service is allowed to call parse-service"
 
 **Example:**
+
 ```
 document-service → parse-service ✅ (should work)
 backend-actor → parse-service ❌ (should be blocked, but currently can't)
@@ -72,6 +77,7 @@ attacker → parse-service ❌ (should be blocked, but currently can't distingui
 4. Service JWTs contain service identity claims (e.g., `service_id: "document-service"`)
 
 **Service Calls:**
+
 ```
 document-service → Authenticates with Cognito → Gets service JWT
      ↓
@@ -150,18 +156,7 @@ parse-service → Can check: "Is the caller document-service?" → ✅ Authorize
 - Other services can't call admin endpoints even with valid user tokens
 - Fine-grained service-level authorization
 
-## Implementation Status
-
-**✅ IMPLEMENTED** - Service-to-service authentication is now fully implemented.
-
-**What you have:**
-- ✅ User authentication (users get JWTs)
-- ✅ Token forwarding (services forward user JWTs)
-- ✅ Token validation (services validate JWTs)
-- ✅ Service identity (services authenticate with Cognito to get service JWTs)
-- ✅ Service authorization (can restrict calls to specific services with `@AllowedServices`)
-
-## Implementation Details
+## Implementation details
 
 ### Service Accounts
 
@@ -179,9 +174,9 @@ Service accounts are created in Cognito using the seed script (`scripts/aws/sand
    ↓
 3. Service makes REST client call
    ↓
-4. JwtClientRequestFilter runs → forwards user token if present
+4. `UserTokenClientRequestFilter` runs → forwards user token if present
    ↓
-5. ServiceTokenClientRequestFilter runs → adds service token if no user token
+5. `ServiceTokenClientRequestFilter` runs → adds service token if no user token
    ↓
 6. Receiving service receives request with service JWT
    ↓

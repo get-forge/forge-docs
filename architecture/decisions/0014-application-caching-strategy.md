@@ -80,7 +80,7 @@ Implement a **three-phase caching strategy** using Quarkus Cache:
 
 - **Cost Optimization** - Single ElastiCache cluster serves caching + rate limiting
 - **Operational Simplicity** - One infrastructure component to manage
-- **Synergy** - Rate limiting already planned for Redis backend (see ADR/ARCHITECTURAL_IMPROVEMENTS.md section 1.3)
+- **Synergy** - Future distributed rate limiting (tracked on the private product roadmap in the main repository)
 
 ### **Why These Use Cases**
 
