@@ -1,8 +1,9 @@
 # Platform features (technical)
 
 A capability-led view of what Forge offers engineers and operators—**what you get**, not how the wiring
-is done. Deeper how-to material is in the [Guides](../README.md#guides) section of
-the [documentation index](../README.md).
+is done. Deeper how-to material is in the
+[In-depth guides](../README.md#in-depth-guides) section of the [documentation index](../README.md). For
+Architecture Decision Records, see [ADRs.md](ADRs.md).
 
 ## Engineering base
 
