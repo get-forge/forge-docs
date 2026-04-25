@@ -1,4 +1,6 @@
-# Authentication Architecture
+# User authentication
+
+OIDC package notes and LinkedIn flow details: [`services/auth-service/.../oidc/README.md`](https://github.com/get-forge/forge-platform/blob/main/services/auth-service/src/main/java/io/forge/services/auth/oidc/README.md).
 
 ## Overview
 
@@ -165,35 +167,11 @@ All REST endpoints use JWT-based authentication supporting both user and service
    - Throws `AuthenticationException` if service is not authorized
    - Returns 403 Forbidden response
 
-### Service-to-Service Authentication Flow
+### Service authentication (overview)
 
-```
-1. Service starts up
-   ↓
-2. CachingServiceTokenProvider initializes (if credentials configured)
-   ↓
-3. Service makes REST client call
-   ↓
-4. UserTokenClientRequestFilter runs → forwards user token if present
-   ↓
-5. ServiceTokenClientRequestFilter runs → adds service token if no user token
-   ↓
-6. Receiving service receives request with service JWT
-   ↓
-7. JwtAuthenticationFilter validates token → detects custom:service_id claim
-   ↓
-8. Stores authenticatedServiceId in request context
-   ↓
-9. ServiceTokenAuthorizationInterceptor checks @AllowedServices annotation
-   ↓
-10. Request proceeds if service is authorized ✅
-```
-
-**Key Points:**
-- User tokens take precedence (forwarded first by `UserTokenClientRequestFilter`)
-- Service tokens are used when no user token is present
-- Service tokens are automatically cached and refreshed
-- Service-level authorization is enforced via `@AllowedServices` annotation
+Service accounts, service JWTs, client filters, and `@AllowedServices` are covered in
+[SERVICE_AUTHENTICATION.md](SERVICE_AUTHENTICATION.md) (this document focuses on user-facing and
+BFF auth flows).
 
 ### Frontend UI Modules
 
@@ -231,11 +209,12 @@ Frontend applications handle authentication client-side:
 - **`TokenStore`**: Generates temporary tokens for OIDC flows
 - **`CognitoServiceAuthenticationProvider`**: Authenticates services with Cognito using service account credentials
 
-### Backend Candidate (`application/backend-actor`)
+### BFF (`applications/backend-actor`)
 
 - **`AuthController`**: Proxies authentication requests to auth-service
-- **`CandidateController`**: Protected candidate endpoints
-- **`ResumeController`**: Protected resume upload endpoints
+- **`ActorController`**: Actor profile endpoints
+- **`DocumentController`**: Document endpoints
+- **`LinkedInController`**: LinkedIn-related BFF routes
 
 ## Configuration
 
@@ -260,30 +239,19 @@ Frontend applications handle authentication client-side:
 
 The system uses Quarkus OIDC multi-tenant configuration for OAuth2 flows.
 
-#### AWS Cognito (Default Tenant)
+#### AWS Cognito (default tenant)
 
-```properties
-quarkus.oidc.tenant-enabled=true
-quarkus.oidc.auth-server-url=https://cognito-idp.${aws.region}.amazonaws.com/${cognito.actor.user-pool-id}
-quarkus.oidc.client-id=${cognito.actor.client-id}
-quarkus.oidc.credentials.secret=${cognito.actor.client-secret}
-quarkus.oidc.application-type=service
-quarkus.oidc.authentication.scopes=openid,profile,email
-```
+Authoritative copy:
+[`config/src/main/resources/oidc.properties`](https://github.com/get-forge/forge-platform/blob/main/config/src/main/resources/oidc.properties).
+In short: `application-type=service` - no Quarkus OIDC authorization-code redirect; human login
+is `POST /auth/login` (Cognito `InitiateAuth`); API JWT validation uses the security stack
+(`CompositeTokenValidator` / `TokenAuthenticationFilter`), not a browser redirect to Cognito.
 
-#### LinkedIn (Named Tenant)
+#### LinkedIn (named tenant)
 
-LinkedIn tenant is disabled (`tenant-enabled=false`) because LinkedIn OAuth2 is handled manually via custom
-resources, not using Quarkus OIDC's automatic flow.
-
-```properties
-quarkus.oidc.linkedin.tenant-enabled=false
-quarkus.oidc.linkedin.application-type=service
-quarkus.oidc.linkedin.discovery-enabled=false
-quarkus.oidc.linkedin.auth-server-url=https://www.linkedin.com
-quarkus.oidc.linkedin.client-id=${LINKEDIN_OAUTH2_CLIENT_ID:}
-quarkus.oidc.linkedin.credentials.secret=${LINKEDIN_OAUTH2_CLIENT_SECRET:}
-```
+`quarkus.oidc.linkedin.tenant-enabled=false`. LinkedIn OAuth2 uses custom JAX-RS resources under
+`services/auth-service/.../oidc/linkedin/`, not the Quarkus OIDC redirect flow. Remaining
+`quarkus.oidc.linkedin.*` properties are read via `@ConfigProperty` where needed.
 
 ### Multi-Tenant Resolution
 
@@ -354,12 +322,12 @@ The authentication system implements a zero-trust security model where:
 ## Implementation Guide
 
 For detailed implementation instructions, see:
-- **Backend**: [libs/security/README.md](../../libs/security/README.md#rest-endpoint-security)
-- **Frontend**: [libs/security/README.md](../../libs/security/README.md#frontend-ui-module-security)
+- **Backend**: [libs/security/README.md](https://github.com/get-forge/forge-platform/blob/main/libs/security/README.md#rest-endpoint-security)
+- **Frontend**: [libs/security/README.md](https://github.com/get-forge/forge-platform/blob/main/libs/security/README.md#frontend-ui-module-security)
 
 ## References
 
 - [ADR-0011: Stateless JWT Authentication](../decisions/0011-stateless-jwt-authentication.md)
 - [ADR-0003: Authentication and User Management Approach](../decisions/0003-authentication-and-user-management-approach.md)
 - [ADR-0004: Use AWS Cognito Across All Environments](../decisions/0004-use-aws-cognito-across-all-environments.md)
-- [Security Library README](../../libs/security/README.md)
+- [Security Library README](https://github.com/get-forge/forge-platform/blob/main/libs/security/README.md)
