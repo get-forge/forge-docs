@@ -260,6 +260,8 @@ Kill any running Quarkus server processes:
 task quarkus:kill
 ```
 
+For the complete task index, see [CHEATSHEET.md](CHEATSHEET.md).
+
 ## Troubleshooting
 
 ### Basic Checks

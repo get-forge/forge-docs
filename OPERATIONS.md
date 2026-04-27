@@ -20,7 +20,8 @@ For a compact task index, see [CHEATSHEET.md](CHEATSHEET.md).
 ## GitHub Setup
 
 Forge Platform pipelines run on free tier GitHub plans.  
-All workflows run in under 10 minutes. Paid business plans will allow you to optimize runners and reduce build times further.
+Most workflows complete in a few minutes, with all workflows currently completing in under 10 minutes.
+Paid business plans will allow you to optimize runners and reduce build times further.
 
 ### 1. Setup AWS IAM resources for GitHub Actions OIDC
 
@@ -72,14 +73,19 @@ If you wish to retain frontend ability to 'Login with LinkedIn' you must specify
 
 ## AWS Setup
 
-Forge Platform development makes extensive use of LocalStack (Docker).
-AWS Cognito is unsupported in LocalStack however and requires AWS proper; this is available on AWS free tier.
-
-### 1. Development Environment `forge-sandbox` profile
-
 Because AWS environments vary widely across clients — especially in enterprise contexts — this project relies on a
 minimal, profile-based configuration (access key, secret, and region) to avoid imposing assumptions about account
 structure, IAM policies, or organizational setup.
+
+For greenfield teams or startups without established AWS conventions, it is recommended to bootstrap your AWS
+environments using [Superwerker](https://github.com/superwerker/superwerker), developed by AWS Advanced Partners.
+Superwerker provides a well-architected baseline with sensible defaults around multi-account structure, security
+boundaries, and blast radius management.
+
+Forge Platform development makes extensive use of LocalStack (Docker).
+AWS Cognito is unsupported in LocalStack however, and requires AWS proper; this is available on AWS free tier.
+
+### 1. Development Environment `forge-sandbox` profile
 
 In `~/.aws/credentials`, add a profile named `forge-sandbox` with the following contents:
 
@@ -89,11 +95,6 @@ aws_access_key_id=********************
 aws_secret_access_key=********************
 region=us-west-2
 ```
-
-For greenfield teams or startups without established AWS conventions, it is recommended to bootstrap your AWS
-environments using [Superwerker](https://github.com/superwerker/superwerker), developed by AWS Advanced Partners.
-Superwerker provides a well-architected baseline with sensible defaults around multi-account structure, security
-boundaries, and blast radius management.
 
 ---
 
