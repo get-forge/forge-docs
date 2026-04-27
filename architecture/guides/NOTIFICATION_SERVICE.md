@@ -69,7 +69,7 @@ Security: `@PermitAll`; authenticity via SNS signature verification only.
 
 ## LocalStack (minimal)
 
-- Start LocalStack; the notification service registers the configured from-address (default `noreply@<domain.rootZone>`) in dev,
+- Start LocalStack; the notification service registers the configured from-address (default `noreply@<domainRoot>`) in dev,
 or run `awslocal ses verify-email-identity` for a custom `notification.ses.from-email`.
   Set `aws.ses.endpoint` to LocalStack.
   Inspect sent emails: `curl http://localhost:4566/_aws/ses`.
