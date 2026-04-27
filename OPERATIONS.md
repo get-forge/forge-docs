@@ -66,7 +66,7 @@ Optional secrets:
 If you wish to retain frontend ability to 'Login with LinkedIn' you must specify:
 - `LINKEDIN_OAUTH2_CLIENT_ID` - LinkedIn Oauth2 client ID; see [LinkedIn - OAUTH 2.0 Overview](https://learn.microsoft.com/en-gb/linkedin/shared/authentication/authentication)
 - `LINKEDIN_OAUTH2_CLIENT_SECRET` - LinkedIn Oauth2 client secret
-- `LINKEDIN_REFRESH_TOKEN_ENCRYPTION_KEY` - Encryption key for LinkedIn refresh token
+- `FORGE_OAUTH2_REFRESH_TOKEN_ENCRYPTION_KEY` - Encryption key for OAuth2 refresh token encryption
 
 ---
 

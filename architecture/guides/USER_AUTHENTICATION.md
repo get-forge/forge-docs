@@ -8,7 +8,8 @@ The Forge platform uses **fully stateless JWT-based authentication** across all 
 authentication flows return JWT tokens that are stored client-side and included in API requests via the
 `Authorization` header.
 
-See [ADR-0011: Stateless JWT Authentication](../decisions/0011-stateless-jwt-authentication.md) for the architectural decision.
+See [ADR-0011: Stateless JWT Authentication](../decisions/0011-stateless-jwt-authentication.md) for the architectural
+decision.
 
 ## Architecture Principles
 
@@ -64,7 +65,8 @@ email and password, which use form-based login only.
 3. `LinkedInLoginRedirectResource` constructs OAuth2 authorization URL and redirects to LinkedIn
 4. User authenticates with LinkedIn
 5. LinkedIn redirects back to `/auth/linkedin/login/callback` with authorization code
-6. `LinkedInLoginCallbackResource` manually exchanges code for access token (LinkedIn doesn't support Quarkus OIDC's default flow)
+6. `LinkedInLoginCallbackResource` manually exchanges code for access token (LinkedIn doesn't support Quarkus OIDC's
+   default flow)
 7. Callback resource calls LinkedIn user info endpoint
 8. User info mapped to `AuthUser` domain model
 9. Temporary token generated via `TokenStore`, user redirected to UI with token
@@ -115,6 +117,7 @@ generation.
 These tokens provide an additional security layer:
 
 **How It Works**:
+
 1. After OAuth callback, `TokenStore.generateToken()` creates a cryptographically secure random token (32-byte UUID)
 2. Token is stored in cache with `AuthIdentity` (TTL: 5 minutes)
 3. User is redirected to frontend callback page with token in URL query parameter
@@ -124,6 +127,7 @@ These tokens provide an additional security layer:
 7. Cognito JWT tokens are generated and returned to frontend
 
 **Security Benefits**:
+
 - ✅ **Single-Use**: Tokens cannot be replayed after exchange
 - ✅ **Short-Lived**: Tokens expire after 5 minutes (cache TTL)
 - ✅ **Secure Random**: Tokens are cryptographically secure (32 bytes of entropy)
@@ -132,12 +136,14 @@ These tokens provide an additional security layer:
 - ✅ **Prevents Token Replay**: Even if token is intercepted, it can only be used once
 
 **Cache Implementation**:
+
 - Uses Quarkus Cache API with `ServiceTokenCacheKeyGenerator`
 - Cache key format: `service-token:${token}`
 - Cache operations: `put` (store), `get` (retrieve), `invalidate` (remove)
 - All operations logged at DEBUG level for audit trail
 
 **Why Not Direct JWT Generation?**:
+
 - OAuth callbacks happen server-side (auth-service), but JWTs need to be delivered to frontend
 - Temporary tokens allow secure handoff between server-side OAuth flow and client-side token storage
 - Prevents exposing long-lived JWTs in redirect URLs
@@ -148,24 +154,24 @@ These tokens provide an additional security layer:
 All REST endpoints use JWT-based authentication supporting both user and service tokens:
 
 1. **TokenAuthenticationFilter** (automatic):
-   - Intercepts all JAX-RS requests
-   - Checks for `Authorization: Bearer <token>` header
-   - Validates JWT token using `TokenValidator`
-   - Detects service tokens (via `custom:service_id` claim) or user tokens
-   - Sets authenticated `User` or `authenticatedServiceId` in request context if valid
+    - Intercepts all JAX-RS requests
+    - Checks for `Authorization: Bearer <token>` header
+    - Validates JWT token using `TokenValidator`
+    - Detects service tokens (via `custom:service_id` claim) or user tokens
+    - Sets authenticated `User` or `authenticatedServiceId` in request context if valid
 
 2. **AuthenticatedInterceptor** (automatic):
-   - Intercepts methods annotated with `@Secured`
-   - Checks request context for authenticated user
-   - Throws `AuthenticationException` if no user found
-   - Returns 401 Unauthorized response
+    - Intercepts methods annotated with `@Secured`
+    - Checks request context for authenticated user
+    - Throws `AuthenticationException` if no user found
+    - Returns 401 Unauthorized response
 
 3. **ServiceTokenAuthorizationInterceptor** (automatic):
-   - Intercepts methods annotated with `@AllowedServices`
-   - Checks request context for authenticated service ID
-   - Verifies service ID is in the allowed list
-   - Throws `AuthenticationException` if service is not authorized
-   - Returns 403 Forbidden response
+    - Intercepts methods annotated with `@AllowedServices`
+    - Checks request context for authenticated service ID
+    - Verifies service ID is in the allowed list
+    - Throws `AuthenticationException` if service is not authorized
+    - Returns 403 Forbidden response
 
 ### Service authentication (overview)
 
@@ -220,20 +226,20 @@ Frontend applications handle authentication client-side:
 
 ### Environment Variables
 
-| Variable                           | Description                                                 | Default |
-|------------------------------------|-------------------------------------------------------------|---------|
-| `COGNITO_ACTOR_POOL_ID`            | AWS Cognito actor pool ID (for job seekers)                 | - |
-| `COGNITO_ACTOR_CLIENT_ID`          | AWS Cognito actor client ID                                 | - |
-| `COGNITO_ACTOR_CLIENT_SECRET`      | AWS Cognito actor client secret                             | - |
-| `COGNITO_SERVICE_POOL_ID`          | AWS Cognito service pool ID (for service accounts)          | - |
-| `COGNITO_SERVICE_CLIENT_ID`        | AWS Cognito service client ID                               | - |
-| `COGNITO_SERVICE_CLIENT_SECRET`    | AWS Cognito service client secret                           | - |
-| `COGNITO_SERVICE_ACCOUNT_USERNAME` | Service account username (e.g., `service-document-service`) | - |
-| `COGNITO_SERVICE_ACCOUNT_PASSWORD` | Service account password                                    | - |
-| `AWS_REGION`                       | AWS region                                                  | `us-west-2` |
-| `LINKEDIN_OAUTH2_CLIENT_ID`        | LinkedIn OAuth2 client ID (from LinkedIn developer app)     | - |
-| `LINKEDIN_OAUTH2_CLIENT_SECRET`    | LinkedIn OAuth2 client secret (from LinkedIn developer app) | - |
-| `LINKEDIN_REFRESH_TOKEN_ENCRYPTION_KEY` | Base64 AES-256 key for encrypting stored LinkedIn refresh tokens (app-generated; not from LinkedIn) | - |
+| Variable                                    | Description                                                                                              | Default     |
+|---------------------------------------------|----------------------------------------------------------------------------------------------------------|-------------|
+| `COGNITO_ACTOR_POOL_ID`                     | AWS Cognito actor pool ID (for job seekers)                                                              | -           |
+| `COGNITO_ACTOR_CLIENT_ID`                   | AWS Cognito actor client ID                                                                              | -           |
+| `COGNITO_ACTOR_CLIENT_SECRET`               | AWS Cognito actor client secret                                                                          | -           |
+| `COGNITO_SERVICE_POOL_ID`                   | AWS Cognito service pool ID (for service accounts)                                                       | -           |
+| `COGNITO_SERVICE_CLIENT_ID`                 | AWS Cognito service client ID                                                                            | -           |
+| `COGNITO_SERVICE_CLIENT_SECRET`             | AWS Cognito service client secret                                                                        | -           |
+| `COGNITO_SERVICE_ACCOUNT_USERNAME`          | Service account username (e.g., `service-document-service`)                                              | -           |
+| `COGNITO_SERVICE_ACCOUNT_PASSWORD`          | Service account password                                                                                 | -           |
+| `AWS_REGION`                                | AWS region                                                                                               | `us-west-2` |
+| `LINKEDIN_OAUTH2_CLIENT_ID`                 | LinkedIn OAuth2 client ID (from LinkedIn developer app)                                                  | -           |
+| `LINKEDIN_OAUTH2_CLIENT_SECRET`             | LinkedIn OAuth2 client secret (from LinkedIn developer app)                                              | -           |
+| `FORGE_OAUTH2_REFRESH_TOKEN_ENCRYPTION_KEY` | Base64 AES-256 key for encrypting stored OAuth2 refresh tokens (app-generated; not from OAuth providers) | -           |
 
 ### OIDC Configuration
 
@@ -241,8 +247,7 @@ The system uses Quarkus OIDC multi-tenant configuration for OAuth2 flows.
 
 #### AWS Cognito (default tenant)
 
-Authoritative copy:
-[`config/src/main/resources/oidc.properties`](https://github.com/get-forge/forge-platform/blob/main/config/src/main/resources/oidc.properties).
+Authoritative copy: [`config/src/main/resources/oidc.properties`](https://github.com/get-forge/forge-platform/blob/main/config/src/main/resources/oidc.properties).
 In short: `application-type=service` - no Quarkus OIDC authorization-code redirect; human login
 is `POST /auth/login` (Cognito `InitiateAuth`); API JWT validation uses the security stack
 (`CompositeTokenValidator` / `TokenAuthenticationFilter`), not a browser redirect to Cognito.
@@ -322,8 +327,11 @@ The authentication system implements a zero-trust security model where:
 ## Implementation Guide
 
 For detailed implementation instructions, see:
-- **Backend**: [libs/security/README.md](https://github.com/get-forge/forge-platform/blob/main/libs/security/README.md#rest-endpoint-security)
-- **Frontend**: [libs/security/README.md](https://github.com/get-forge/forge-platform/blob/main/libs/security/README.md#frontend-ui-module-security)
+
+- **Backend
+  **: [libs/security/README.md](https://github.com/get-forge/forge-platform/blob/main/libs/security/README.md#rest-endpoint-security)
+- **Frontend
+  **: [libs/security/README.md](https://github.com/get-forge/forge-platform/blob/main/libs/security/README.md#frontend-ui-module-security)
 
 ## References
 
