@@ -244,10 +244,8 @@ to each decision can be found in **[architecture/ADRs.md](architecture/ADRs.md)*
 
 ---
 
-## Onboarding and operations runbooks
+## Operational documentation (post-fork / deployment reference)
 
-- [README.md](https://github.com/get-forge/forge-platform/blob/main/README.md) — first screen on GitHub; fork and setup narrative
 - [DEVELOPMENT.md](DEVELOPMENT.md) — local dev, tooling, licence, Quarkus
 - [OPERATIONS.md](OPERATIONS.md) — GitHub OIDC, Actions, CDK, AWS/LocalStack
 - [CHEATSHEET.md](CHEATSHEET.md) — `task` index and copy-paste
-- [infra/README.md](https://github.com/get-forge/forge-platform/blob/main/infra/README.md) — CDK layout and entry points
