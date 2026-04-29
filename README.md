@@ -5,12 +5,12 @@
 
 The [Forge Platform](https://forgeplatform.software/) consists of the following discreet repositories:
 
-| Repository                                                    | Visibility | Description                                                                                         |
-|---------------------------------------------------------------|------------|-----------------------------------------------------------------------------------------------------|
-| [forge-kit](https://github.com/get-forge/forge-kit)           | Public     | Infrastructure components for Quarkus services: rate limiting, metrics, health checks.              |
-| [forge-core](https://github.com/get-forge/forge-core)         | Private    | A zero-trust, horizontally scalable microservices platform built with Quarkus, and deployed on AWS. |
-| [forge-platform](https://github.com/get-forge/forge-platform) | Private    | A filtered mirror of `forge-core` that clients will fork, own and run with a licence.               |
-| [forge-docs](https://github.com/get-forge/forge-docs)         | Public     | This public documentation repository.                                                               |
+| Repository                                            | Visibility | Description                                                                                         |
+|-------------------------------------------------------|------------|-----------------------------------------------------------------------------------------------------|
+| [forge-kit](https://github.com/get-forge/forge-kit)   | Public     | Infrastructure components for Quarkus services: rate limiting, metrics, health checks.              |
+| `forge-core`                                          | Private    | A zero-trust, horizontally scalable microservices platform built with Quarkus, and deployed on AWS. |
+| `forge-platform`                                      | Private    | A filtered mirror of `forge-core` that clients will fork, own and run with a licence.               |
+| [forge-docs](https://github.com/get-forge/forge-docs) | Public     | This public documentation repository.                                                               |
 
 `forge-kit` is open-source and a limited but useful showcase of operational best practices that anyone can re-use with
 existing Quarkus services. It is also a working dependency of `forge-core`.
@@ -20,8 +20,9 @@ existing Quarkus services. It is also a working dependency of `forge-core`.
 ---
 
 ## How it works
+
 - You purchase a Forge Platform licence file from the [Forge Platform website](https://forgeplatform.software/#pricing).
-- Your organization is added as a Contributor, so you can fork the [forge-platform](https://github.com/get-forge/forge-platform) repository.
+- Your organization is added as a Contributor, so you can fork the `forge-platform` repository.
 - You then own and develop that forked codebase.
 - You provision the provided CI/CD workflows in your own GitHub account (works in free tier GitHub Actions).
 - You deploy the platform to your own AWS accounts (development works in free tier AWS).
@@ -35,16 +36,19 @@ existing Quarkus services. It is also a working dependency of `forge-core`.
 
 Out of the box, the Forge Platform provides you with the following:
 
-- A development environment built predominantly on free tier LocalStack that emulates AWS in full and spins up in seconds.
+- A development environment built predominantly on free tier LocalStack that emulates AWS in full and spins up in
+  seconds.
 
 [![Local services](assets/forge-services-local.png)](assets/forge-services-local.png)
 
-- An entire GitHub Actions pipeline which includes release automation; ECS deployments (diffed services only); infrastructure
-  deployments (CDK); static code analysis (OWASP, SpotBugs, etc); code coverage, unit/integration test reports, and more.
+- An entire GitHub Actions pipeline which includes release automation; ECS deployments (diffed services only);
+  infrastructure deployments (CDK); static code analysis (OWASP, SpotBugs, etc); code coverage, unit/integration
+  test reports, and more.
 
 [![GitHub Actions workflows](assets/forge-github-workflows.png)](assets/forge-github-workflows.png)
 
-- Full IaC support and repeatable automation for AWS environments, including thoughtful segregation of stateful vs stateless resources.
+- Full IaC support and repeatable automation for AWS environments, including thoughtful segregation of stateful vs
+  stateless resources.
 
 [![AWS CloudFormation stacks](assets/forge-sandbox-aws-cloudformation.png)](assets/forge-sandbox-aws-cloudformation.png)
 
@@ -63,7 +67,7 @@ Out of the box, the Forge Platform provides you with the following:
   </a>
 </p>
 
-- The following foundational services provide the base for you to build domain services (e.g. search, quote, booking, etc.):
+- The following foundational services provide the base for you to build domain services on top of:
   - actor-service; canonical user profile and identity-linked domain data
   - audit-service; immutable event and action trail for compliance and observability
   - auth-service; JWT issuance, validation, and user/service authentication workflows
@@ -96,7 +100,6 @@ For the complete list of platform features, see the [FEATURES.md](architecture/F
 ## Build vs. Buy
 
 Forge exists to remove a class of problems that most teams eventually end up solving themselves.
-
 You can build this platform internally. Many teams do. But in practice, that path comes with trade-offs:
 
 ### Time
@@ -165,7 +168,8 @@ The operating model prioritizes:
 - clear system reasoning
 - alignment with modern service deployment practices
 
-At a high level, Forge separates edge, services, and infrastructure concerns so each layer can scale and evolve independently.
+At a high level, Forge separates edge, services, and infrastructure concerns so each layer can scale and evolve
+independently.
 
 ### High-level architecture
 

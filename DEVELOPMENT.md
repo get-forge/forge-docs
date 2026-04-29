@@ -274,6 +274,17 @@ For the complete task index, see [CHEATSHEET.md](CHEATSHEET.md).
    - Check running Quarkus servers: `task quarkus:status`
    - Kill conflicting processes: `task quarkus:kill`
 
+### Maven Build Errors
+
+1. **Build cache**
+   - The [Maven build cache extension](https://maven.apache.org/extensions/maven-build-cache-extension/) is implemented to improve build times
+   - This can be unreliable and produce maven build errors, however
+   - It is generally resolved with the following clean build command, which stops the maven daemon and clears the cache:
+
+```bash
+task build:nuke build:clean build:install
+```
+
 ## Useful Debugging Commands
 
 ### LocalStack
