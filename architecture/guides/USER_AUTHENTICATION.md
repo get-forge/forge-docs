@@ -24,7 +24,7 @@ decision.
 ### Form-Based Login (Primary)
 
 ```
-Frontend → POST /auth/login (backend-actor)
+Frontend → POST /auth/login (actor-bff)
          → POST /auth/login (auth-service)
          → Cognito User Pool (authenticate)
          → JWT tokens returned (accessToken, idToken, refreshToken, expiresAt)
@@ -79,7 +79,7 @@ See [Temporary Token Security](#temporary-token-security) section below.
 ### Registration
 
 ```
-Frontend → POST /auth/register (backend-actor)
+Frontend → POST /auth/register (actor-bff)
          → POST /auth/register (auth-service)
          → Cognito User Pool (create user)
          → POST /actors/register (actor-service, directly from auth-service)
@@ -91,14 +91,14 @@ Frontend → POST /auth/register (backend-actor)
 
 ### User-Initiated Requests
 
-All frontend requests route through `backend-actor` (port 8500), which proxies to appropriate services:
+All frontend requests route through `actor-bff` (port 8500), which proxies to appropriate services:
 
-- `POST /auth/login` → `backend-actor` → `auth-service`
-- `POST /auth/register` → `backend-actor` → `auth-service`
-- `POST /auth/refresh-user-token` → `backend-actor` → `auth-service`
-- `GET /auth/linkedin/login` → `backend-actor` → `auth-service` (redirect)
-- `GET /actors/{id}` → `backend-actor` → `actor-service`
-- `POST /resumes` → `backend-actor` → `document-service`
+- `POST /auth/login` → `actor-bff` → `auth-service`
+- `POST /auth/register` → `actor-bff` → `auth-service`
+- `POST /auth/refresh-user-token` → `actor-bff` → `auth-service`
+- `GET /auth/linkedin/login` → `actor-bff` → `auth-service` (redirect)
+- `GET /actors/{id}` → `actor-bff` → `actor-service`
+- `POST /resumes` → `actor-bff` → `document-service`
 
 ### Service-to-Service Requests
 
@@ -215,7 +215,7 @@ Frontend applications handle authentication client-side:
 - **`TokenStore`**: Generates temporary tokens for OIDC flows
 - **`CognitoServiceAuthenticationProvider`**: Authenticates services with Cognito using service account credentials
 
-### BFF (`applications/backend-actor`)
+### BFF (`applications/actor-bff`)
 
 - **`AuthController`**: Proxies authentication requests to auth-service
 - **`ActorController`**: Actor profile endpoints

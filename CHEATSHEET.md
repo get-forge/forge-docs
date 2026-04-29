@@ -78,7 +78,7 @@ task dev:auth
 task dev:actor
 task dev:document
 task dev:notification
-task dev:bff                                       # backend-actor BFF application
+task dev:bff                                       # actor-bff BFF application
 task dev:web                                       # web-actor static/stateless ui
 
 task quarkus:status                                # local quarkus server port contention

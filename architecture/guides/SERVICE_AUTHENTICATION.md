@@ -9,7 +9,7 @@ User login, Cognito form auth, and LinkedIn: [USER_AUTHENTICATION.md](USER_AUTHE
 ```
 Frontend User → Gets JWT token (user identity)
      ↓
-backend-actor → Forwards user JWT to actor-service
+actor-bff → Forwards user JWT to actor-service
      ↓
 actor-service → Validates user JWT (knows it's from a user)
 ```
@@ -17,7 +17,7 @@ actor-service → Validates user JWT (knows it's from a user)
 **What the receiving service knows:**
 - ✅ The token is valid (signed by Cognito)
 - ✅ Which user is making the request
-- ❌ **Which service** is making the call (could be backend-actor, could be an attacker with a stolen user token)
+- ❌ **Which service** is making the call (could be actor-bff, could be an attacker with a stolen user token)
 - ❌ Whether this is a legitimate service call or a direct user call
 
 ## The Problem: Missing Service Identity
@@ -28,10 +28,10 @@ actor-service → Validates user JWT (knows it's from a user)
 1. Attacker steals a user's JWT token (XSS, man-in-the-middle, etc.)
 2. Attacker directly calls `document-service` with the stolen user token
 3. `document-service` validates the token → ✅ Valid user token
-4. `document-service` processes the request → ❌ But it doesn't know this isn't coming from `backend-actor`
+4. `document-service` processes the request → ❌ But it doesn't know this isn't coming from `actor-bff`
 
 **Current system:** Can't distinguish between:
-- Legitimate: `backend-actor` forwarding user X's token → `document-service`
+- Legitimate: `actor-bff` forwarding user X's token → `document-service`
 - Attack: Attacker directly calling `document-service` with user X's token
 
 ### Scenario 2: Background Jobs / Scheduled Tasks
@@ -62,7 +62,7 @@ void cleanupOldResumes() {
 
 ```
 document-service → parse-service ✅ (should work)
-backend-actor → parse-service ❌ (should be blocked, but currently can't)
+actor-bff → parse-service ❌ (should be blocked, but currently can't)
 attacker → parse-service ❌ (should be blocked, but currently can't distinguish)
 ```
 
