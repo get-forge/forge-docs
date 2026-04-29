@@ -75,7 +75,7 @@ Out of the box, the Forge Platform provides you with the following:
   - notification-service; template-driven outbound messaging and delivery orchestration
 
 - The following edge services that provide client-facing composition and delivery layers:
-  - backend-actor; BFF orchestration tier
+  - actor-bff; BFF orchestration tier
   - backend-web; disposable reference UI and consumable frontend
 
 - Comprehensive Prometheus metrics and Grafana dashboards for observability.
