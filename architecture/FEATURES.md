@@ -99,7 +99,7 @@ Architecture Decision Records, see [ADRs.md](ADRs.md).
 - **Self-hosted GitHub Actions runners (optional)** — Jobs that are heavy on **hosted runner minutes** (especially
   **native** compiles) can be directed to a **self-hosted** machine via repository configuration, so teams stay
   within **monthly GitHub Actions minute allowances** on plans where hosted usage is capped.
-- **Manual ECS runtime stop/start** — A **workflow_dispatch** job (**[07-ecs-runtime-toggle.yml](../../.github/workflows/07-ecs-runtime-toggle.yml)**)
+- **Manual ECS runtime stop/start** — A **workflow_dispatch** job (**[07-ecs-runtime-toggle.yml](../../.github/workflows/93-ecs-runtime-toggle.yml)**)
   sets **desired count** to **0** (stop) or **1** (start) for every ECS service, so non-production environments can
   shed **Fargate** cost without tearing down the runtime stack. Use this with **caution** (needs to be gated).
 
