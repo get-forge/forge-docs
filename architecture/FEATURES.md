@@ -92,6 +92,16 @@ Architecture Decision Records, see [ADRs.md](ADRs.md).
   workloads are not needlessly exposed.
 - **CI/CD** — **GitHub Actions** from hygiene through test, static analysis, coverage, artifact build, **container
   publish**, and **environment deploy**—a single, opinionated path from **merge** to **running in AWS**.
+- **Quarkus native image builds** — Runtime images can be produced as **GraalVM native** binaries for smaller
+  containers and faster cold starts on **ECS**.
+- **JVM escape hatch** — If a **native-image** or GraalVM issue shows up in the field, clients can easily switch the
+  release pipeline to **JVM** (Quarkus fast-jar).
+- **Self-hosted GitHub Actions runners (optional)** — Jobs that are heavy on **hosted runner minutes** (especially
+  **native** compiles) can be directed to a **self-hosted** machine via repository configuration, so teams stay
+  within **monthly GitHub Actions minute allowances** on plans where hosted usage is capped.
+- **Manual ECS runtime stop/start** — A **workflow_dispatch** job (**[07-ecs-runtime-toggle.yml](../../.github/workflows/07-ecs-runtime-toggle.yml)**)
+  sets **desired count** to **0** (stop) or **1** (start) for every ECS service, so non-production environments can
+  shed **Fargate** cost without tearing down the runtime stack. Use this with **caution** (needs to be gated).
 
 ## Shared platform (forge-kit)
 
