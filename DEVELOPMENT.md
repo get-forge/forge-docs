@@ -186,11 +186,11 @@ This ensures authentication testing can occur with predefined test users:
 task seed:cognito
 ```
 
-Once AWS Cognito is provisioned, sync those users into the LocalStack Postgres `ACTORS` table (Cognito holds credentials; Postgres holds actor metadata).
-This ensures performance testing login can occur with existing test users:
+Once AWS Cognito is provisioned, sync those users into Postgres `actor.actors` (Cognito holds credentials; Postgres holds actor metadata).
+This ensures local performance testing login can occur with existing test users.
 
 ```bash
-task seed:postgres
+task seed:postgres:local
 ```
 
 **Prerequisites**:
@@ -201,6 +201,12 @@ Service `actor-service` needs to have been started to create the `ACTORS` table 
 mert start
 # run actor-service only
 task dev:actor
+```
+
+To cleanup test user data (across both AWS Cognito and LocalStack resources):
+
+```bash
+task seed:cleanup:local
 ```
 
 ---
