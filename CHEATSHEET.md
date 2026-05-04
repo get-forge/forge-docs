@@ -56,9 +56,7 @@ task docker:status                                 # docker container status and
 
 task dev:localstack                                # create LocalStack development resources
 task seed:localstack                               # seed LocalStack development resources
-task seed:aws:cognito                              # seed AWS Cognito test users
-task seed:local:postgres                           # sync test users to local Docker Postgres
-task seed:local:cleanup                            # remove test users from AWS Cognito and local Postgres/S3
+task seed:it:up -- --target local                  # IT setup (Cognito + local Postgres)
 
 task build:nuke                                    # delete the Maven build cache + stop mvn daemons
 task build:clean
