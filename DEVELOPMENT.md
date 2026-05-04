@@ -183,14 +183,14 @@ Once AWS Cognito is provisioned, copy test user data to the Cognito user pool `f
 This ensures authentication testing can occur with predefined test users:
 
 ```bash
-task seed:cognito
+task seed:aws:cognito
 ```
 
 Once AWS Cognito is provisioned, sync those users into Postgres `actor.actors` (Cognito holds credentials; Postgres holds actor metadata).
 This ensures local performance testing login can occur with existing test users.
 
 ```bash
-task seed:postgres:local
+task seed:local:postgres
 ```
 
 **Prerequisites**:
@@ -206,7 +206,7 @@ task dev:actor
 To cleanup test user data (across both AWS Cognito and LocalStack resources):
 
 ```bash
-task seed:cleanup:local
+task seed:local:cleanup
 ```
 
 ---
