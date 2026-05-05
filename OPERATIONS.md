@@ -45,6 +45,7 @@ Only the **INT** stage defines `GitHubRoleStack`; other stages do not create thi
 
 - `AWS_REGION` - AWS region for deployment
 - `AWS_ACCOUNT_ID` - AWS account ID for deployment
+- `FORGE_ECS_RUNTIME_MODE` (optional) - `jvm` (faster image build; slower container startup) or `native` (long builds; smaller images; better cold start).
 - `USER_FORGE_DEPLOY` - GitHub username for the account that owns `secrets.PAT_FORGE_DEPLOY` (workflows pass it as `GITHUB_MAVEN_USERNAME` to `configure-maven-github.sh`)
 
 **Required GitHub Actions Secrets** (Settings > Secrets and variables > Actions > Secrets > Repository secrets):
