@@ -70,6 +70,9 @@ The tables below intentionally separate three layers:
 
 ## Progress checklist (repository and typical deploy)
 
+The Forge Platform security posture continues to evolve through ongoing platform hardening, infrastructure refinement, and ADR-driven architecture
+work. Several areas marked as partial or operator-extensible are active areas of platform evolution and may change over time as the platform matures.
+
 Progress is expressed using the symbols below for a standard AWS deployment.
 
 | Symbol | Meaning                                                                                                       |
@@ -211,9 +214,3 @@ deployed and operated appropriately, but:
 - ADRs under `docs/architecture/decisions/` - Especially 0004 (Cognito), 0005 (STS), 0007 (observability), 0008
   (REST vs SQS), 0011 (JWT), 0019 (notification tokens), 0020 (VPC), 0021 (removal policies), 0024 (internal TLS and
   sensitivity).
-
-## Maintaining this document
-
-When you add material controls (for example CloudTrail stacks, organization-level KMS, data export APIs), update the
-tables and progress symbols so operators retain an accurate picture. Prefer linking to ADRs and guides instead of
-duplicating implementation detail.

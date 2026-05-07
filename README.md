@@ -26,28 +26,6 @@ Forge is not a framework. It is a pre-engineered operating model for building pr
 
 ---
 
-## Start here
-
-Most readers want the operating model first. These guides provide the fastest path to understanding how the Forge
-Platform is built, how it runs, and how to extend it safely.
-
-| Guide                                                                      | Why read it                                                                                                                      |
-|----------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| [DEVELOPMENT.md](DEVELOPMENT.md)                                           | Local development, tooling, Quarkus workflow.                                                                                    |
-| [OPERATIONS.md](OPERATIONS.md)                                             | Deployments, GitHub OIDC (OpenID Connect), AWS, LocalStack, CDK.                                                                 |
-| [SECURITY.md](architecture/guides/SECURITY.md)                             | Platform security posture, least privilege, documented trade-offs.                                                               |
-| [COMPLIANCE.md](architecture/guides/COMPLIANCE.md)                         | Security and compliance control mapping for forked deployments, including operator responsibilities.                             |
-| [USER_AUTHENTICATION.md](architecture/guides/USER_AUTHENTICATION.md)       | Identity flows, JWT issuance/validation, Cognito login, OIDC configuration.                                                      |
-| [SERVICE_AUTHENTICATION.md](architecture/guides/SERVICE_AUTHENTICATION.md) | Service accounts, `@AllowedServices`, service-to-service authorization.                                                          |
-| [PERFORMANCE.md](architecture/guides/PERFORMANCE.md)                       | Performance test plan, outputs, phase summaries; conclusion showing repeatable throughput and predictable tail latency at scale. |
-
-If you are evaluating Forge, start with Security and Operations. Those documents show the platform's decisions in the
-open, including constraints and trade-offs.
-
-<br />
-
----
-
 ## Who Forge is for
 
 Forge is designed for engineering teams building production systems where security, scalability, and operational
@@ -79,6 +57,81 @@ observability model, and identity boundaries need to be coherent from the outset
 - Receive future platform updates by syncing your fork to the upstream `forge-platform` repository.
 
 You retain full ownership and control of infrastructure, services, deployments, and data.
+
+<br />
+
+---
+
+## Start here
+
+Most readers want the operating model first. These guides provide the fastest path to understanding how the Forge
+Platform is built, how it runs, and how to extend it safely.
+
+| Guide                                                                      | Why read it                                                                                                                      |
+|----------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| [DEVELOPMENT.md](DEVELOPMENT.md)                                           | Local development, tooling, Quarkus workflow.                                                                                    |
+| [OPERATIONS.md](OPERATIONS.md)                                             | Deployments, GitHub OIDC (OpenID Connect), AWS, LocalStack, CDK.                                                                 |
+| [SECURITY.md](architecture/guides/SECURITY.md)                             | Platform security posture, least privilege, documented trade-offs.                                                               |
+| [COMPLIANCE.md](architecture/guides/COMPLIANCE.md)                         | Security and compliance control mapping for forked deployments, including operator responsibilities.                             |
+| [USER_AUTHENTICATION.md](architecture/guides/USER_AUTHENTICATION.md)       | Identity flows, JWT issuance/validation, Cognito login, OIDC configuration.                                                      |
+| [SERVICE_AUTHENTICATION.md](architecture/guides/SERVICE_AUTHENTICATION.md) | Service accounts, `@AllowedServices`, service-to-service authorization.                                                          |
+| [PERFORMANCE.md](architecture/guides/PERFORMANCE.md)                       | Performance test plan, outputs, phase summaries; conclusion showing repeatable throughput and predictable tail latency at scale. |
+
+If you are evaluating Forge, start with Security and Operations. Those documents show the platform's decisions in the
+open, including constraints and trade-offs.
+
+<br />
+
+---
+
+## Security and compliance (overview)
+
+Short summaries only. Full implementation detail, trade-offs, and shared-responsibility boundaries are documented in the
+linked guides.
+
+### Platform security architecture (summary)
+
+Forge provides a production-oriented security baseline for running containerized distributed systems on AWS. Deployments
+run entirely inside AWS accounts owned and controlled by the operator; Forge is not a managed SaaS control plane
+([SECURITY.md](architecture/guides/SECURITY.md)).
+
+The platform is designed around identity-first security and least-privilege infrastructure patterns. Baseline capabilities
+include:
+
+- JWT-based authentication and authorization for both users and services
+- Application-layer authorization enforcement rather than trust-by-network-location
+- Least-privilege IAM policies defined in infrastructure code
+- ECS Fargate workloads isolated in private subnets
+- Public ingress restricted to AWS ALBs protected by WAF controls
+- TLS termination at the public edge
+- Secrets managed through AWS Secrets Manager and Systems Manager Parameter Store
+- GitHub Actions OIDC deployment flows without long-lived AWS deployment keys
+- Repeatable AWS infrastructure provisioning through CDK
+- Structured logging, metrics, and OpenTelemetry-based observability foundations
+
+Forge intentionally documents architectural boundaries and progressive hardening paths. Operators can extend the baseline
+with stronger transport security, centralized audit controls, organization-wide governance tooling, and environment-specific
+compliance controls without redesigning the underlying platform architecture.
+
+See [SECURITY.md](architecture/guides/SECURITY.md) for detailed coverage of trust boundaries, IAM posture, network
+architecture, workload isolation, logging strategy, and shared responsibility.
+
+### Security and compliance alignment (summary)
+
+Forge is designed to support organizations building security-conscious and compliance-aware systems on AWS.
+[COMPLIANCE.md](architecture/guides/COMPLIANCE.md) maps repository capabilities to control objectives commonly associated
+with frameworks and programs such as SOC 2, GDPR, and HIPAA-aligned environments.
+
+The platform provides a strong technical baseline including identity and access controls, infrastructure isolation,
+secrets management, audit-event foundations, observability hooks, and repeatable infrastructure deployment patterns.
+
+Forge itself does not claim compliance certification or attestation for client deployments. Each deployment is forked,
+extended, configured, and operated independently inside operator-owned AWS environments. Compliance outcomes therefore depend
+on the deployed system, operational processes, monitoring controls, legal agreements, and governance practices implemented
+by the operator organization.
+
+Progress states in the compliance guide reflect the current repository implementation posture and are intended as transparent
+control mappings rather than audit findings or legal interpretations.
 
 <br />
 
