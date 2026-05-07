@@ -224,16 +224,17 @@ Forge gives you a starting point that is immediately usable and built to scale.
 
 ## In-depth guides
 
-| Guide                                                                      | Description                                                                   |
-|----------------------------------------------------------------------------|-------------------------------------------------------------------------------|
-| [SECURITY.md](architecture/guides/SECURITY.md)                             | Platform-wide security posture, least privilege, and documented trade-offs.   |
-| [USER_AUTHENTICATION.md](architecture/guides/USER_AUTHENTICATION.md)       | JWT, Cognito form login, LinkedIn OAuth, filters, and OIDC **configuration**. |
-| [SERVICE_AUTHENTICATION.md](architecture/guides/SERVICE_AUTHENTICATION.md) | Service accounts, `@AllowedServices`, client filters.                         |
-| [CACHING.md](architecture/guides/CACHING.md)                               | Quarkus Cache names and where they apply.                                     |
-| [METRICS.md](architecture/guides/METRICS.md)                               | Micrometer, `/q/metrics`, forge-kit metrics, local Grafana.                   |
-| [HEALTH_CHECK.md](architecture/guides/HEALTH_CHECK.md)                     | Readiness checks, forge-health-aws, per-service wiring.                       |
-| [AUDIT_SERVICE.md](architecture/guides/AUDIT_SERVICE.md)                   | Audit library and `audit-service` HTTP ingest.                                |
-| [NOTIFICATION_SERVICE.md](architecture/guides/NOTIFICATION_SERVICE.md)     | Notification delivery, templates, SNS webhook spec.                           |
+| Guide                                                                      | Description                                                                        |
+|----------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+| [SECURITY.md](architecture/guides/SECURITY.md)                             | Platform-wide security posture, least privilege, and documented trade-offs.        |
+| [PERFORMANCE.md](architecture/guides/PERFORMANCE.md)                       | Performance test plan, test execution raw outputs, phase summaries and conclusion. |
+| [USER_AUTHENTICATION.md](architecture/guides/USER_AUTHENTICATION.md)       | JWT, Cognito form login, LinkedIn OAuth, filters, and OIDC **configuration**.      |
+| [SERVICE_AUTHENTICATION.md](architecture/guides/SERVICE_AUTHENTICATION.md) | Service accounts, `@AllowedServices`, client filters.                              |
+| [CACHING.md](architecture/guides/CACHING.md)                               | Quarkus Cache names and where they apply.                                          |
+| [METRICS.md](architecture/guides/METRICS.md)                               | Micrometer, `/q/metrics`, forge-kit metrics, local Grafana.                        |
+| [HEALTH_CHECK.md](architecture/guides/HEALTH_CHECK.md)                     | Readiness checks, forge-health-aws, per-service wiring.                            |
+| [AUDIT_SERVICE.md](architecture/guides/AUDIT_SERVICE.md)                   | Audit library and `audit-service` HTTP ingest.                                     |
+| [NOTIFICATION_SERVICE.md](architecture/guides/NOTIFICATION_SERVICE.md)     | Notification delivery, templates, SNS webhook spec.                                |
 
 <br />
 
