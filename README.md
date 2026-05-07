@@ -3,30 +3,96 @@
 
 # Documentation
 
-The [Forge Platform](https://forgeplatform.software/) consists of the following discreet repositories:
+## Forge Platform
 
-| Repository                                            | Visibility | Description                                                                                         |
-|-------------------------------------------------------|------------|-----------------------------------------------------------------------------------------------------|
-| [forge-kit](https://github.com/get-forge/forge-kit)   | Public     | Infrastructure components for Quarkus services: rate limiting, metrics, health checks.              |
-| `forge-core`                                          | Private    | A zero-trust, horizontally scalable microservices platform built with Quarkus, and deployed on AWS. |
-| `forge-platform`                                      | Private    | A filtered mirror of `forge-core` that clients will fork, own and run with a licence.               |
-| [forge-docs](https://github.com/get-forge/forge-docs) | Public     | This public documentation repository.                                                               |
+Forge Platform provides a pre-engineered operational foundation for secure, scalable distributed systems on AWS,
+dramatically reducing the time, cost, and risk of reaching production-grade security, scalability, and operational
+maturity.
 
-`forge-kit` is open-source and a limited but useful showcase of operational best practices that anyone can re-use with
-existing Quarkus services. It is also a working dependency of `forge-core`.
+It encodes years of platform engineering decisions into a deployable operating model built on AWS with Quarkus.
+
+Forge is not a framework. It is a pre-engineered operating model for building production systems.
+
+### What you get at a glance
+
+- Security model: zero-trust and identity-first request verification (JSON Web Token, OpenID Connect).
+- Runtime model: stateless, horizontally scalable services deployed as containers on ECS Fargate.
+- Observability model: metrics, dashboards, health endpoints, tracing support.
+- Delivery and infrastructure model: repeatable pipelines and environments (IaC, CI/CD, complete GitHub Actions workflow pipeline).
+- Developer experience: a complete local development environment that emulates AWS via LocalStack.
 
 <br />
 
 ---
 
-## How it works
+## Start here
 
-- You purchase a Forge Platform licence file from the [Forge Platform website](https://forgeplatform.software/#pricing).
+Most readers want the operating model first. These guides provide the fastest path to understanding how Forge is built,
+how it runs, and how to extend it safely.
+
+| Guide | Why read it |
+|---|---|
+| [DEVELOPMENT.md](DEVELOPMENT.md) | Local development, tooling, Quarkus workflow. |
+| [OPERATIONS.md](OPERATIONS.md) | Deployments, GitHub OIDC (OpenID Connect), AWS, LocalStack, CDK (Cloud Development Kit). |
+| [SECURITY.md](architecture/guides/SECURITY.md) | Platform security posture, least privilege, documented trade-offs. |
+| [USER_AUTHENTICATION.md](architecture/guides/USER_AUTHENTICATION.md) | Identity flows, JWT issuance/validation, Cognito login, OIDC configuration. |
+| [SERVICE_AUTHENTICATION.md](architecture/guides/SERVICE_AUTHENTICATION.md) | Service accounts, `@AllowedServices`, service-to-service authorization. |
+| [PERFORMANCE.md](architecture/guides/PERFORMANCE.md) | Performance plan, execution outputs, phase summaries, conclusions. |
+
+If you are evaluating Forge, start with Security and Operations. Those documents show the platform's decisions in the
+open, including constraints and trade-offs.
+
+<br />
+
+---
+
+## Who Forge is for
+
+Forge is designed for engineering teams building production systems where security, scalability, and operational
+maturity must be correct from day one.
+
+Typical adopters include:
+
+- Teams building backend platforms or SaaS (Software as a Service) products on AWS that need security and operational maturity from day one.
+- Organizations standardizing on Java, Maven, and Quarkus for service development.
+- Founders shaping engineering organisations around proven platform patterns, without needing to build a large internal platform engineering function.
+- Product teams accelerating time-to-market while reducing architectural uncertainty and operational risk.
+
+Forge is a strong fit when the cost of getting platform decisions wrong is high: security posture, deployment model,
+observability model, and identity boundaries need to be coherent from the outset.
+
+<br />
+
+---
+
+## How Forge works
+
+- Purchase a Forge Platform licence file from the [Forge Platform website](https://forgeplatform.software/#pricing).
 - Your organization is added as a Contributor, so you can fork the `forge-platform` repository.
-- You then own and develop that forked codebase.
-- You provision the provided CI/CD workflows in your own GitHub account (works in free tier GitHub Actions).
-- You deploy the platform to your own AWS accounts (development works in free tier AWS).
-- You receive any future platform updates by syncing your fork to the upstream `forge-platform` repository.
+- You own and develop that forked codebase.
+- Provision the provided CI/CD workflows in your GitHub account.
+- Deploy into your AWS accounts. Development environments can run within AWS free tier limits.
+- Receive future platform updates by syncing your fork to the upstream `forge-platform` repository.
+
+You retain full ownership and control of infrastructure, services, deployments, and data.
+
+<br />
+
+---
+
+## Repository structure
+
+The [Forge Platform](https://forgeplatform.software/) consists of the following discrete repositories:
+
+| Repository                                            | Visibility | Description                                                                                          |
+|-------------------------------------------------------|------------|------------------------------------------------------------------------------------------------------|
+| [forge-kit](https://github.com/get-forge/forge-kit)   | Public     | Reusable operational components for Quarkus services.                                                |
+| `forge-core`                                          | Private    | Internal upstream platform source.                                                                   |
+| `forge-platform`                                      | Private    | Client-forkable distributable platform, filtered mirror of `forge-core`.                             |
+| [forge-docs](https://github.com/get-forge/forge-docs) | Public     | Public documentation repository, published at [get-forge.github.io/forge-docs](https://get-forge.github.io/forge-docs/). |
+
+`forge-kit` is open source and can be adopted independently in existing Quarkus services. It is also a working
+dependency of `forge-core`.
 
 <br />
 
@@ -36,14 +102,12 @@ existing Quarkus services. It is also a working dependency of `forge-core`.
 
 Out of the box, the Forge Platform provides you with the following:
 
-- A development environment built predominantly on free tier LocalStack that emulates AWS in full and spins up in
-  seconds.
+- A development environment built predominantly on free tier LocalStack that emulates AWS and spins up in seconds.
 
 [![Local services](assets/forge-services-local.png)](assets/forge-services-local.png)
 
 - An entire GitHub Actions pipeline which includes release automation; ECS deployments (diffed services only);
-  infrastructure deployments (CDK); static code analysis (OWASP, SpotBugs, etc); code coverage, unit/integration
-  test reports, and more.
+  infrastructure deployments (CDK); static code analysis (OWASP, SpotBugs); code coverage, unit/integration test reports, and more.
 
 [![GitHub Actions workflows](assets/forge-github-workflows.png)](assets/forge-github-workflows.png)
 
@@ -53,6 +117,7 @@ Out of the box, the Forge Platform provides you with the following:
 [![AWS CloudFormation stacks](assets/forge-sandbox-aws-cloudformation.png)](assets/forge-sandbox-aws-cloudformation.png)
 
 - A clean, well-documented, and well-tested codebase that you can fork and modify.
+<br /><br />
 - A stateless reference web application that you can deploy locally and to AWS and use immediately.
 
 <p align="center">
@@ -73,12 +138,12 @@ Out of the box, the Forge Platform provides you with the following:
   - auth-service; JWT issuance, validation, and user/service authentication workflows
   - document-service; document metadata, storage orchestration, and retrieval APIs
   - notification-service; template-driven outbound messaging and delivery orchestration
-
+<br /><br />
 - The following edge services that provide client-facing composition and delivery layers:
-  - actor-bff; BFF orchestration tier
+  - actor-bff; BFF (Backend for Frontend) orchestration tier
   - backend-web; disposable reference UI and consumable frontend
-
-- Comprehensive Prometheus metrics and Grafana dashboards for observability.
+<br /><br />
+- Comprehensive Prometheus (metrics) and Grafana (dashboards) for observability.
 
 <p align="center">
   <a href="assets/forge-metrics-dashboard.png">
@@ -136,7 +201,7 @@ Every month spent building foundations is a month not spent:
 
 Forge compresses that entire journey into something you can adopt immediately:
 
-- A production-proven foundation from day one
+- A production-ready foundation from day one
 - A clear operational model aligned with modern cloud practices
 - A Quarkus-first golden path with flexibility where you need it
 - A platform that lets your team stay focused on domain and business value
@@ -195,7 +260,7 @@ Each service in Forge follows a consistent runtime model:
 - deployed via ECS Fargate without host management
 - exposes standardized health, metrics, and operational endpoints
 
-![Architecture diagram (VPC overview)](assets/forge-sandbox-vpc.svg)
+![Architecture diagram (VPC (Virtual Private Cloud) overview)](assets/forge-sandbox-vpc.svg)
 
 The network model follows AWS VPC security best practices:
 
@@ -216,25 +281,21 @@ This runtime and network consistency enables:
 - You inherit a setup aligned with enterprise production best practices
 - Your team can focus on building services instead of building platform foundations
 
-Forge gives you a starting point that is immediately usable and built to scale.
+Forge gives you a starting point that is usable immediately, secure, and built to scale.
 
 <br />
 
 ---
 
-## In-depth guides
+## In-depth architecture guides
 
-| Guide                                                                      | Description                                                                        |
-|----------------------------------------------------------------------------|------------------------------------------------------------------------------------|
-| [SECURITY.md](architecture/guides/SECURITY.md)                             | Platform-wide security posture, least privilege, and documented trade-offs.        |
-| [PERFORMANCE.md](architecture/guides/PERFORMANCE.md)                       | Performance test plan, test execution raw outputs, phase summaries and conclusion. |
-| [USER_AUTHENTICATION.md](architecture/guides/USER_AUTHENTICATION.md)       | JWT, Cognito form login, LinkedIn OAuth, filters, and OIDC **configuration**.      |
-| [SERVICE_AUTHENTICATION.md](architecture/guides/SERVICE_AUTHENTICATION.md) | Service accounts, `@AllowedServices`, client filters.                              |
-| [CACHING.md](architecture/guides/CACHING.md)                               | Quarkus Cache names and where they apply.                                          |
-| [METRICS.md](architecture/guides/METRICS.md)                               | Micrometer, `/q/metrics`, forge-kit metrics, local Grafana.                        |
-| [HEALTH_CHECK.md](architecture/guides/HEALTH_CHECK.md)                     | Readiness checks, forge-health-aws, per-service wiring.                            |
-| [AUDIT_SERVICE.md](architecture/guides/AUDIT_SERVICE.md)                   | Audit library and `audit-service` HTTP ingest.                                     |
-| [NOTIFICATION_SERVICE.md](architecture/guides/NOTIFICATION_SERVICE.md)     | Notification delivery, templates, SNS webhook spec.                                |
+| Guide | Description |
+|---|---|
+| [CACHING.md](architecture/guides/CACHING.md) | Quarkus cache names and where they apply. |
+| [METRICS.md](architecture/guides/METRICS.md) | Micrometer metrics, `/q/metrics`, forge-kit metrics, local Grafana. |
+| [HEALTH_CHECK.md](architecture/guides/HEALTH_CHECK.md) | Readiness checks, forge-health-aws, per-service wiring. |
+| [AUDIT_SERVICE.md](architecture/guides/AUDIT_SERVICE.md) | Audit library and `audit-service` HTTP ingest. |
+| [NOTIFICATION_SERVICE.md](architecture/guides/NOTIFICATION_SERVICE.md) | Notification delivery, templates, SNS webhook spec. |
 
 <br />
 
@@ -242,8 +303,8 @@ Forge gives you a starting point that is immediately usable and built to scale.
 
 ## Architecture Decision Records (ADRs)
 
-ADRs are historical *why* records (context, trade-offs, alternatives). The full public index, redaction scope, and links
-to each decision can be found in **[architecture/ADRs.md](architecture/ADRs.md)**.
+ADRs (Architecture Decision Records) are historical "why" records: context, trade-offs, and alternatives. The full
+public index, redaction scope, and links to each decision are in **[architecture/ADRs.md](architecture/ADRs.md)**.
 
 <br />
 
@@ -251,6 +312,6 @@ to each decision can be found in **[architecture/ADRs.md](architecture/ADRs.md)*
 
 ## Operational documentation (post-fork / deployment reference)
 
-- [DEVELOPMENT.md](DEVELOPMENT.md) — local dev, tooling, licence, Quarkus
-- [OPERATIONS.md](OPERATIONS.md) — GitHub OIDC, Actions, CDK, AWS/LocalStack
-- [CHEATSHEET.md](CHEATSHEET.md) — `task` index and copy-paste
+- [DEVELOPMENT.md](DEVELOPMENT.md) - local dev, tooling, licence, Quarkus
+- [OPERATIONS.md](OPERATIONS.md) - GitHub OIDC, Actions, CDK, AWS/LocalStack
+- [CHEATSHEET.md](CHEATSHEET.md) - `task` index and copy-paste
