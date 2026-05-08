@@ -10,12 +10,16 @@ For Architecture Decision Records, see [ADRs.md](ADRs.md).
 
 ## Engineering base
 
-- **Monorepo delivery** — One place for BFFs, domain services, shared libraries, UIs, shared configuration, and
-  infrastructure as code, with a single Java/Quarkus toolchain and optional native image builds.
-- **Modern Java** — Current Java and Quarkus for fast dev cycles, small containers, and cloud-friendly runtimes.
-- **Shared platform libraries** — Common security, metrics, throttling, health, and licence/reactor support via
-  [**get-forge/forge-kit**](https://github.com/get-forge/forge-kit) (
-  see [Shared platform (forge-kit)](#shared-platform-forge-kit) below).
+- **Unified platform delivery** - Single monorepo spanning backend-for-frontend (BFF) orchestration, domain services,
+  shared platform libraries, infrastructure as code (IaC), continuous integration and delivery (CI/CD) workflows, and
+  reference UIs, with consistent patterns for building, deploying, and operating services.
+- **Production-oriented Java stack** - Modern Java and Quarkus with optional GraalVM native image builds for fast
+  startup, low memory overhead, small containers, and cloud-efficient runtimes.
+- **Shared operational platform** - Common platform capabilities such as security, licensing, observability, metrics,
+  throttling, health, and messaging/reactor integration, standardised through shared Forge libraries rather than
+  repeatedly reimplemented per service.
+- **Opinionated engineering model** - Consistent conventions for service structure, configuration, deployment,
+  diagnostics, and inter-service integration reduce architectural drift as the system scales.
 
 ## Security and identity
 
