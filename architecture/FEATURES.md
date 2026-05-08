@@ -2,8 +2,6 @@
 
 For a high-level executive overview of the Forge Platform features, see the [README](../README.md#what-you-get-at-a-glance) intro.
 
-This document providess an in-depth technical view of what Forge offers engineers and operators and **what you get**, not how the wiring is done.
-
 For deeper how-to material on Forge Platform's various capabilities, see the in-depth [Architecture Guides](../README.md#in-depth-architecture-guides).
 
 For Architecture Decision Records, see [ADRs.md](ADRs.md).
@@ -112,9 +110,8 @@ For Architecture Decision Records, see [ADRs.md](ADRs.md).
 
 ## Shared platform (forge-kit)
 
-Open-source libraries, published as [**forge-kit**](https://github.com/get-forge/forge-kit), that speed up
-observability, throttling, health for AWS, and small cross-cutting **API**s—so product repos stay about **domain**, not
-plumbing. Representative modules:
+Open-source libraries, published as [**forge-kit**](https://github.com/get-forge/forge-kit), that enable observability, throttling, health for AWS, and
+small cross-cutting **API**s—so product repos stay about **domain**, not plumbing. Representative modules:
 
 | Module                                                                                                                 | What it brings to Forge                                                                                                             |
 |------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
@@ -123,6 +120,3 @@ plumbing. Representative modules:
 | [**forge-throttle**](https://github.com/get-forge/forge-kit/tree/main/forge-impl/forge-throttle)                       | **Rate limiting** primitives and metrics-friendly integration.                                                                      |
 | [**forge-security**](https://github.com/get-forge/forge-kit/tree/main/forge-impl/forge-security)                       | Reusable **JWT** building blocks; Forge customises and orders claims extractors for Cognito.                                        |
 | **forge-common** and others                                                                                            | Shared utilities (e.g. structured cross-cutting **logging/entry** patterns), licencing, reactor publishing—depending on the module. |
-
-This list is a **tour** of the ecosystem, not an exhaustive module manifest; see the forge-kit repo for the current
-graph.
