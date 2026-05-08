@@ -97,7 +97,7 @@ Progress is expressed using the symbols below for a standard AWS deployment.
 | Progress | Item                                                        | Notes                                                 | Framework hints                                                                                                 |
 |:--------:|-------------------------------------------------------------|-------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
 |    ✅     | Single VPC per environment with public/private subnet split | ADR-0020; `ForgeNetworkConstruct`                     | Supports control objectives commonly associated with SOC 2 CC6.x                                                |
-|    ✅     | ECS tasks in private subnets                                | `infra/README.md` deployment architecture             | Defense in depth for common network control expectations                                                        |
+|    ✅     | ECS tasks in private subnets                                | `docs/architecture/guides/INFRASTRUCTURE.md`          | Defense in depth for common network control expectations                                                        |
 |    ✅     | Internet-facing ALB only where configured; WAF association  | Infrastructure constructs (WAF ARN export, ALB rules) | Supports control objectives commonly associated with SOC 2 CC6.x when WAF policies are configured and monitored |
 |    ✅     | VPC interface endpoint for Secrets Manager                  | `ForgeNetworkConstruct`                               | Reduces internet exposure for secret retrieval                                                                  |
 |    ❌     | Perimeter hardening (Shield Advanced, custom threat models) | Not codified as a default in this repository          | Risk-based operator decision                                                                                    |
@@ -208,7 +208,7 @@ deployed and operated appropriately, but:
 
 ## Related documentation
 
-- `infra/README.md` - AWS layout, stacks, security posture overview.
+- `docs/architecture/guides/INFRASTRUCTURE.md` - AWS layout, stacks, security posture overview.
 - `docs/architecture/guides/AUDIT_SERVICE.md` - Audit pipeline and PII guidance for emitters.
 - `docs/architecture/guides/USER_AUTHENTICATION.md`, `docs/architecture/guides/SERVICE_AUTHENTICATION.md` - Auth flows.
 - ADRs under `docs/architecture/decisions/` - Especially 0004 (Cognito), 0005 (STS), 0007 (observability), 0008

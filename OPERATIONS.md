@@ -7,6 +7,9 @@ For machine setup and running Quarkus locally, see [DEVELOPMENT.md](DEVELOPMENT.
 
 For a compact task index, see [CHEATSHEET.md](CHEATSHEET.md).
 
+For step-by-step operational runbook procedures (for example ECS native vs JVM, self-hosted runners for image builds,
+and other topics as they are added), see [RUNBOOK.md](RUNBOOK.md).
+
 ## Table of contents
 
 - [GitHub Setup](#github-setup)

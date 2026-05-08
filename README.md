@@ -67,15 +67,14 @@ You retain full ownership and control of infrastructure, services, deployments, 
 Most readers want the operating model first. These guides provide the fastest path to understanding how the Forge
 Platform is built, how it runs, and how to extend it safely.
 
-| Guide                                                                      | Why read it                                                                                                                      |
-|----------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| [DEVELOPMENT.md](DEVELOPMENT.md)                                           | Local development, tooling, Quarkus workflow.                                                                                    |
-| [OPERATIONS.md](OPERATIONS.md)                                             | Deployments, GitHub OIDC (OpenID Connect), AWS, LocalStack, CDK.                                                                 |
-| [SECURITY.md](architecture/guides/SECURITY.md)                             | Platform security posture, least privilege, documented trade-offs.                                                               |
-| [COMPLIANCE.md](architecture/guides/COMPLIANCE.md)                         | Security and compliance control mapping for forked deployments, including operator responsibilities.                             |
-| [USER_AUTHENTICATION.md](architecture/guides/USER_AUTHENTICATION.md)       | Identity flows, JWT issuance/validation, Cognito login, OIDC configuration.                                                      |
-| [SERVICE_AUTHENTICATION.md](architecture/guides/SERVICE_AUTHENTICATION.md) | Service accounts, `@AllowedServices`, service-to-service authorization.                                                          |
-| [PERFORMANCE.md](architecture/guides/PERFORMANCE.md)                       | Performance test plan, outputs, phase summaries; conclusion showing repeatable throughput and predictable tail latency at scale. |
+| Guide                                                      | Why read it                                                                                          |
+|------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| [DEVELOPMENT.md](DEVELOPMENT.md)                           | Local development, tooling, Quarkus workflow.                                                        |
+| [OPERATIONS.md](OPERATIONS.md)                             | Deployments, GitHub OIDC (OpenID Connect), AWS, LocalStack, CDK.                                     |
+| [SECURITY.md](architecture/guides/SECURITY.md)             | Platform security posture, least privilege, documented trade-offs.                                   |
+| [COMPLIANCE.md](architecture/guides/COMPLIANCE.md)         | Security and compliance control mapping for forked deployments, including operator responsibilities. |
+| [PERFORMANCE.md](architecture/guides/PERFORMANCE.md)       | Performance test plan, outputs, phase summaries and conclusions.                                     |
+| [INFRASTRUCTURE.md](architecture/guides/INFRASTRUCTURE.md) | AWS infrastructure automation setup.                                                                 |
 
 If you are evaluating Forge, start with Security and Operations. Those documents show the platform's decisions in the
 open, including constraints and trade-offs.
@@ -95,7 +94,8 @@ Forge provides a production-oriented security baseline for running containerized
 run entirely inside AWS accounts owned and controlled by the operator; Forge is not a managed SaaS control plane
 ([SECURITY.md](architecture/guides/SECURITY.md)).
 
-The platform is designed around identity-first security and least-privilege infrastructure patterns. Baseline capabilities
+The platform is designed around identity-first security and least-privilege infrastructure patterns. Baseline
+capabilities
 include:
 
 - JWT-based authentication and authorization for both users and services
@@ -109,8 +109,10 @@ include:
 - Repeatable AWS infrastructure provisioning through CDK
 - Structured logging, metrics, and OpenTelemetry-based observability foundations
 
-Forge intentionally documents architectural boundaries and progressive hardening paths. Operators can extend the baseline
-with stronger transport security, centralized audit controls, organization-wide governance tooling, and environment-specific
+Forge intentionally documents architectural boundaries and progressive hardening paths. Operators can extend the
+baseline
+with stronger transport security, centralized audit controls, organization-wide governance tooling, and
+environment-specific
 compliance controls without redesigning the underlying platform architecture.
 
 See [SECURITY.md](architecture/guides/SECURITY.md) for detailed coverage of trust boundaries, IAM posture, network
@@ -119,18 +121,22 @@ architecture, workload isolation, logging strategy, and shared responsibility.
 ### Security and compliance alignment (summary)
 
 Forge is designed to support organizations building security-conscious and compliance-aware systems on AWS.
-[COMPLIANCE.md](architecture/guides/COMPLIANCE.md) maps repository capabilities to control objectives commonly associated
+[COMPLIANCE.md](architecture/guides/COMPLIANCE.md) maps repository capabilities to control objectives commonly
+associated
 with frameworks and programs such as SOC 2, GDPR, and HIPAA-aligned environments.
 
 The platform provides a strong technical baseline including identity and access controls, infrastructure isolation,
 secrets management, audit-event foundations, observability hooks, and repeatable infrastructure deployment patterns.
 
 Forge itself does not claim compliance certification or attestation for client deployments. Each deployment is forked,
-extended, configured, and operated independently inside operator-owned AWS environments. Compliance outcomes therefore depend
-on the deployed system, operational processes, monitoring controls, legal agreements, and governance practices implemented
+extended, configured, and operated independently inside operator-owned AWS environments. Compliance outcomes therefore
+depend
+on the deployed system, operational processes, monitoring controls, legal agreements, and governance practices
+implemented
 by the operator organization.
 
-Progress states in the compliance guide reflect the current repository implementation posture and are intended as transparent
+Progress states in the compliance guide reflect the current repository implementation posture and are intended as
+transparent
 control mappings rather than audit findings or legal interpretations.
 
 <br />
@@ -347,13 +353,13 @@ Forge gives you a starting point that is usable immediately, secure, and built t
 
 ## In-depth architecture guides
 
-| Guide                                                                  | Description                                                         |
-|------------------------------------------------------------------------|---------------------------------------------------------------------|
-| [CACHING.md](architecture/guides/CACHING.md)                           | Quarkus cache names and where they apply.                           |
-| [METRICS.md](architecture/guides/METRICS.md)                           | Micrometer metrics, `/q/metrics`, forge-kit metrics, local Grafana. |
-| [HEALTH_CHECK.md](architecture/guides/HEALTH_CHECK.md)                 | Readiness checks, forge-health-aws, per-service wiring.             |
-| [AUDIT_SERVICE.md](architecture/guides/AUDIT_SERVICE.md)               | Audit library and `audit-service` HTTP ingest.                      |
-| [NOTIFICATION_SERVICE.md](architecture/guides/NOTIFICATION_SERVICE.md) | Notification delivery, templates, SNS webhook spec.                 |
+| Guide                                                                  | Description                                                           |
+|------------------------------------------------------------------------|-----------------------------------------------------------------------|
+| [CACHING.md](architecture/guides/CACHING.md)                           | Quarkus cache names and where they apply.                             |
+| [METRICS.md](architecture/guides/METRICS.md)                           | Micrometer metrics, `/q/metrics`, forge-kit metrics, local Grafana.   |
+| [HEALTH_CHECK.md](architecture/guides/HEALTH_CHECK.md)                 | Readiness checks, forge-health-aws, per-service wiring.               |
+| [AUDIT_SERVICE.md](architecture/guides/AUDIT_SERVICE.md)               | Audit library and `audit-service` HTTP ingest.                        |
+| [NOTIFICATION_SERVICE.md](architecture/guides/NOTIFICATION_SERVICE.md) | Notification delivery, templates, SNS webhook spec.                   |
 
 <br />
 
@@ -373,3 +379,4 @@ public index, redaction scope, and links to each decision are in **[architecture
 - [DEVELOPMENT.md](DEVELOPMENT.md) - local dev, tooling, licence, Quarkus
 - [OPERATIONS.md](OPERATIONS.md) - GitHub OIDC, Actions, CDK, AWS/LocalStack
 - [CHEATSHEET.md](CHEATSHEET.md) - `task` index and copy-paste
+- [RUNBOOK.md](RUNBOOK.md) - operational runbook
