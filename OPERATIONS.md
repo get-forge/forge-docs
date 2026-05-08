@@ -89,6 +89,14 @@ boundaries, and blast radius management.
 Forge Platform development makes extensive use of LocalStack (Docker).
 AWS Cognito is unsupported in LocalStack however, and requires AWS proper; this is available on AWS free tier.
 
+> 💡 **Note:** Forge currently supports deployment within a single AWS region per environment, including multi-AZ
+> infrastructure patterns for high availability inside that region.
+>
+> Multi-region deployment, replication, and failover patterns are planned roadmap areas and are expected to evolve
+> alongside enterprise operational requirements. The current single-region posture is intentionally pragmatic for most
+> early-stage and mid-scale deployments, where operational simplicity is typically more valuable than cross-region
+> complexity.
+
 ### 1. Development Environment `forge-sandbox` profile
 
 In `~/.aws/credentials`, add a profile named `forge-sandbox` with the following contents:

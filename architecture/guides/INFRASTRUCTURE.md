@@ -25,6 +25,14 @@ This guide explains:
 
 Standard CDK lifecycle commands are documented in [CHEATSHEET.md](../../CHEATSHEET.md).
 
+> 💡 **Note:** Forge currently supports deployment within a single AWS region per environment, including multi-AZ
+> infrastructure patterns for high availability inside that region.
+>
+> Multi-region deployment, replication, and failover patterns are planned roadmap areas and are expected to evolve
+> alongside enterprise operational requirements. The current single-region posture is intentionally pragmatic for
+> most early-stage and mid-scale deployments, where operational simplicity is typically more valuable than cross-region
+> complexity.
+
 ## Infrastructure design goals
 
 The infrastructure model prioritizes:
