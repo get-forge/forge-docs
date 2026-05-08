@@ -1,9 +1,12 @@
-# Platform features (technical)
+# Platform features
 
-A capability-led view of what Forge offers engineers and operators—**what you get**, not how the wiring
-is done. Deeper how-to material is in the
-[In-depth guides](../README.md#in-depth-guides) section of the [documentation index](../README.md). For
-Architecture Decision Records, see [ADRs.md](ADRs.md).
+For a high-level executive overview of the Forge Platform features, see the [README](../README.md#what-you-get-at-a-glance) intro.
+
+This document providess an in-depth technical view of what Forge offers engineers and operators and **what you get**, not how the wiring is done.
+
+For deeper how-to material on Forge Platform's various capabilities, see the in-depth [Architecture Guides](../README.md#in-depth-architecture-guides).
+
+For Architecture Decision Records, see [ADRs.md](ADRs.md).
 
 ## Engineering base
 
