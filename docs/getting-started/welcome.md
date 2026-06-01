@@ -60,10 +60,10 @@ You retain full ownership and control of infrastructure, services, deployments, 
 
 Most readers want the operating model first. These guides provide the fastest path to understanding how the Forge Platform is built, how it runs, and how to extend it safely.
 
-| Guide                                                      | Why read it                                                                                          |
-|------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
-| [DEVELOPMENT.md](/docs/development)                           | Local development, tooling, Quarkus workflow.                                                        |
-| [OPERATIONS.md](/docs/operations)                             | Deployments, GitHub OIDC (OpenID Connect), AWS, LocalStack, CDK.                                     |
+| Guide                                     | Why read it                                                                                          |
+|-------------------------------------------|------------------------------------------------------------------------------------------------------|
+| [DEVELOPMENT.md](/docs/development)       | Local development, tooling, Quarkus workflow.                                                        |
+| [OPERATIONS.md](/docs/operations)         | Deployments, GitHub OIDC (OpenID Connect), AWS, LocalStack, CDK.                                     |
 | [SECURITY.md](/docs/security)             | Platform security posture, least privilege, documented trade-offs.                                   |
 | [COMPLIANCE.md](/docs/compliance)         | Security and compliance control mapping for forked deployments, including operator responsibilities. |
 | [PERFORMANCE.md](/docs/performance)       | Performance test plan, outputs, phase summaries and conclusions.                                     |
@@ -118,11 +118,11 @@ Progress states in the compliance guide reflect the current repository implement
 
 The [Forge Platform](https://forgeplatform.software/) consists of the following discrete repositories:
 
-| Repository                                            | Visibility | Description                                                                                                              |
-|-------------------------------------------------------|------------|--------------------------------------------------------------------------------------------------------------------------|
-| [forge-kit](https://github.com/get-forge/forge-kit)   | Public     | Reusable operational components for Quarkus services.                                                                    |
-| `forge-core`                                          | Private    | Internal upstream platform source.                                                                                       |
-| `forge-platform`                                      | Private    | Client-forkable distributable platform, filtered mirror of `forge-core`.                                                 |
+| Repository                                            | Visibility | Description                                                                                                                   |
+|-------------------------------------------------------|------------|-------------------------------------------------------------------------------------------------------------------------------|
+| [forge-kit](https://github.com/get-forge/forge-kit)   | Public     | Reusable operational components for Quarkus services.                                                                         |
+| `forge-core`                                          | Private    | Internal upstream platform source.                                                                                            |
+| `forge-platform`                                      | Private    | Client-forkable distributable platform, filtered mirror of `forge-core`.                                                      |
 | [forge-docs](https://github.com/get-forge/forge-docs) | Public     | Public documentation source and asset host, published at [docs.forgeplatform.software](https://docs.forgeplatform.software/). |
 
 `forge-kit` is open source and can be adopted independently in existing Quarkus services. It is also a working dependency of `forge-core`.
@@ -319,13 +319,13 @@ Forge gives you a starting point that is usable immediately, secure, and built t
 
 ## In-depth architecture guides
 
-| Guide                                                                  | Description                                                           |
-|------------------------------------------------------------------------|-----------------------------------------------------------------------|
-| [CACHING.md](/docs/caching)                           | Quarkus cache names and where they apply.                             |
-| [METRICS.md](/docs/metrics)                           | Micrometer metrics, `/q/metrics`, forge-kit metrics, local Grafana.   |
-| [HEALTH_CHECK.md](/docs/health-check)                 | Readiness checks, forge-health-aws, per-service wiring.               |
-| [AUDIT_SERVICE.md](/docs/audit-service)               | Audit library and `audit-service` HTTP ingest.                        |
-| [NOTIFICATION_SERVICE.md](/docs/notification-service) | Notification delivery, templates, SNS webhook spec.                   |
+| Guide                                                 | Description                                                         |
+|-------------------------------------------------------|---------------------------------------------------------------------|
+| [CACHING.md](/docs/caching)                           | Quarkus cache names and where they apply.                           |
+| [METRICS.md](/docs/metrics)                           | Micrometer metrics, `/q/metrics`, forge-kit metrics, local Grafana. |
+| [HEALTH_CHECK.md](/docs/health-check)                 | Readiness checks, forge-health-aws, per-service wiring.             |
+| [AUDIT_SERVICE.md](/docs/audit-service)               | Audit library and `audit-service` HTTP ingest.                      |
+| [NOTIFICATION_SERVICE.md](/docs/notification-service) | Notification delivery, templates, SNS webhook spec.                 |
 
 <br />
 
