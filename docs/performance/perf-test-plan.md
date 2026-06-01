@@ -5,9 +5,7 @@ summary: "This document defines the structured performance testing workflow for 
 
 ## Overview
 
-This document defines the structured performance testing workflow for validating the Forge Platform
-running on AWS ECS with GraalVM native images, using k6 load generation from an EC2 instance within the
-same VPC.
+This document defines the structured performance testing workflow for validating the Forge Platform running on AWS ECS with GraalVM native images, using k6 load generation from an EC2 instance within the same VPC.
 
 The goal is to establish:
 
@@ -72,15 +70,8 @@ Convert raw runs into a single reference performance profile.
 
 ### Output
 
-* **Official baseline performance envelope** and **steady-state operating point** (ECS, 50 VUs,
-  baseline-mix, 3 min warmup + 3 min load):
-  [`phase_2/ECS_NATIVE_BASELINE_MIX_50VU_LOAD3M_ENVELOPE.md`](/docs/ecs-native-baseline-mix-50vu-load3m-envelope)
-  (raw k6 text:
-  [`phase_1/ecs-native-baseline-mix-50vu-load3m-raw.txt`](https://raw.githubusercontent.com/get-forge/forge-docs/main/assets/performance/phase_1/ecs-native-baseline-mix-50vu-load3m-raw.txt);
-  spreadsheet extract:
-  [`phase_2/ecs-native-baseline-mix-50vu-load3m-data.csv`](https://raw.githubusercontent.com/get-forge/forge-docs/main/assets/performance/phase_2/ecs-native-baseline-mix-50vu-load3m-data.csv))
-* **Narrative summary** (interpretation, not Phase 2 math):
-  [`phase_1/ECS_NATIVE_BASELINE_MIX_50VU_LOAD3M_SUMMARY.md`](/docs/ecs-native-baseline-mix-50vu-load3m-summary)
+* **Official baseline performance envelope** and **steady-state operating point** (ECS, 50 VUs, baseline-mix, 3 min warmup + 3 min load): [`phase_2/ECS_NATIVE_BASELINE_MIX_50VU_LOAD3M_ENVELOPE.md`](/docs/ecs-native-baseline-mix-50vu-load3m-envelope) (raw k6 text: [`phase_1/ecs-native-baseline-mix-50vu-load3m-raw.txt`](https://raw.githubusercontent.com/get-forge/forge-docs/main/assets/performance/phase_1/ecs-native-baseline-mix-50vu-load3m-raw.txt); spreadsheet extract: [`phase_2/ecs-native-baseline-mix-50vu-load3m-data.csv`](https://raw.githubusercontent.com/get-forge/forge-docs/main/assets/performance/phase_2/ecs-native-baseline-mix-50vu-load3m-data.csv))
+* **Narrative summary** (interpretation, not Phase 2 math): [`phase_1/ECS_NATIVE_BASELINE_MIX_50VU_LOAD3M_SUMMARY.md`](/docs/ecs-native-baseline-mix-50vu-load3m-summary)
 
 ---
 

@@ -3,9 +3,7 @@ title: "0011. Stateless JWT Authentication"
 summary: "The application initially used a hybrid authentication system:"
 ---
 
-**Status:** Accepted
-**Date:** 2025-12-10
-**Context:** Migrate from hybrid JWT plus sessions to fully stateless JWT authentication for horizontal scaling.
+**Status:** Accepted **Date:** 2025-12-10 **Context:** Migrate from hybrid JWT plus sessions to fully stateless JWT authentication for horizontal scaling.
 
 ## **Context**
 

@@ -5,8 +5,7 @@ summary: "This repository contains a public, sanitized subset of Architecture De
 
 This repository contains a public, sanitized subset of Architecture Decision Records (ADRs) from the Forge Platform.
 
-ADRs document consequential engineering decisions—context, constraints, alternatives, and rationale—as a durable
-record of *why* the system is shaped as it is.
+ADRs document consequential engineering decisions—context, constraints, alternatives, and rationale—as a durable record of *why* the system is shaped as it is.
 
 ## Scope and redaction
 

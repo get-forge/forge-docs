@@ -3,9 +3,7 @@ title: "Caching"
 summary: "Quarkus Cache (Caffeine) with shared settings in"
 ---
 
-Quarkus **Cache** (Caffeine) with shared settings in
-[`config/src/main/resources/cache.properties`](https://github.com/get-forge/forge-platform/blob/main/config/src/main/resources/cache.properties).
-See [ADR 0014](/docs/0014-application-caching-strategy).
+Quarkus **Cache** (Caffeine) with shared settings in [`config/src/main/resources/cache.properties`](https://github.com/get-forge/forge-platform/blob/main/config/src/main/resources/cache.properties). See [ADR 0014](/docs/0014-application-caching-strategy).
 
 ## What is enabled
 
@@ -18,8 +16,7 @@ See [ADR 0014](/docs/0014-application-caching-strategy).
 
 ## Supporting code
 
-- **Key generators**: `libs/cache` — `TokenCacheKeyGenerator`, `ActorCacheKeyGenerator`,
-  `ServiceTokenCacheKeyGenerator`.
+- **Key generators**: `libs/cache` — `TokenCacheKeyGenerator`, `ActorCacheKeyGenerator`, `ServiceTokenCacheKeyGenerator`.
 - **Validation**: `CompositeTokenValidator` — `@CacheResult(cacheName = "token-validation", ...)`.
 - **Metrics**: per-cache Caffeine metrics flags in `cache.properties` where set.
 

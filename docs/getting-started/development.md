@@ -9,9 +9,7 @@ For GitHub and AWS setup, CDK in both LocalStack (development) and AWS (upstream
 
 For a compact task index, see [CHEATSHEET.md](/docs/cheatsheet).
 
-For **verified** platform capabilities see [architecture/FEATURES.md](/docs/features); for how-to
-guides (auth, metrics, health, …) see [README.md](/docs/welcome) (**In-depth guides**). For the ADR index see
-[architecture/ADRs.md](/docs/adrs).
+For **verified** platform capabilities see [architecture/FEATURES.md](/docs/features); for how-to guides (auth, metrics, health, …) see [README.md](/docs/welcome) (**In-depth guides**). For the ADR index see [architecture/ADRs.md](/docs/adrs).
 
 ## Table of Contents
 
@@ -27,8 +25,7 @@ guides (auth, metrics, health, …) see [README.md](/docs/welcome) (**In-depth g
 
 ### 1. Required Tooling
 
-Forge is an opinionated platform. It has mature operational tooling, and all operations are exposed as taskfile tasks.  
-First, install task and then install the remaining toolchain before continuing:
+Forge is an opinionated platform. It has mature operational tooling, and all operations are exposed as taskfile tasks. First, install task and then install the remaining toolchain before continuing:
 
 ```bash
 brew install go-task
@@ -37,15 +34,13 @@ task bootstrap:toolchain
 
 ### 2. Maven settings
 
-To allow consumption of GitHub packages published by the public `get-forge/forge-kit` repo, configure local `~/.m2/settings.xml` with GitHub credentials.
-The script prompts for your GitHub username and a classic (only) PAT token named `PAT_FORGE_DEPLOY` that you will need to create.
-The script will back up any existing `~/.m2/settings.xml` file first.
+To allow consumption of GitHub packages published by the public `get-forge/forge-kit` repo, configure local `~/.m2/settings.xml` with GitHub credentials. The script prompts for your GitHub username and a classic (only) PAT token named `PAT_FORGE_DEPLOY` that you will need to create. The script will back up any existing `~/.m2/settings.xml` file first.
 
 ```bash
 task bootstrap:mvn
 ```
 
-See [Authenticating with a personal access token][github-pat-auth].  
+See [Authenticating with a personal access token][github-pat-auth].
 
 [github-pat-auth]: https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry#authenticating-with-a-personal-access-token
 
@@ -73,8 +68,7 @@ Secure both the client host forge group/user and the licence file and directory,
 task bootstrap:licence-secure
 ```
 
-Add each user who will run the app to the forge group, then have them **log out and back in** (a new terminal is not enough on macOS).  
-See the message printed by the script for the exact commands.
+Add each user who will run the app to the forge group, then have them **log out and back in** (a new terminal is not enough on macOS). See the message printed by the script for the exact commands.
 
 After that, running the app as that user is enough; the process can read the licence via group membership.
 
@@ -91,12 +85,10 @@ This script sets up overall:
 - **Root domain**: You must set this to your own domain name where you control the DNS.
 
 And defaults for:
-- **NAT Gateway enabled**: Set to false everywhere for cost optimization (forge uses VPC endpoints internally);
- you only need this enabled if your platform architecture dictates outbound internet access.
+- **NAT Gateway enabled**: Set to false everywhere for cost optimization (forge uses VPC endpoints internally); you only need this enabled if your platform architecture dictates outbound internet access.
 - **ECS desired task count**: Set to 1 for cost optimization.
 
-You can override these values on a per-environment basis.
-By convention, forge treats DEV/INT as non-production environments and TEST/PROD as production-like environments.
+You can override these values on a per-environment basis. By convention, forge treats DEV/INT as non-production environments and TEST/PROD as production-like environments.
 
 ### 6. Development environment Variables (.envrc)
 
@@ -119,10 +111,7 @@ This script sets up, and you will be prompted for:
 
 ### 7. AWS Cognito
 
-LocalStack does not fully support AWS Cognito.
-You will need to provision AWS Cognito resources in your development sandbox AWS account.
-This enables localhost Quarkus to talk to Cognito while other dependencies are LocalStack/Docker.
-This is fully supported in the AWS free tier:
+LocalStack does not fully support AWS Cognito. You will need to provision AWS Cognito resources in your development sandbox AWS account. This enables localhost Quarkus to talk to Cognito while other dependencies are LocalStack/Docker. This is fully supported in the AWS free tier:
 
 ```bash
 task cdk:synth
@@ -182,16 +171,13 @@ task seed:localstack
 
 ### 9. Integration test users
 
-Once AWS Cognito is provisioned, copy test user data to the Cognito user pool `forge-actor-pool` and sync those
-identities into Postgres `actor.actors` (Cognito holds credentials; Postgres holds actor metadata). This ensures
-authentication testing can occur with predefined test users:
+Once AWS Cognito is provisioned, copy test user data to the Cognito user pool `forge-actor-pool` and sync those identities into Postgres `actor.actors` (Cognito holds credentials; Postgres holds actor metadata). This ensures authentication testing can occur with predefined test users:
 
 ```bash
 task seed:it:up -- --target local
 ```
 
-**Prerequisites**:
-Service `actor-service` needs to have been started to create the `ACTORS` table (via Flyway) in Postgres.
+**Prerequisites**: Service `actor-service` needs to have been started to create the `ACTORS` table (via Flyway) in Postgres.
 
 ```bash
 # run all quarkus dev services

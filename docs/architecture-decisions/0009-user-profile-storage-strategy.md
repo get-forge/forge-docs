@@ -3,9 +3,7 @@ title: "0009. User Profile Storage Strategy"
 summary: "We must choose between:"
 ---
 
-**Status:** Accepted
-**Date:** 2025-11-25
-**Context:** Cognito handles auth; we must store extended profile attributes beyond basic identity and choose Cognito attributes vs application database.
+**Status:** Accepted **Date:** 2025-11-25 **Context:** Cognito handles auth; we must store extended profile attributes beyond basic identity and choose Cognito attributes vs application database.
 
 ## **Context**
 
@@ -14,15 +12,13 @@ We must choose between:
 1. Storing extended attributes directly in **AWS Cognito** user attributes, or
 2. Using **Cognito only for authentication** and storing extended attributes in our **own application database** (e.g., RDS).
 
-Enterprise requirements include: scalability, schema evolution, auditability, portability,
-integration with domain models, and avoiding vendor lock-in.
+Enterprise requirements include: scalability, schema evolution, auditability, portability, integration with domain models, and avoiding vendor lock-in.
 
 ---
 
 ## **Decision**
 
-Use **Cognito exclusively for identity and authentication** and store all extended user profile attributes in our **application database (RDS)**.
-Cognito remains the identity provider; the application database becomes the system of record for user profile data.
+Use **Cognito exclusively for identity and authentication** and store all extended user profile attributes in our **application database (RDS)**. Cognito remains the identity provider; the application database becomes the system of record for user profile data.
 
 ---
 

@@ -3,15 +3,13 @@ title: "Operations"
 summary: "Tasks that sit outside day-to-day service development: local metrics (Prometheus and Grafana),"
 ---
 
-Tasks that sit outside day-to-day service development: local metrics (Prometheus and Grafana),
-CDK against AWS or LocalStack, and one-time GitHub Actions OIDC bootstrap.
+Tasks that sit outside day-to-day service development: local metrics (Prometheus and Grafana), CDK against AWS or LocalStack, and one-time GitHub Actions OIDC bootstrap.
 
 For machine setup and running Quarkus locally, see [DEVELOPMENT.md](/docs/development).
 
 For a compact task index, see [CHEATSHEET.md](/docs/cheatsheet).
 
-For step-by-step operational runbook procedures (for example ECS native vs JVM, self-hosted runners for image builds,
-and other topics as they are added), see [RUNBOOK.md](/docs/runbook).
+For step-by-step operational runbook procedures (for example ECS native vs JVM, self-hosted runners for image builds, and other topics as they are added), see [RUNBOOK.md](/docs/runbook).
 
 ## Table of contents
 
@@ -25,25 +23,18 @@ and other topics as they are added), see [RUNBOOK.md](/docs/runbook).
 
 ## GitHub Setup
 
-Forge Platform pipelines run on free tier GitHub plans.  
-Most workflows complete in a few minutes, with all workflows currently completing in under 10 minutes.
-Paid business plans will allow you to optimize runners and reduce build times further.
+Forge Platform pipelines run on free tier GitHub plans. Most workflows complete in a few minutes, with all workflows currently completing in under 10 minutes. Paid business plans will allow you to optimize runners and reduce build times further.
 
 ### 1. Setup AWS IAM resources for GitHub Actions OIDC
 
-First-time (only) INT deployment of stack `Forge-INT/GitHubRoleStack` must occur outside GitHub.  
-Workflows call `aws-actions/configure-aws-credentials` a role that is only created when CDK deploys `Forge-INT/GitHubRoleStack`.  
-There is no CDK pattern that avoids this: **something** must authenticate to AWS before the role exists.  
-Once per account/region, from a machine already logged into the **INT** AWS account (SSO, IAM user, or similar), deploy
-only the role stack:
+First-time (only) INT deployment of stack `Forge-INT/GitHubRoleStack` must occur outside GitHub. Workflows call `aws-actions/configure-aws-credentials` a role that is only created when CDK deploys `Forge-INT/GitHubRoleStack`. There is no CDK pattern that avoids this: **something** must authenticate to AWS before the role exists. Once per account/region, from a machine already logged into the **INT** AWS account (SSO, IAM user, or similar), deploy only the role stack:
 
 ```bash
 FORGE_STAGE_ENV=INT task cdk:synth
 FORGE_STAGE_ENV=INT task aws:deploy-github-role
 ```
 
-After that, GitHub Actions can assume the role and GitHub Actions workflows will succeed.  
-Only the **INT** stage defines `GitHubRoleStack`; other stages do not create this role.
+After that, GitHub Actions can assume the role and GitHub Actions workflows will succeed. Only the **INT** stage defines `GitHubRoleStack`; other stages do not create this role.
 
 ### 2. Setup GitHub Actions Variables and Secrets
 
@@ -70,8 +61,7 @@ External third-party secrets:
 - `CODECOV_TOKEN` - Codecov token for coverage reporting; see [Codecov](https://codecov.io/)
 - `LOCALSTACK_AUTH_TOKEN` - LocalStack auth token for integration tests; see [LocalStack - Auth Token](https://docs.localstack.cloud/aws/getting-started/auth-token/)
 
-Optional secrets:
-If you wish to retain frontend ability to 'Login with LinkedIn' you must specify:
+Optional secrets: If you wish to retain frontend ability to 'Login with LinkedIn' you must specify:
 - `LINKEDIN_OAUTH2_CLIENT_ID` - LinkedIn Oauth2 client ID; see [LinkedIn - OAUTH 2.0 Overview](https://learn.microsoft.com/en-gb/linkedin/shared/authentication/authentication)
 - `LINKEDIN_OAUTH2_CLIENT_SECRET` - LinkedIn Oauth2 client secret
 - `FORGE_OAUTH2_REFRESH_TOKEN_ENCRYPTION_KEY` - Encryption key for OAuth2 refresh token encryption
@@ -80,25 +70,15 @@ If you wish to retain frontend ability to 'Login with LinkedIn' you must specify
 
 ## AWS Setup
 
-Because AWS environments vary widely across clients — especially in enterprise contexts — this project relies on a
-minimal, profile-based configuration (access key, secret, and region) to avoid imposing assumptions about account
-structure, IAM policies, or organizational setup.
+Because AWS environments vary widely across clients — especially in enterprise contexts — this project relies on a minimal, profile-based configuration (access key, secret, and region) to avoid imposing assumptions about account structure, IAM policies, or organizational setup.
 
-For greenfield teams or startups without established AWS conventions, it is recommended to bootstrap your AWS
-environments using [Superwerker](https://github.com/superwerker/superwerker), developed by AWS Advanced Partners.
-Superwerker provides a well-architected baseline with sensible defaults around multi-account structure, security
-boundaries, and blast radius management.
+For greenfield teams or startups without established AWS conventions, it is recommended to bootstrap your AWS environments using [Superwerker](https://github.com/superwerker/superwerker), developed by AWS Advanced Partners. Superwerker provides a well-architected baseline with sensible defaults around multi-account structure, security boundaries, and blast radius management.
 
-Forge Platform development makes extensive use of LocalStack (Docker).
-AWS Cognito is unsupported in LocalStack however, and requires AWS proper; this is available on AWS free tier.
+Forge Platform development makes extensive use of LocalStack (Docker). AWS Cognito is unsupported in LocalStack however, and requires AWS proper; this is available on AWS free tier.
 
-> 💡 **Note:** Forge currently supports deployment within a single AWS region per environment, including multi-AZ
-> infrastructure patterns for high availability inside that region.
+> 💡 **Note:** Forge currently supports deployment within a single AWS region per environment, including multi-AZ infrastructure patterns for high availability inside that region.
 >
-> Multi-region deployment, replication, and failover patterns are planned roadmap areas and are expected to evolve
-> alongside enterprise operational requirements. The current single-region posture is intentionally pragmatic for most
-> early-stage and mid-scale deployments, where operational simplicity is typically more valuable than cross-region
-> complexity.
+> Multi-region deployment, replication, and failover patterns are planned roadmap areas and are expected to evolve alongside enterprise operational requirements. The current single-region posture is intentionally pragmatic for most early-stage and mid-scale deployments, where operational simplicity is typically more valuable than cross-region complexity.
 
 ### 1. Development Environment `forge-sandbox` profile
 
@@ -130,8 +110,7 @@ GitHub Actions needs GitHubRoleStack to exist first; bootstrap it manually once 
 
 DEV is the usual stage for local CDK defaults; CI/CD runs with `FORGE_STAGE_ENV=INT` (see [01-infra-bootstrap.yml](https://github.com/get-forge/forge-platform/blob/main/.github/workflows/01-infra-bootstrap.yml)).
 
-Use this section’s `task aws:*` tasks for AWS CDK deploys — the same shape as CI.
-Use [CDK and LocalStack](#cdk-and-localstack) for LocalStack-only CDK development.
+Use this section’s `task aws:*` tasks for AWS CDK deploys — the same shape as CI. Use [CDK and LocalStack](#cdk-and-localstack) for LocalStack-only CDK development.
 
 ```bash
 task cdk:install                                   # npm install in infra/ (CI and real AWS)
@@ -164,6 +143,7 @@ task cdk:deploy-runtime
 ```
 
 ## Local metrics
+
 Prometheus and Grafana run in the same local Docker stack as LocalStack, Jaeger, and Postgres (not emulated AWS services).
 
 **IaC for Metrics is a priority on the Release Roadmap.** See [ROADMAP.md](/docs/roadmap)

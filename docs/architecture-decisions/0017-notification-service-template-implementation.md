@@ -3,9 +3,7 @@ title: "0017. Notification Service Template Storage"
 summary: "The Notification Service requires template storage for email, SMS, and push notifications. Templates need to:"
 ---
 
-**Status:** Accepted
-**Date:** 2026-01-23
-**Context:** Where and how notification templates (email, SMS, push) are stored, versioned, and scaled.
+**Status:** Accepted **Date:** 2026-01-23 **Context:** Where and how notification templates (email, SMS, push) are stored, versioned, and scaled.
 
 ## **Context**
 

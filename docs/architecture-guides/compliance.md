@@ -3,43 +3,30 @@ title: "Security and Compliance Control Mapping for Forked Deployments"
 summary: "Forge Platform itself cannot meaningfully represent a production deployment as \"compliant\" because Forge is not operated"
 ---
 
-Forge Platform itself cannot meaningfully represent a production deployment as "compliant" because Forge is not operated
-as a centralized SaaS platform. Forge is always deployed, extended, configured, and operated inside AWS accounts owned
-by the operator organization. Compliance outcomes therefore depend on the deployed environment, operational controls,
-organizational processes, and legal agreements implemented by the operator.
+Forge Platform itself cannot meaningfully represent a production deployment as "compliant" because Forge is not operated as a centralized SaaS platform. Forge is always deployed, extended, configured, and operated inside AWS accounts owned by the operator organization. Compliance outcomes therefore depend on the deployed environment, operational controls, organizational processes, and legal agreements implemented by the operator.
 
 ## Purpose
 
-This document maps Forge capabilities to common security and compliance expectations and clarifies what must be
-implemented and evidenced by the organization operating a forked deployment.
+This document maps Forge capabilities to common security and compliance expectations and clarifies what must be implemented and evidenced by the organization operating a forked deployment.
 
-- Forge provides a security-focused technical baseline designed to support common compliance objectives. Compliance
-outcomes are achieved at the level of the deployed system and the operating organization, not at the framework or
-source-repository level.
-- Progress is a developer-assessed mapping of repository capabilities to common compliance expectations. It is not an
-  audit determination, certification, attestation, or legal interpretation.
+- Forge provides a security-focused technical baseline designed to support common compliance objectives. Compliance outcomes are achieved at the level of the deployed system and the operating organization, not at the framework or source-repository level.
+- Progress is a developer-assessed mapping of repository capabilities to common compliance expectations. It is not an audit determination, certification, attestation, or legal interpretation.
 
 ## Definitions
 
 - **Operator**: The organization running a forked deployment of Forge in its own AWS accounts.
-- **Forge Platform**: Reference services, libraries, and infrastructure as code (IaC) that operators can deploy
-  and extend.
+- **Forge Platform**: Reference services, libraries, and infrastructure as code (IaC) that operators can deploy and extend.
 
 ## Adoption stance (agnostic by design)
 
-Forge intentionally ships a minimal-assumption, non-prescriptive baseline so teams can adopt it without redesigning
-their AWS estate. The default developer path uses a sandbox profile (`forge-sandbox`) and avoids forcing a specific
-enterprise landing-zone topology.
+Forge intentionally ships a minimal-assumption, non-prescriptive baseline so teams can adopt it without redesigning their AWS estate. The default developer path uses a sandbox profile (`forge-sandbox`) and avoids forcing a specific enterprise landing-zone topology.
 
 What this means in practice:
 
 - Controls in this document are a reference and recommendation set, not a mandate for one AWS account model.
-- Some operators run single-account or light setups; others run enterprise multi-account structures with centralized
-  security tooling.
-- Both paths can satisfy control objectives when required controls are implemented and evidenced in the operator
-  environment.
-- If you already use a landing-zone framework (for example, [Superwerker](https://superwerker.cloud/)), map Forge control
-  objectives into that foundation instead of reshaping your organization around Forge.
+- Some operators run single-account or light setups; others run enterprise multi-account structures with centralized security tooling.
+- Both paths can satisfy control objectives when required controls are implemented and evidenced in the operator environment.
+- If you already use a landing-zone framework (for example, [Superwerker](https://superwerker.cloud/)), map Forge control objectives into that foundation instead of reshaping your organization around Forge.
 
 ## Responsibility split
 
@@ -48,13 +35,11 @@ What this means in practice:
 | **Forge Platform** | Reference application, libraries, and CDK stacks operators can deploy. Security-relevant patterns (authn/authz, audit emission, infrastructure defaults) are implemented here when stated below.                                                                                                        |
 | **Operator**       | Owns the AWS accounts, data classification, policies, workforce training, vendor agreements (for example BAAs for HIPAA), data processing agreements (DPAs) and lawful basis (GDPR), SOC 2 control operation and evidence, monitoring of the full AWS account, and gap closure outside this repository. |
 
-Deploying Forge does not make an operator compliant. Compliance requires the deployed system, operating processes, and
-legal agreements to work together.
+Deploying Forge does not make an operator compliant. Compliance requires the deployed system, operating processes, and legal agreements to work together.
 
 ## Architectural planes (audit vocabulary)
 
-Auditors often partition systems into planes. The table below maps that vocabulary to how Forge is implemented and
-operated.
+Auditors often partition systems into planes. The table below maps that vocabulary to how Forge is implemented and operated.
 
 | Plane                                | Meaning in Forge                                                                                          | Primary locations                                                                                                                                        |
 |--------------------------------------|-----------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -73,8 +58,7 @@ The tables below intentionally separate three layers:
 
 ## Progress checklist (repository and typical deploy)
 
-The Forge Platform security posture continues to evolve through ongoing platform hardening, infrastructure refinement, and ADR-driven architecture
-work. Several areas marked as partial or operator-extensible are active areas of platform evolution and may change over time as the platform matures.
+The Forge Platform security posture continues to evolve through ongoing platform hardening, infrastructure refinement, and ADR-driven architecture work. Several areas marked as partial or operator-extensible are active areas of platform evolution and may change over time as the platform matures.
 
 Progress is expressed using the symbols below for a standard AWS deployment.
 
@@ -189,31 +173,20 @@ Typical mappings auditors discuss. Criteria labels vary by report.
 
 ## GDPR-oriented notes
 
-- **Controller vs processor**: Operators are typically controllers for their users' data. Forge is a tool they operate.
-  Legal roles depend on contracts and facts, not this file.
-- **Technical measures**: Encryption in transit (TLS termination at ALB), encryption at rest on RDS, secrets handling,
-  and
-  audit hooks support GDPR Article 32 security-of-processing discussions when operators complete logging, monitoring,
-  and
-  incident practices.
-- **Data subject rights**: Operators implement procedures (and possibly product features) for access, rectification,
-  erasure, and portability across all stores, including Cognito, RDS, DynamoDB, and S3.
+- **Controller vs processor**: Operators are typically controllers for their users' data. Forge is a tool they operate. Legal roles depend on contracts and facts, not this file.
+- **Technical measures**: Encryption in transit (TLS termination at ALB), encryption at rest on RDS, secrets handling, and audit hooks support GDPR Article 32 security-of-processing discussions when operators complete logging, monitoring, and incident practices.
+- **Data subject rights**: Operators implement procedures (and possibly product features) for access, rectification, erasure, and portability across all stores, including Cognito, RDS, DynamoDB, and S3.
 
 ## HIPAA-oriented notes (high level)
 
-HIPAA compliance depends on a BAA, scoped systems, and operational safeguards. Forge can support technical safeguards
-commonly expected in HIPAA-aligned deployments (access control, audit records, encryption, transmission security) when
-deployed and operated appropriately, but:
+HIPAA compliance depends on a BAA, scoped systems, and operational safeguards. Forge can support technical safeguards commonly expected in HIPAA-aligned deployments (access control, audit records, encryption, transmission security) when deployed and operated appropriately, but:
 
 - No BAA is offered by this document.
-- PHI must be classified; operators close gaps (for example immutable centralized audit storage, complete monitoring,
-  vendor agreements with subprocessors such as AWS).
+- PHI must be classified; operators close gaps (for example immutable centralized audit storage, complete monitoring, vendor agreements with subprocessors such as AWS).
 
 ## Related documentation
 
 - `docs/architecture-guides/infrastructure.md` - AWS layout, stacks, security posture overview.
 - `docs/architecture-guides/audit-service.md` - Audit pipeline and PII guidance for emitters.
 - `docs/architecture-guides/user-authentication.md`, `docs/architecture-guides/service-authentication.md` - Auth flows.
-- ADRs under `docs/architecture-decisions/` - Especially 0004 (Cognito), 0005 (STS), 0007 (observability), 0008
-  (REST vs SQS), 0011 (JWT), 0019 (notification tokens), 0020 (VPC), 0021 (removal policies), 0024 (internal TLS and
-  sensitivity).
+- ADRs under `docs/architecture-decisions/` - Especially 0004 (Cognito), 0005 (STS), 0007 (observability), 0008 (REST vs SQS), 0011 (JWT), 0019 (notification tokens), 0020 (VPC), 0021 (removal policies), 0024 (internal TLS and sensitivity).

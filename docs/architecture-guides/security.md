@@ -270,9 +270,7 @@ Status meaning:
 
 ## Verified IAM wildcard exceptions inventory
 
-Audit date: 2026-04-27  
-Audit scope: repository-authored IAM policy code in `infra/src` constructs and IAM utilities.
-Method note: this inventory is derived from repository-level static analysis and should be revalidated as part of platform release review.
+Audit date: 2026-04-27 Audit scope: repository-authored IAM policy code in `infra/src` constructs and IAM utilities. Method note: this inventory is derived from repository-level static analysis and should be revalidated as part of platform release review.
 
 ### Validation result
 

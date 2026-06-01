@@ -3,9 +3,7 @@ title: "0004. Use AWS Cognito Across All Environments (Production and Developmen
 summary: "We need a unified authentication strategy for a web application that supports:"
 ---
 
-**Status:** Accepted
-**Date:** 2025-10-27
-**Context:** Continuation of ADR-0003 (Auth); unified Cognito across environments after development tooling and cost analysis.
+**Status:** Accepted **Date:** 2025-10-27 **Context:** Continuation of ADR-0003 (Auth); unified Cognito across environments after development tooling and cost analysis.
 
 ## **Context**
 
@@ -123,7 +121,6 @@ We will adopt the following strategy:
 
 ---
 
-This ADR ensures that authentication is consistent, secure, and cost-effective across all environments,
-while providing full functionality without expensive development tools.
+This ADR ensures that authentication is consistent, secure, and cost-effective across all environments, while providing full functionality without expensive development tools.
 
 ---

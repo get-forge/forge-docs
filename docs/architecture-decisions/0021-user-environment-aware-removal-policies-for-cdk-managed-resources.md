@@ -3,9 +3,7 @@ title: "0021. Environment-aware removal policies for CDK-managed resources"
 summary: "AWS CDK resources support a RemovalPolicy that determines whether resources are deleted or retained when a stack is destroyed or a resource is…"
 ---
 
-**Status:** Accepted
-**Date:** 2026-03-27
-**Context:** CDK `RemovalPolicy` must balance destroy vs retain by environment and resource type without orphans or data loss.
+**Status:** Accepted **Date:** 2026-03-27 **Context:** CDK `RemovalPolicy` must balance destroy vs retain by environment and resource type without orphans or data loss.
 
 ## Context
 
@@ -27,8 +25,7 @@ Adopt an **environment-sensitive and resource-type-aware removal policy strategy
 
 * **Non-production (dev/test):**
 
-  * Default: `DESTROY`
-*
+  * Default: `DESTROY` *
 * **Production:**
 
   * Use `RETAIN` **only for stateful resources**

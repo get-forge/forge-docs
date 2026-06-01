@@ -3,8 +3,7 @@ title: "ECS Scaling Phase 4 — 200 VU Performance Envelope and Operating Point"
 summary: "This document is the Phase 4 output from PERFTESTPLAN.md: a consolidated performance profile at 200 VUs"
 ---
 
-This document is the **Phase 4 output** from `PERF_TEST_PLAN.md`: a consolidated performance profile at **200 VUs**
-derived from five k6 runs, incorporating both configuration tuning and horizontal scaling adjustments.
+This document is the **Phase 4 output** from `PERF_TEST_PLAN.md`: a consolidated performance profile at **200 VUs** derived from five k6 runs, incorporating both configuration tuning and horizontal scaling adjustments.
 
 ## Important Context
 
@@ -19,9 +18,7 @@ derived from five k6 runs, incorporating both configuration tuning and horizonta
 | **1–2** | Exploratory: 1 ECS task per service; Run 2 includes connection-pool tuning. Use for **before/after horizontal scaling**, not as the steady-state envelope. |
 | **3–5** | **Steady-state envelope:** 200 VUs, **2 ECS tasks** per service, same reduced pool sizing (`max-size=14`, `min-size=5`), same k6 scenario. Raw output: [`ecs-native-baseline-mix-200vu-load3m-raw.txt`](https://raw.githubusercontent.com/get-forge/forge-docs/main/assets/performance/phase_4/ecs-native-baseline-mix-200vu-load3m-raw.txt). |
 
-**Stabilization nuance:** Run 3 is the first run after the topology + pool change; Runs 4–5 are fully settled.
-Metrics align across all three; Run 3 confirms immediate consistency after the change, Runs 4–5 are the cleanest
-steady-state samples for a strict reading.
+**Stabilization nuance:** Run 3 is the first run after the topology + pool change; Runs 4–5 are fully settled. Metrics align across all three; Run 3 confirms immediate consistency after the change, Runs 4–5 are the cleanest steady-state samples for a strict reading.
 
 ---
 

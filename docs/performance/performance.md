@@ -5,9 +5,7 @@ summary: "We executed a structured performance test plan against Forge deployed 
 
 ## Executive Summary
 
-We executed a structured performance test plan against Forge deployed on AWS ECS (GraalVM native) using k6
-load generation from inside the same VPC. The key result is that Forge demonstrated **repeatable throughput**
-and **predictable tail latency** at scale, with clear saturation signals and clean recovery via horizontal scaling.
+We executed a structured performance test plan against Forge deployed on AWS ECS (GraalVM native) using k6 load generation from inside the same VPC. The key result is that Forge demonstrated **repeatable throughput** and **predictable tail latency** at scale, with clear saturation signals and clean recovery via horizontal scaling.
 
 Across the baseline and tuned scaling envelopes:
 
@@ -15,27 +13,17 @@ Across the baseline and tuned scaling envelopes:
 - **~111 req/s @ 100 VUs** (scaling step)
 - **~222 req/s @ 200 VUs** (after scaling from **1 → 2 ECS tasks**, steady-state Runs **3–5**)
 
-Throughout these steps, aggregate HTTP medians remained in the **single-digit millisecond** range. This is the strongest
-evidence that the **internal service tier is not the bottleneck** for this workload at these concurrency levels and that
-the services recover predictably under horizontal scaling.
+Throughout these steps, aggregate HTTP medians remained in the **single-digit millisecond** range. This is the strongest evidence that the **internal service tier is not the bottleneck** for this workload at these concurrency levels and that the services recover predictably under horizontal scaling.
 
 What we can confidently say:
 
 - **Repeatability**: Run-to-run variation in the steady-state envelopes is very small (sub-1% at the relevant steps).
-- **Scalability with saturation + recovery**: Scaling remained near-linear until the **single-task saturation point** was approached.
-  At **200 VUs**, the **1-task topology** began approaching saturation at **~190 req/s** (Runs 1–2); scaling to **2 ECS tasks**
-  restored low-latency steady state at **~222 req/s** (Runs 3–5).
+- **Scalability with saturation + recovery**: Scaling remained near-linear until the **single-task saturation point** was approached. At **200 VUs**, the **1-task topology** began approaching saturation at **~190 req/s** (Runs 1–2); scaling to **2 ECS tasks** restored low-latency steady state at **~222 req/s** (Runs 3–5).
 - **Stateless scaling**: The clean 1 → 2 task recovery behaviour is consistent with a **stateless service architecture**.
-- **GraalVM native runtime**: The ECS runs used **GraalVM native images** throughout. This contributed to maintaining stable
-  low-latency behaviour at intentionally small task sizes.
-- **Primary tail drivers (not fully isolated)**: Authentication-heavy flows dominate observed tail latency in the mixed workload, with
-  **Cognito and related auth-path infrastructure** contributing materially to aggregate p95/p99 behaviour. Attribution is not fully
-  isolated (auth path also includes WAF/ALB/network and seeded-user concurrency effects).
-- **Small-footprint efficiency**: These results were achieved on intentionally minimal infrastructure sizing (**0.25 vCPU / 512 MiB**
-  ECS tasks and a `t3.micro`-class database), validating a high throughput-per-resource operating point before any production-scale vertical tuning.
-- **What this does *not* mean**: These figures should not be interpreted as universal “application capacity” numbers. Forge is a platform
-  foundation; production throughput will depend on workload mix, enabled domain services, infrastructure profile, caching strategy, and
-  external integrations in a given deployment.
+- **GraalVM native runtime**: The ECS runs used **GraalVM native images** throughout. This contributed to maintaining stable low-latency behaviour at intentionally small task sizes.
+- **Primary tail drivers (not fully isolated)**: Authentication-heavy flows dominate observed tail latency in the mixed workload, with **Cognito and related auth-path infrastructure** contributing materially to aggregate p95/p99 behaviour. Attribution is not fully isolated (auth path also includes WAF/ALB/network and seeded-user concurrency effects).
+- **Small-footprint efficiency**: These results were achieved on intentionally minimal infrastructure sizing (**0.25 vCPU / 512 MiB** ECS tasks and a `t3.micro`-class database), validating a high throughput-per-resource operating point before any production-scale vertical tuning.
+- **What this does *not* mean**: These figures should not be interpreted as universal “application capacity” numbers. Forge is a platform foundation; production throughput will depend on workload mix, enabled domain services, infrastructure profile, caching strategy, and external integrations in a given deployment.
 
 For the detailed results and math, see the phase write-ups in this directory, especially Phase 4:
 
@@ -79,16 +67,13 @@ This is not a “final production architecture”; it is a controlled baseline t
 
 ## Tuning and feedback (what we changed and why it mattered)
 
-The overall story of tuning in these phases is that we addressed connection lifecycle and pool sizing so the system would
-remain stable under higher concurrency.
+The overall story of tuning in these phases is that we addressed connection lifecycle and pool sizing so the system would remain stable under higher concurrency.
 
 - **REST client connection lifecycle**
   - We observed connection churn symptoms on internal calls at 100 VUs.
-  - Mitigation was to bound reuse by setting a REST client connection TTL (documented in the Phase 4, 100 VUs envelope):
-    [`performance/phase_4/ECS_NATIVE_BASELINE_MIX_100VU_LOAD3M_ENVELOPE.md`](/docs/ecs-native-baseline-mix-100vu-load3m-envelope)
+  - Mitigation was to bound reuse by setting a REST client connection TTL (documented in the Phase 4, 100 VUs envelope): [`performance/phase_4/ECS_NATIVE_BASELINE_MIX_100VU_LOAD3M_ENVELOPE.md`](/docs/ecs-native-baseline-mix-100vu-load3m-envelope)
 - **Database connection pool tuning**
-  - At 200 VUs, we tuned DB pool sizing and then reduced pool sizing again once we scaled out to two tasks per service
-    (the steady-state envelope Runs 3–5 use `max-size=14`, `min-size=5`).
+  - At 200 VUs, we tuned DB pool sizing and then reduced pool sizing again once we scaled out to two tasks per service (the steady-state envelope Runs 3–5 use `max-size=14`, `min-size=5`).
   - This helped keep queueing and resource contention under control as concurrency increased.
 
 ---
@@ -114,8 +99,7 @@ Raw artifacts (k6 outputs, CSV extracts, screenshots) are stored adjacent to the
 
 ## Phase 4 focus (200 VUs, Runs 3–5)
 
-Phase 4 at 200 VUs is the first materially production-like scaling dataset, in the sense that it uses **true concurrent multi-user
-behaviour** and repeatable steady-state runs after tuning and horizontal scaling.
+Phase 4 at 200 VUs is the first materially production-like scaling dataset, in the sense that it uses **true concurrent multi-user behaviour** and repeatable steady-state runs after tuning and horizontal scaling.
 
 From the Phase 4 envelope:
 
@@ -141,8 +125,7 @@ Interpretation:
 This test’s “baseline mix” scenario is intentionally auth-heavy and exercises external identity operations. As a result:
 
 - **AWS Cognito** is a dominant contributor to observed tail latency for login/register in the aggregate `http_req_duration` metrics.
-- The workload also includes AWS-managed infrastructure components (ALB/WAF/ECS/RDS), which can contribute variance at higher load,
-  but in these runs we did not observe systemic infrastructure instability.
+- The workload also includes AWS-managed infrastructure components (ALB/WAF/ECS/RDS), which can contribute variance at higher load, but in these runs we did not observe systemic infrastructure instability.
 
 This is why “system-wide p95/p99” in the mixed scenario should be interpreted as **end-to-end including auth**, not purely internal service compute.
 
@@ -150,8 +133,7 @@ This is why “system-wide p95/p99” in the mixed scenario should be interprete
 
 ## Future work and why we stopped at 200 VUs
 
-Phase 4’s objective was not simply to maximize VU count. It was to identify whether saturation signals appeared and whether the platform
-recovered predictably under horizontal scaling. The 200 VU runs achieved both outcomes.
+Phase 4’s objective was not simply to maximize VU count. It was to identify whether saturation signals appeared and whether the platform recovered predictably under horizontal scaling. The 200 VU runs achieved both outcomes.
 
 We stopped at 200 VUs because we had already demonstrated the properties we needed for this stage:
 
@@ -163,8 +145,7 @@ The next steps depend on the audience and intended production shape:
 
 - **Go higher (300–500+ VUs)** to extend the scaling curve and identify the next saturation point under the scaled topology.
 - **Isolate auth** (e.g., token reuse / auth-bypassed scenarios) to quantify internal service capacity without Cognito in the loop.
-- **Match a target production profile** (task sizing, DB class, multi-AZ, caching, domain services enabled) and re-run the same plan to
-  produce a customer-facing capacity model.
+- **Match a target production profile** (task sizing, DB class, multi-AZ, caching, domain services enabled) and re-run the same plan to produce a customer-facing capacity model.
 
 ---
 

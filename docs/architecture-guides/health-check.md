@@ -6,8 +6,7 @@ summary: "Abstract checks live in get-forge/forge-kit — package io.forge.kit.h
 ## Quarkus
 
 - **Liveness** and **readiness** via SmallRye Health (`/q/health`, `/q/health/live`, `/q/health/ready`).
-- **ECS / ALB**: target group health check path is **`/q/health/ready`** (see
-  [`forge-elb-target-group-construct.ts`](https://github.com/get-forge/forge-platform/blob/main/infra/src/lib/construct/forge-elb-target-group-construct.ts)).
+- **ECS / ALB**: target group health check path is **`/q/health/ready`** (see [`forge-elb-target-group-construct.ts`](https://github.com/get-forge/forge-platform/blob/main/infra/src/lib/construct/forge-elb-target-group-construct.ts)).
 
 ## forge-kit: forge-health-aws
 

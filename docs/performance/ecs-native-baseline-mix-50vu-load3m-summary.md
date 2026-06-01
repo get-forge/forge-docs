@@ -41,8 +41,7 @@ Across 5 identical runs, the system demonstrates:
 
 ### Core takeaway
 
-> The system exhibits a stable, repeatable performance envelope under steady-state load at 50 concurrent
-> users, with no signs of internal saturation at this level.
+> The system exhibits a stable, repeatable performance envelope under steady-state load at 50 concurrent users, with no signs of internal saturation at this level.
 
 ---
 
@@ -65,8 +64,7 @@ Across 5 identical runs, the system demonstrates:
 
 * 0% failures in 5/5 runs
 
-Quantitative consolidation (mean RPS, percentile bands, operating point) lives in
-[`../phase_2/ECS_NATIVE_BASELINE_MIX_50VU_LOAD3M_ENVELOPE.md`](/docs/ecs-native-baseline-mix-50vu-load3m-envelope).
+Quantitative consolidation (mean RPS, percentile bands, operating point) lives in [`../phase_2/ECS_NATIVE_BASELINE_MIX_50VU_LOAD3M_ENVELOPE.md`](/docs/ecs-native-baseline-mix-50vu-load3m-envelope).
 
 ---
 
@@ -178,8 +176,7 @@ All runs:
 
 → ECS native performs better overall, despite network overhead
 
-**Key insight:**
-Native images + ECS steady-state execution offset network overhead from localhost testing.
+**Key insight:** Native images + ECS steady-state execution offset network overhead from localhost testing.
 
 ---
 
@@ -190,8 +187,7 @@ Native images + ECS steady-state execution offset network overhead from localhos
 
 → Essentially unchanged
 
-**Interpretation:**
-Tail latency is dominated by external dependency (Cognito), not compute layer.
+**Interpretation:** Tail latency is dominated by external dependency (Cognito), not compute layer.
 
 ---
 
@@ -229,8 +225,7 @@ Tail latency is dominated by external dependency (Cognito), not compute layer.
 
 At 50 concurrent users:
 
-> The system demonstrates a stable, repeatable performance envelope with ~55 RPS throughput, sub-10ms
-> median internal latency, and predictable tail latency primarily driven by AWS Cognito.
+> The system demonstrates a stable, repeatable performance envelope with ~55 RPS throughput, sub-10ms median internal latency, and predictable tail latency primarily driven by AWS Cognito.
 
 ### What can be confidently stated
 

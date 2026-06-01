@@ -3,9 +3,7 @@ title: "0012. Clean Architecture Package Structure Standards"
 summary: "The codebase had inconsistent package structures across modules:"
 ---
 
-**Status:** Accepted
-**Date:** 2025-12-10
-**Context:** Standardize Java package structure across modules using Clean Architecture principles.
+**Status:** Accepted **Date:** 2025-12-10 **Context:** Standardize Java package structure across modules using Clean Architecture principles.
 
 ## **Context**
 
@@ -22,8 +20,7 @@ This inconsistency made the codebase harder to navigate, understand, and maintai
 
 ## **Decision**
 
-We will adopt **Clean Architecture package structure standards** across all modules. All services,
-applications, and libraries must follow these standards.
+We will adopt **Clean Architecture package structure standards** across all modules. All services, applications, and libraries must follow these standards.
 
 ### **Core Principles**
 

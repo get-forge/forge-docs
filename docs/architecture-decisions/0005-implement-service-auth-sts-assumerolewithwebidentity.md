@@ -3,30 +3,21 @@ title: "0005. Implement Service-to-Service Authentication Using AWS STS AssumeRo
 summary: "Our authentication design established AWS Cognito as the identity provider across all environments"
 ---
 
-**Status:** Accepted
-**Date:** 2025-10-27
-**Context:** Continuation of ADR-0004; service-to-service authentication and secure AWS IAM access via Cognito and STS.
+**Status:** Accepted **Date:** 2025-10-27 **Context:** Continuation of ADR-0004; service-to-service authentication and secure AWS IAM access via Cognito and STS.
 
 ## **Context**
 
-Our authentication design established AWS Cognito as the identity provider across all environments
-(production, staging, and development). Both environments use Cognito **User Pools** for username/password
-login and social identity integration via **Identity Pools**.
+Our authentication design established AWS Cognito as the identity provider across all environments (production, staging, and development). Both environments use Cognito **User Pools** for username/password login and social identity integration via **Identity Pools**.
 
-As we move toward full integration, it became clear that our backend services will require **direct
-access to AWS resources** such as **DynamoDB, S3, and SQS**.
-This introduces an additional requirement beyond simple service-to-service authentication: **services must
-be able to obtain AWS IAM credentials securely**.
+As we move toward full integration, it became clear that our backend services will require **direct access to AWS resources** such as **DynamoDB, S3, and SQS**. This introduces an additional requirement beyond simple service-to-service authentication: **services must be able to obtain AWS IAM credentials securely**.
 
-The previous approach using **User Pool JWTs** suffices for service-to-service identity verification, but
-does not allow AWS API access since JWTs are not IAM credentials.
+The previous approach using **User Pool JWTs** suffices for service-to-service identity verification, but does not allow AWS API access since JWTs are not IAM credentials.
 
 ---
 
 ## **Decision**
 
-We will implement **service-to-service authentication and AWS access** using **Cognito User Pool tokens**
-combined with **AWS STS AssumeRoleWithWebIdentity**.
+We will implement **service-to-service authentication and AWS access** using **Cognito User Pool tokens** combined with **AWS STS AssumeRoleWithWebIdentity**.
 
 ### **Implementation Overview**
 
@@ -37,8 +28,7 @@ combined with **AWS STS AssumeRoleWithWebIdentity**.
 
 2. **Credential Exchange (Authorization Layer)**
 
-    * The service exchanges its JWT for **temporary IAM credentials** using the AWS Security Token Service (STS) API:
-      `AssumeRoleWithWebIdentity`.
+    * The service exchanges its JWT for **temporary IAM credentials** using the AWS Security Token Service (STS) API: `AssumeRoleWithWebIdentity`.
     * STS validates the JWT against the corresponding Cognito User Pool.
     * STS issues temporary credentials (`AccessKeyId`, `SecretAccessKey`, `SessionToken`) for the assumed IAM role.
 
@@ -84,9 +74,7 @@ A new component, `StsWebIdentityAdapter`, will:
 * Cannot access AWS services (DynamoDB, S3, etc.).
 * Services would need static AWS credentials or other workarounds for AWS API access.
 
-**Verdict:**
-Rejected for now — insufficient for AWS service access but could be revisited if architecture moves
-away from AWS-hosted workloads or if IAM access becomes unnecessary.
+**Verdict:** Rejected for now — insufficient for AWS service access but could be revisited if architecture moves away from AWS-hosted workloads or if IAM access becomes unnecessary.
 
 ---
 
@@ -116,8 +104,7 @@ If the platform evolves to where:
 * Services no longer require AWS API access, or
 * Service-to-service calls are isolated within a trusted internal mesh (e.g., via mTLS or service mesh identity),
 
-then the system could revert to a **simpler JWT-only model** (Option 1).
-This would reduce complexity while preserving inter-service trust.
+then the system could revert to a **simpler JWT-only model** (Option 1). This would reduce complexity while preserving inter-service trust.
 
 Such a refactor would involve:
 

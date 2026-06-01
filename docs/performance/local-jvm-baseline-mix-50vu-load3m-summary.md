@@ -5,17 +5,14 @@ summary: "This document captures the baseline performance characteristics of the
 
 ## Overview
 
-This document captures the baseline performance characteristics of the Forge
-Platform under controlled local testing conditions. These results are not
-intended for publication. They serve as an internal reference point to:
+This document captures the baseline performance characteristics of the Forge Platform under controlled local testing conditions. These results are not intended for publication. They serve as an internal reference point to:
 
 - Validate system behavior under load
 - Identify bottlenecks and instability
 - Establish a benchmark before moving to AWS/ECS
 - Inform future performance claims and comparisons
 
-Raw k6 end-of-test output for this environment (baseline-mix, 50 VUs, 3 min warmup + 3 min load) is archived at
-[`local-jvm-baseline-mix-50vu-load3m-raw.txt`](https://raw.githubusercontent.com/get-forge/forge-docs/main/assets/performance/phase_1/local-jvm-baseline-mix-50vu-load3m-raw.txt).
+Raw k6 end-of-test output for this environment (baseline-mix, 50 VUs, 3 min warmup + 3 min load) is archived at [`local-jvm-baseline-mix-50vu-load3m-raw.txt`](https://raw.githubusercontent.com/get-forge/forge-docs/main/assets/performance/phase_1/local-jvm-baseline-mix-50vu-load3m-raw.txt).
 
 ## Executive Summary
 
@@ -150,8 +147,7 @@ After sustained execution (runs 3-5):
 - Tail latency reduced significantly
 - System stabilized
 
-Conclusion:
-Warm-up phase alone is insufficient; system requires extended load to reach steady state.
+Conclusion: Warm-up phase alone is insufficient; system requires extended load to reach steady state.
 
 ### 2. Tail Latency Drivers
 
@@ -198,10 +194,7 @@ Primary contributors:
 
 ## Internal Positioning Statement
 
-The platform demonstrates stable, repeatable performance under sustained load
-with predictable latency characteristics. Internal services respond in
-single-digit milliseconds, while end-to-end latency is dominated by external
-dependencies such as identity providers.
+The platform demonstrates stable, repeatable performance under sustained load with predictable latency characteristics. Internal services respond in single-digit milliseconds, while end-to-end latency is dominated by external dependencies such as identity providers.
 
 ---
 

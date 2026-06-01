@@ -3,9 +3,7 @@ title: "Runbook"
 summary: "This is the operational runbook for the Forge platform. The sections below focus on infrastructure and delivery"
 ---
 
-This is the **operational runbook** for the Forge platform. The sections below focus on **infrastructure and delivery**
-(container runtime mode on ECS, GitHub Actions runners for native builds). The same document can be extended with
-additional runbook procedures over time.
+This is the **operational runbook** for the Forge platform. The sections below focus on **infrastructure and delivery** (container runtime mode on ECS, GitHub Actions runners for native builds). The same document can be extended with additional runbook procedures over time.
 
 ## 1) Native → JVM Escape Hatch
 

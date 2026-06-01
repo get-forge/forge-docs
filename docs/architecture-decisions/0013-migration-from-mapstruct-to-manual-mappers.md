@@ -3,17 +3,14 @@ title: "0013. Migration from MapStruct to Manual Mappers"
 summary: "We implemented MapStruct to handle DTO-to-entity mapping, but it has caused significant build issues:"
 ---
 
-**Status:** Accepted
-**Date:** 2026-01-30
-**Context:** MapStruct introduced build cache, CDI, annotation processor, and CI issues; manual mappers are proposed instead.
+**Status:** Accepted **Date:** 2026-01-30 **Context:** MapStruct introduced build cache, CDI, annotation processor, and CI issues; manual mappers are proposed instead.
 
 ## **Context**
 
 We implemented MapStruct to handle DTO-to-entity mapping, but it has caused significant build issues:
 
 1. **Build cache problems**: Generated code interferes with incremental builds and Maven build cache
-2. **CDI injection failures**: MapStruct-generated implementations sometimes fail to be recognized as CDI
-   beans, causing `UnsatisfiedResolutionException`
+2. **CDI injection failures**: MapStruct-generated implementations sometimes fail to be recognized as CDI beans, causing `UnsatisfiedResolutionException`
 3. **Annotation processing complexity**: Requires careful configuration of annotation processors, which can break with Maven/Gradle version changes
 4. **CI/CD unpredictability**: Build failures due to stale generated code or annotation processing issues
 5. **Debugging difficulty**: Generated code is harder to debug and reason about

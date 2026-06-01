@@ -5,8 +5,7 @@ summary: "Forge provisions AWS infrastructure using the AWS Cloud Development Ki
 
 Forge provisions AWS infrastructure using the AWS Cloud Development Kit (CDK) in TypeScript.
 
-Forge deploys as a **single logical platform per environment**, with shared infrastructure services and independently
-deployable stateless application services.
+Forge deploys as a **single logical platform per environment**, with shared infrastructure services and independently deployable stateless application services.
 
 The platform deploys as a container-native operating model built primarily on:
 
@@ -15,8 +14,7 @@ The platform deploys as a container-native operating model built primarily on:
 - Managed AWS datastores and messaging primitives
 - Infrastructure as code for repeatable environment provisioning
 
-Forge environments are designed to be deterministic, reproducible, and operator-owned. Infrastructure is provisioned
-directly into AWS accounts controlled by the operator organization; Forge is not a hosted control plane.
+Forge environments are designed to be deterministic, reproducible, and operator-owned. Infrastructure is provisioned directly into AWS accounts controlled by the operator organization; Forge is not a hosted control plane.
 
 This guide explains:
 
@@ -28,13 +26,9 @@ This guide explains:
 
 Standard CDK lifecycle commands are documented in [CHEATSHEET.md](/docs/cheatsheet).
 
-> 💡 **Note:** Forge currently supports deployment within a single AWS region per environment, including multi-AZ
-> infrastructure patterns for high availability inside that region.
+> 💡 **Note:** Forge currently supports deployment within a single AWS region per environment, including multi-AZ infrastructure patterns for high availability inside that region.
 >
-> Multi-region deployment, replication, and failover patterns are planned roadmap areas and are expected to evolve
-> alongside enterprise operational requirements. The current single-region posture is intentionally pragmatic for
-> most early-stage and mid-scale deployments, where operational simplicity is typically more valuable than cross-region
-> complexity.
+> Multi-region deployment, replication, and failover patterns are planned roadmap areas and are expected to evolve alongside enterprise operational requirements. The current single-region posture is intentionally pragmatic for most early-stage and mid-scale deployments, where operational simplicity is typically more valuable than cross-region complexity.
 
 ## Infrastructure design goals
 
@@ -47,8 +41,7 @@ The infrastructure model prioritizes:
 - low operational overhead
 - progressive hardening for enterprise environments
 
-The default deployment model avoids imposing assumptions about AWS Organizations structure, landing-zone topology, or
-centralized enterprise governance tooling.
+The default deployment model avoids imposing assumptions about AWS Organizations structure, landing-zone topology, or centralized enterprise governance tooling.
 
 Operators can extend the baseline architecture to align with their own security, networking, compliance, and organizational requirements.
 
@@ -101,8 +94,7 @@ Important infrastructure controls include:
 
 Use `task bootstrap:platform-config` to edit configuration interactively.
 
-Forge intentionally uses a minimal profile-based AWS configuration model so operators can integrate the platform into
-existing AWS environments without restructuring account layouts, IAM strategy, or organizational controls.
+Forge intentionally uses a minimal profile-based AWS configuration model so operators can integrate the platform into existing AWS environments without restructuring account layouts, IAM strategy, or organizational controls.
 
 See [OPERATIONS.md](/docs/operations) for development profile setup.
 

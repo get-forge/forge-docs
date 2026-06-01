@@ -3,9 +3,7 @@ title: "0007. Observability Strategy"
 summary: "0007. Observability Strategy"
 ---
 
-**Status:** Proposed
-**Date:** 2025-11-12
-**Context:** Microservice architecture on AWS, starting local development. Need structured logging, distributed tracing, and metrics readiness.
+**Status:** Proposed **Date:** 2025-11-12 **Context:** Microservice architecture on AWS, starting local development. Need structured logging, distributed tracing, and metrics readiness.
 
 ## Current State
 

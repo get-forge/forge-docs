@@ -3,9 +3,7 @@ title: "0018. Notification Service Template Engine Selection"
 summary: "The Notification Service requires a template engine to render notifications (email, SMS, push) with variable substitution. Templates need to:"
 ---
 
-**Status:** Accepted
-**Date:** 2026-01-23
-**Context:** Choose a template engine for rendering notifications with variables, HTML/text, and Quarkus integration.
+**Status:** Accepted **Date:** 2026-01-23 **Context:** Choose a template engine for rendering notifications with variables, HTML/text, and Quarkus integration.
 
 ## **Context**
 

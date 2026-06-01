@@ -3,9 +3,7 @@ title: "0014. Application Caching Strategy"
 summary: "The Forge platform performs several expensive operations on every request or frequently accessed data:"
 ---
 
-**Status:** Accepted
-**Date:** 2025-01-27
-**Context:** Application-level caching to improve performance and cut load and cost across single-instance dev and multi-instance production.
+**Status:** Accepted **Date:** 2025-01-27 **Context:** Application-level caching to improve performance and cut load and cost across single-instance dev and multi-instance production.
 
 ## **Context**
 
@@ -151,8 +149,7 @@ Implement a **three-phase caching strategy** using Quarkus Cache:
 
 **Token Validation Cache:**
 - Cache name: `token-validation`
-- Key: Composite key: hashed token reference plus expiry (so entries line up with JWT validity windows;
-  never use the raw bearer token as all or part of the key).
+- Key: Composite key: hashed token reference plus expiry (so entries line up with JWT validity windows; never use the raw bearer token as all or part of the key).
 - TTL: Token expiration time (automatic)
 - Max size: 10,000 entries
 

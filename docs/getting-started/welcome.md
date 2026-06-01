@@ -1,15 +1,12 @@
 ---
-title: "Forge Platform"
-summary: "dramatically reducing the time, cost, and risk of reaching production-grade operational maturity."
+title: "Welcome"
+summary: "What the Forge Platform is, what you get out of the box, and where to start."
 ---
 
 <!-- markdownlint-disable-file MD033 -->
 <!-- MD033 off: inline HTML is used for spacing and image gallery layout where pure Markdown is insufficient. -->
 
-## Forge Platform
-
-`Forge Platform provides a pre-engineered operational foundation for secure, scalable distributed systems on AWS,
-dramatically reducing the time, cost, and risk of reaching production-grade operational maturity.
+Forge Platform provides a pre-engineered operational foundation for secure, scalable distributed systems on AWS, dramatically reducing the time, cost, and risk of reaching production-grade operational maturity.
 
 It encodes years of platform engineering decisions into a deployable operating model built on AWS and Quarkus.
 
@@ -20,8 +17,7 @@ Forge is not a framework. It is a pre-engineered operating model for building pr
 - Security model: zero-trust and identity-first request verification (JSON Web Token, OpenID Connect).
 - Runtime model: stateless, horizontally scalable services deployed as containers on ECS Fargate.
 - Observability model: metrics, dashboards, health endpoints, tracing support.
-- Delivery and infrastructure model: repeatable pipelines and environments (IaC, CI/CD, complete GitHub Actions workflow
-  pipeline).
+- Delivery and infrastructure model: repeatable pipelines and environments (IaC, CI/CD, complete GitHub Actions workflow pipeline).
 - Developer experience: a complete local development environment that emulates AWS via LocalStack.
 
 <br />
@@ -30,20 +26,16 @@ Forge is not a framework. It is a pre-engineered operating model for building pr
 
 ## Who Forge is for
 
-Forge is designed for engineering teams building production systems where security, scalability, and operational
-maturity must be correct from day one.
+Forge is designed for engineering teams building production systems where security, scalability, and operational maturity must be correct from day one.
 
 Typical adopters include:
 
-- Teams building backend platforms or SaaS (Software as a Service) products on AWS that need security and operational
-  maturity from day one.
+- Teams building backend platforms or SaaS (Software as a Service) products on AWS that need security and operational maturity from day one.
 - Organizations standardizing on Java, Maven, and Quarkus for service development.
-- Founders shaping engineering organisations around proven platform patterns, without needing to build a large internal
-  platform engineering function.
+- Founders shaping engineering organisations around proven platform patterns, without needing to build a large internal platform engineering function.
 - Product teams accelerating time-to-market while reducing architectural uncertainty and operational risk.
 
-Forge is a strong fit when the cost of getting platform decisions wrong is high: security posture, deployment model,
-observability model, and identity boundaries need to be coherent from the outset.
+Forge is a strong fit when the cost of getting platform decisions wrong is high: security posture, deployment model, observability model, and identity boundaries need to be coherent from the outset.
 
 <br />
 
@@ -66,8 +58,7 @@ You retain full ownership and control of infrastructure, services, deployments, 
 
 ## Start here
 
-Most readers want the operating model first. These guides provide the fastest path to understanding how the Forge
-Platform is built, how it runs, and how to extend it safely.
+Most readers want the operating model first. These guides provide the fastest path to understanding how the Forge Platform is built, how it runs, and how to extend it safely.
 
 | Guide                                                      | Why read it                                                                                          |
 |------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
@@ -78,8 +69,7 @@ Platform is built, how it runs, and how to extend it safely.
 | [PERFORMANCE.md](/docs/performance)       | Performance test plan, outputs, phase summaries and conclusions.                                     |
 | [INFRASTRUCTURE.md](/docs/infrastructure) | AWS infrastructure automation setup.                                                                 |
 
-If you are evaluating Forge, start with Security and Operations. Those documents show the platform's decisions in the
-open, including constraints and trade-offs.
+If you are evaluating Forge, start with Security and Operations. Those documents show the platform's decisions in the open, including constraints and trade-offs.
 
 <br />
 
@@ -87,18 +77,13 @@ open, including constraints and trade-offs.
 
 ## Security and compliance (overview)
 
-Short summaries only. Full implementation detail, trade-offs, and shared-responsibility boundaries are documented in the
-linked guides.
+Short summaries only. Full implementation detail, trade-offs, and shared-responsibility boundaries are documented in the linked guides.
 
 ### Platform security architecture (summary)
 
-Forge provides a production-oriented security baseline for running containerized distributed systems on AWS. Deployments
-run entirely inside AWS accounts owned and controlled by the operator; Forge is not a managed SaaS control plane
-([SECURITY.md](/docs/security)).
+Forge provides a production-oriented security baseline for running containerized distributed systems on AWS. Deployments run entirely inside AWS accounts owned and controlled by the operator; Forge is not a managed SaaS control plane ([SECURITY.md](/docs/security)).
 
-The platform is designed around identity-first security and least-privilege infrastructure patterns. Baseline
-capabilities
-include:
+The platform is designed around identity-first security and least-privilege infrastructure patterns. Baseline capabilities include:
 
 - JWT-based authentication and authorization for both users and services
 - Application-layer authorization enforcement rather than trust-by-network-location
@@ -111,35 +96,19 @@ include:
 - Repeatable AWS infrastructure provisioning through CDK
 - Structured logging, metrics, and OpenTelemetry-based observability foundations
 
-Forge intentionally documents architectural boundaries and progressive hardening paths. Operators can extend the
-baseline
-with stronger transport security, centralized audit controls, organization-wide governance tooling, and
-environment-specific
-compliance controls without redesigning the underlying platform architecture.
+Forge intentionally documents architectural boundaries and progressive hardening paths. Operators can extend the baseline with stronger transport security, centralized audit controls, organization-wide governance tooling, and environment-specific compliance controls without redesigning the underlying platform architecture.
 
-See [SECURITY.md](/docs/security) for detailed coverage of trust boundaries, IAM posture, network
-architecture, workload isolation, logging strategy, and shared responsibility.
+See [SECURITY.md](/docs/security) for detailed coverage of trust boundaries, IAM posture, network architecture, workload isolation, logging strategy, and shared responsibility.
 
 ### Security and compliance alignment (summary)
 
-Forge is designed to support organizations building security-conscious and compliance-aware systems on AWS.
-[COMPLIANCE.md](/docs/compliance) maps repository capabilities to control objectives commonly
-associated
-with frameworks and programs such as SOC 2, GDPR, and HIPAA-aligned environments.
+Forge is designed to support organizations building security-conscious and compliance-aware systems on AWS. [COMPLIANCE.md](/docs/compliance) maps repository capabilities to control objectives commonly associated with frameworks and programs such as SOC 2, GDPR, and HIPAA-aligned environments.
 
-The platform provides a strong technical baseline including identity and access controls, infrastructure isolation,
-secrets management, audit-event foundations, observability hooks, and repeatable infrastructure deployment patterns.
+The platform provides a strong technical baseline including identity and access controls, infrastructure isolation, secrets management, audit-event foundations, observability hooks, and repeatable infrastructure deployment patterns.
 
-Forge itself does not claim compliance certification or attestation for client deployments. Each deployment is forked,
-extended, configured, and operated independently inside operator-owned AWS environments. Compliance outcomes therefore
-depend
-on the deployed system, operational processes, monitoring controls, legal agreements, and governance practices
-implemented
-by the operator organization.
+Forge itself does not claim compliance certification or attestation for client deployments. Each deployment is forked, extended, configured, and operated independently inside operator-owned AWS environments. Compliance outcomes therefore depend on the deployed system, operational processes, monitoring controls, legal agreements, and governance practices implemented by the operator organization.
 
-Progress states in the compliance guide reflect the current repository implementation posture and are intended as
-transparent
-control mappings rather than audit findings or legal interpretations.
+Progress states in the compliance guide reflect the current repository implementation posture and are intended as transparent control mappings rather than audit findings or legal interpretations.
 
 <br />
 
@@ -156,8 +125,7 @@ The [Forge Platform](https://forgeplatform.software/) consists of the following 
 | `forge-platform`                                      | Private    | Client-forkable distributable platform, filtered mirror of `forge-core`.                                                 |
 | [forge-docs](https://github.com/get-forge/forge-docs) | Public     | Public documentation source and asset host, published at [docs.forgeplatform.software](https://docs.forgeplatform.software/). |
 
-`forge-kit` is open source and can be adopted independently in existing Quarkus services. It is also a working
-dependency of `forge-core`.
+`forge-kit` is open source and can be adopted independently in existing Quarkus services. It is also a working dependency of `forge-core`.
 
 <br />
 
@@ -171,14 +139,11 @@ Out of the box, the Forge Platform provides you with the following:
 
 [![Local services](https://raw.githubusercontent.com/get-forge/forge-docs/main/assets/forge-services-local.png)](https://raw.githubusercontent.com/get-forge/forge-docs/main/assets/forge-services-local.png)
 
-- An entire GitHub Actions pipeline which includes release automation; ECS deployments (diffed services only);
-  infrastructure deployments (CDK); static code analysis (OWASP, SpotBugs); code coverage, unit/integration test
-  reports, and more.
+- An entire GitHub Actions pipeline which includes release automation; ECS deployments (diffed services only); infrastructure deployments (CDK); static code analysis (OWASP, SpotBugs); code coverage, unit/integration test reports, and more.
 
 [![GitHub Actions workflows](https://raw.githubusercontent.com/get-forge/forge-docs/main/assets/forge-github-workflows.png)](https://raw.githubusercontent.com/get-forge/forge-docs/main/assets/forge-github-workflows.png)
 
-- Full IaC support and repeatable automation for AWS environments, including thoughtful segregation of stateful vs
-  stateless resources.
+- Full IaC support and repeatable automation for AWS environments, including thoughtful segregation of stateful vs stateless resources.
 
 [![AWS CloudFormation stacks](https://raw.githubusercontent.com/get-forge/forge-docs/main/assets/forge-sandbox-aws-cloudformation.png)](https://raw.githubusercontent.com/get-forge/forge-docs/main/assets/forge-sandbox-aws-cloudformation.png)
 
@@ -231,8 +196,7 @@ For the complete list of platform features, see the [FEATURES.md](/docs/features
 
 ## Build vs. Buy
 
-Forge exists to remove a class of problems that most teams eventually end up solving themselves.
-You can build this platform internally. Many teams do. But in practice, that path comes with trade-offs:
+Forge exists to remove a class of problems that most teams eventually end up solving themselves. You can build this platform internally. Many teams do. But in practice, that path comes with trade-offs:
 
 ### Time
 
@@ -300,8 +264,7 @@ The operating model prioritizes:
 - clear system reasoning
 - alignment with modern service deployment practices
 
-At a high level, Forge separates edge, services, and infrastructure concerns so each layer can scale and evolve
-independently.
+At a high level, Forge separates edge, services, and infrastructure concerns so each layer can scale and evolve independently.
 
 ### High-level architecture
 
@@ -370,8 +333,7 @@ Forge gives you a starting point that is usable immediately, secure, and built t
 
 ## Architecture Decision Records (ADRs)
 
-ADRs (Architecture Decision Records) are historical "why" records: context, trade-offs, and alternatives. The full
-public index, redaction scope, and links to each decision are in **[architecture/ADRs.md](/docs/adrs)**.
+ADRs (Architecture Decision Records) are historical "why" records: context, trade-offs, and alternatives. The full public index, redaction scope, and links to each decision are in **[architecture/ADRs.md](/docs/adrs)**.
 
 <br />
 

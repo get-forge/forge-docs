@@ -3,14 +3,11 @@ title: "0003. Authentication and User Management Approach"
 summary: "The platform requires secure, standards-based authentication and user management for both web and API clients."
 ---
 
-**Status:** Accepted
-**Date:** 2025-10-08
-**Context:** Continuation of ADR-0002 (Quarkus adoption); defines authentication, authorization, and user data management.
+**Status:** Accepted **Date:** 2025-10-08 **Context:** Continuation of ADR-0002 (Quarkus adoption); defines authentication, authorization, and user data management.
 
 ## **Context**
 
-The platform requires secure, standards-based authentication and user management for both web and API clients.
-Key requirements include:
+The platform requires secure, standards-based authentication and user management for both web and API clients. Key requirements include:
 
 * Support for OAuth 2.0 / OIDC flows (for future integration with third-party login providers).
 * Secure token-based access for API consumers.
@@ -27,8 +24,7 @@ Two primary models were considered:
 
 ## **Decision**
 
-We will adopt **AWS Cognito** as the primary authentication and user-management service.
-Quarkus will integrate via the **`quarkus-oidc`** extension, treating Cognito as an external OpenID Connect provider.
+We will adopt **AWS Cognito** as the primary authentication and user-management service. Quarkus will integrate via the **`quarkus-oidc`** extension, treating Cognito as an external OpenID Connect provider.
 
 ---
 
@@ -42,8 +38,7 @@ Quarkus will integrate via the **`quarkus-oidc`** extension, treating Cognito as
 | **Integration**        | Works natively with Quarkus OIDC and ALB OIDC auth                       | Tight coupling to DB schema; limited federation options |
 | **Future flexibility** | Supports enterprise federation (SAML, OIDC, AD)                          | Limited to in-app users unless refactored later |
 
-Given limited operational capacity at this stage, Cognito provides a secure, standards-compliant baseline
-while allowing later customization if business needs demand internal user management.
+Given limited operational capacity at this stage, Cognito provides a secure, standards-compliant baseline while allowing later customization if business needs demand internal user management.
 
 ---
 

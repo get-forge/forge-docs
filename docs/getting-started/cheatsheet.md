@@ -126,8 +126,7 @@ task aws:destroy-runtime                           # destroy Runtime stack (wher
 
 ### LocalStack local development
 
-CDK development is predominantly done directly in AWS free tier.  
-However, LocalStack CDK is supported and can be used for development and testing.
+CDK development is predominantly done directly in AWS free tier. However, LocalStack CDK is supported and can be used for development and testing.
 
 ```bash
 task cdk:install                                   # install Node dependencies and verify cdklocal

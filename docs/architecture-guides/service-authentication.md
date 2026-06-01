@@ -223,12 +223,7 @@ These are automatically set by the Cognito seed script in AWS Parameter Store an
 
 This implementation provides the foundation for zero-trust architecture:
 
-✅ **Every service call is authenticated** - Services must have valid JWTs
-✅ **Service identity verification** - Receiving services know which service is calling
-✅ **Service-level authorization** - Fine-grained control over which services can access endpoints
-✅ **No trusted network assumptions** - Services verify each other's identity regardless of network location
-✅ **Credential isolation** - Service credentials are separate from user credentials
-✅ **Automatic token management** - Tokens are cached and refreshed automatically
+✅ **Every service call is authenticated** - Services must have valid JWTs ✅ **Service identity verification** - Receiving services know which service is calling ✅ **Service-level authorization** - Fine-grained control over which services can access endpoints ✅ **No trusted network assumptions** - Services verify each other's identity regardless of network location ✅ **Credential isolation** - Service credentials are separate from user credentials ✅ **Automatic token management** - Tokens are cached and refreshed automatically
 
 **What's in place:**
 - Service-to-service authentication ✅
